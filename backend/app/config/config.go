@@ -20,6 +20,7 @@ func New() *Config {
 		Viper: viper.New(),
 	}
 
+	config.setDefaults()
 	// Select the .env file
 	config.SetConfigName(".env")
 	config.SetConfigType("dotenv")
@@ -41,4 +42,18 @@ func New() *Config {
 
 func (config *Config) GetFiberConfig() *fiber.Config {
 	return config.fiber
+}
+
+func (config *Config) setDefaults() {
+	// Set default App configuration
+	config.SetDefault("APP_ADDR", ":8080")
+	config.SetDefault("APP_ENV", "local")
+
+	// Set default database configuration
+	config.SetDefault("DB_DRIVER", "mysql")
+	config.SetDefault("DB_HOST", "localhost")
+	config.SetDefault("DB_USERNAME", "fiber")
+	config.SetDefault("DB_PASSWORD", "password")
+	config.SetDefault("DB_PORT", 3306)
+	config.SetDefault("DB_DATABASE", "boilerplate")
 }

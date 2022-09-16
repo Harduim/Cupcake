@@ -4,6 +4,7 @@ import (
 	configuration "cupcake/app/config"
 	"cupcake/app/database"
 	"cupcake/app/models"
+	"cupcake/app/routes"
 	"fmt"
 	"os"
 	"os/signal"
@@ -21,7 +22,7 @@ func main() {
 	config := configuration.New()
 
 	app := App{
-		App: fiber.New(*config.GetFiberConfig()),
+		App: fiber.New(),
 	}
 
 	// Initialize database
@@ -49,6 +50,9 @@ func main() {
 			}
 		}
 	}
+
+	api := app.Group("/api")
+	routes.RegisterRoutes(api, app.DB)
 
 	// Custom 404 Handler
 	app.Use(func(c *fiber.Ctx) error {
