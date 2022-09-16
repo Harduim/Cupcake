@@ -18,10 +18,10 @@ services:
       timeout: 5s
       retries: 3
     environment:
-      - POSTGRES_DB=$PG_DATABASE
-      - POSTGRES_USER=$PG_USER
-      - POSTGRES_PASSWORD=$PG_PASSWD
-      - POSTGRES_PORT=$PG_PORT
+      - POSTGRES_DB=$DB_DATABASE
+      - POSTGRES_USER=$DB_USERNAME
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_PORT=$DB_PORT
     networks:
       - default
     ports:
