@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/go-playground/validator/v10"
 	_ "github.com/go-playground/validator/v10"
 )
 
@@ -11,8 +10,6 @@ type User struct {
 	Email   string `json:"email" validate:"required,email" gorm:"type:varchar(255)"`
 	IsAdmin *bool  `json:"is_admin" validate:"required" gorm:"type:bool;default:false"`
 }
-
-var validate = validator.New()
 
 func NewUser() *User {
 	return &User{}
