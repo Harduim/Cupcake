@@ -19,6 +19,7 @@ func TestBracketIdIsNotAUuid(t *testing.T) {
 
 	bracket.ID = "ANY_ID"
 	bracket.Name = "ANY_NAME"
+	bracket.Multiplier = 1
 
 	err := bracket.Validate()
 
@@ -30,6 +31,7 @@ func TestBracketValidation(t *testing.T) {
 
 	bracket.ID = uuid.NewV4().String()
 	bracket.Name = "ANY_NAME"
+	bracket.Multiplier = 2
 
 	err := bracket.Validate()
 
