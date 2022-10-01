@@ -1,7 +1,7 @@
-package models_test
+package domain_test
 
 import (
-	"cupcake/app/models"
+	"cupcake/app/domain"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -9,7 +9,7 @@ import (
 )
 
 func TestMatchIdIsNotAUuid(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = "ANY_ID"
 	match.Date = time.Time{}
@@ -25,7 +25,7 @@ func TestMatchIdIsNotAUuid(t *testing.T) {
 }
 
 func TestMatchNationalTeamAIsNotAUuid(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.Date = time.Time{}
@@ -41,7 +41,7 @@ func TestMatchNationalTeamAIsNotAUuid(t *testing.T) {
 }
 
 func TestMatchNationalTeamBIsNotAUuid(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.Date = time.Time{}
@@ -57,7 +57,7 @@ func TestMatchNationalTeamBIsNotAUuid(t *testing.T) {
 }
 
 func TestMatchGolAIsEmpty(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.Date = time.Time{}
@@ -72,7 +72,7 @@ func TestMatchGolAIsEmpty(t *testing.T) {
 }
 
 func TestMatchGolBIsEmpty(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.Date = time.Time{}
@@ -87,7 +87,7 @@ func TestMatchGolBIsEmpty(t *testing.T) {
 }
 
 func TestMatchKeyIDIsNotAUuid(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.Date = time.Time{}
@@ -103,7 +103,7 @@ func TestMatchKeyIDIsNotAUuid(t *testing.T) {
 }
 
 func TestMatchDateIsEmpty(t *testing.T) {
-	match := models.NewMatch()
+	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.NationalTeamA = uuid.NewV4().String()

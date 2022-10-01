@@ -1,4 +1,4 @@
-package models
+package domain
 
 type NationalTeam struct {
 	ID    string `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`

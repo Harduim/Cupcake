@@ -1,4 +1,4 @@
-package models
+package domain
 
 type Key struct {
 	ID   string `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`

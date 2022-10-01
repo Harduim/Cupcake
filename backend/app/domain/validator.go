@@ -1,4 +1,4 @@
-package models
+package domain
 
 import "github.com/go-playground/validator/v10"
 

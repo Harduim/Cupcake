@@ -1,14 +1,14 @@
-package models_test
+package domain_test
 
 import (
-	"cupcake/app/models"
+	"cupcake/app/domain"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
-func MakeNewUser() *models.User {
-	user := models.NewUser()
+func MakeNewUser() *domain.User {
+	user := domain.NewUser()
 	falseBoolean := false
 
 	user.ID = uuid.NewV4().String()
@@ -22,7 +22,7 @@ func MakeNewUser() *models.User {
 func TestUserPointsValidation(t *testing.T) {
 	user := MakeNewUser()
 
-	userPoints := models.NewUserPoints()
+	userPoints := domain.NewUserPoints()
 	userPoints.User = *user
 	userPoints.Points = 0
 

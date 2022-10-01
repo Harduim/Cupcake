@@ -1,7 +1,7 @@
-package models_test
+package domain_test
 
 import (
-	"cupcake/app/models"
+	"cupcake/app/domain"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -9,7 +9,7 @@ import (
 )
 
 func TestBetIdIsNotAUuid(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = "ANY_ID"
 	bet.CreatedAt = time.Time{}
@@ -26,7 +26,7 @@ func TestBetIdIsNotAUuid(t *testing.T) {
 }
 
 func TestBetNationalTeamAIsNotAUuid(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = time.Time{}
@@ -43,7 +43,7 @@ func TestBetNationalTeamAIsNotAUuid(t *testing.T) {
 }
 
 func TestBetNationalTeamBIsNotAUuid(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = time.Time{}
@@ -60,7 +60,7 @@ func TestBetNationalTeamBIsNotAUuid(t *testing.T) {
 }
 
 func TestBetGolAIsEmpty(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = time.Time{}
@@ -76,7 +76,7 @@ func TestBetGolAIsEmpty(t *testing.T) {
 }
 
 func TestBetGolBIsEmpty(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = time.Time{}
@@ -92,7 +92,7 @@ func TestBetGolBIsEmpty(t *testing.T) {
 }
 
 func TestBetUserIDIsNotAUuid(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = time.Time{}
@@ -109,7 +109,7 @@ func TestBetUserIDIsNotAUuid(t *testing.T) {
 }
 
 func TestBetMatchIDIsNotAUuid(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = time.Time{}
@@ -126,7 +126,7 @@ func TestBetMatchIDIsNotAUuid(t *testing.T) {
 }
 
 func TestBetDateIsEmpty(t *testing.T) {
-	bet := models.NewBet()
+	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
 	bet.NationalTeamA = uuid.NewV4().String()

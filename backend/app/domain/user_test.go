@@ -1,21 +1,21 @@
-package models_test
+package domain_test
 
 import (
-	"cupcake/app/models"
+	"cupcake/app/domain"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestValidateIfUserIsEmpty(t *testing.T) {
-	user := models.NewUser()
+	user := domain.NewUser()
 	err := user.Validate()
 
 	require.Error(t, err)
 }
 
 func TestUserIdIsNotAUuid(t *testing.T) {
-	user := models.NewUser()
+	user := domain.NewUser()
 	falseBoolean := false
 
 	user.ID = "ANY_ID"
@@ -29,7 +29,7 @@ func TestUserIdIsNotAUuid(t *testing.T) {
 }
 
 func TestUserEmailValidation(t *testing.T) {
-	user := models.NewUser()
+	user := domain.NewUser()
 	falseBoolean := false
 
 	user.ID = uuid.NewV4().String()
@@ -43,7 +43,7 @@ func TestUserEmailValidation(t *testing.T) {
 }
 
 func TestUserValidation(t *testing.T) {
-	user := models.NewUser()
+	user := domain.NewUser()
 	falseBoolean := false
 
 	user.ID = uuid.NewV4().String()

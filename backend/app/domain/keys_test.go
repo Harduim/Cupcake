@@ -1,21 +1,21 @@
-package models_test
+package domain_test
 
 import (
-	"cupcake/app/models"
+	"cupcake/app/domain"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
 
 func TestValidateIfKeyIsEmpty(t *testing.T) {
-	key := models.NewKey()
+	key := domain.NewKey()
 	err := key.Validate()
 
 	require.Error(t, err)
 }
 
 func TestKeyIdIsNotAUuid(t *testing.T) {
-	key := models.NewKey()
+	key := domain.NewKey()
 
 	key.ID = "ANY_ID"
 	key.Name = "ANY_NAME"
@@ -26,7 +26,7 @@ func TestKeyIdIsNotAUuid(t *testing.T) {
 }
 
 func TestKeyValidation(t *testing.T) {
-	key := models.NewKey()
+	key := domain.NewKey()
 
 	key.ID = uuid.NewV4().String()
 	key.Name = "ANY_NAME"
