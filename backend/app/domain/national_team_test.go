@@ -19,19 +19,6 @@ func TestNationalTeamIdIsNotAUuid(t *testing.T) {
 
 	nationalTeam.ID = "ANY_ID"
 	nationalTeam.Name = "ANY_NAME"
-	nationalTeam.KeyID = uuid.NewV4().String()
-
-	err := nationalTeam.Validate()
-
-	require.Error(t, err)
-}
-
-func TestNationalTeamKeyIDIsNotAUuid(t *testing.T) {
-	nationalTeam := domain.NewNationalTeam()
-
-	nationalTeam.ID = uuid.NewV4().String()
-	nationalTeam.Name = "ANY_NAME"
-	nationalTeam.KeyID = "ANY_KEY"
 
 	err := nationalTeam.Validate()
 
@@ -43,7 +30,6 @@ func TestNationalTeamValidation(t *testing.T) {
 
 	nationalTeam.ID = uuid.NewV4().String()
 	nationalTeam.Name = "ANY_NAME"
-	nationalTeam.KeyID = uuid.NewV4().String()
 
 	err := nationalTeam.Validate()
 
