@@ -3,13 +3,10 @@ package main
 import (
 	configuration "cupcake/app/config"
 	"cupcake/app/database"
-	"cupcake/app/models"
-	"cupcake/app/routes"
-	"fmt"
+	"github.com/gofiber/fiber/v2"
+	"log"
 	"os"
 	"os/signal"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type App struct {
@@ -20,39 +17,26 @@ type App struct {
 
 func main() {
 	config := configuration.New()
+	dbConfig := database.DatabaseConfig{
+		Host:     config.GetString("DB_HOST"),
+		Username: config.GetString("DB_USERNAME"),
+		Database: config.GetString("DB_DATABASE"),
+		Password: config.GetString("DB_PASSWORD"),
+		Port:     config.GetInt("DB_PORT"),
+	}
+
+	_, err := database.New(&dbConfig)
+
+	if err != nil {
+		log.Fatalf("Error connecting to DB")
+	}
 
 	app := App{
 		App: fiber.New(),
 	}
 
-	// Initialize database
-	db, err := database.New(&database.DatabaseConfig{
-		Host:     config.GetString("DB_HOST"),
-		Username: config.GetString("DB_USERNAME"),
-		Password: config.GetString("DB_PASSWORD"),
-		Port:     config.GetInt("DB_PORT"),
-		Database: config.GetString("DB_DATABASE"),
-	})
-
-	// Auto-migrate database models
-	if err != nil {
-		fmt.Println("failed to connect to database:", err.Error())
-	} else {
-		if db == nil {
-			fmt.Println("failed to connect to database: db variable is nil")
-		} else {
-			app.DB = db
-
-			err = app.DB.AutoMigrate(&models.User{})
-			if err != nil {
-				fmt.Println("failed to auto migrate user model:", err.Error())
-				return
-			}
-		}
-	}
-
-	api := app.Group("/api")
-	routes.RegisterRoutes(api, app.DB)
+	//api := app.Group("/api")
+	//routes.RegisterRoutes(api, app.DB)
 
 	// Custom 404 Handler
 	app.Use(func(c *fiber.Ctx) error {
