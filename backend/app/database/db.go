@@ -1,6 +1,7 @@
 package database
 
 import (
+	"cupcake/app/domain"
 	"strconv"
 
 	"gorm.io/driver/postgres"
@@ -24,6 +25,12 @@ func New(config *DatabaseConfig) (*Database, error) {
 	var err error
 	dsn := "user=" + config.Username + " password=" + config.Password + " dbname=" + config.Database + " host=" + config.Host + " port=" + strconv.Itoa(config.Port) + " TimeZone=UTC"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
+		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{}, &domain.NationalTeamBracket{})
+
+	if err == nil {
+		return nil, err
+	}
 
 	return &Database{db}, err
 }
