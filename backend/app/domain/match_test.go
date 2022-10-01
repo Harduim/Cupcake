@@ -17,7 +17,8 @@ func TestMatchIdIsNotAUuid(t *testing.T) {
 	match.NationalTeamB = uuid.NewV4().String()
 	match.GolA = 0
 	match.GolB = 0
-	match.KeyID = uuid.NewV4().String()
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = uuid.NewV4().String()
 
 	err := match.Validate()
 
@@ -33,7 +34,8 @@ func TestMatchNationalTeamAIsNotAUuid(t *testing.T) {
 	match.NationalTeamB = uuid.NewV4().String()
 	match.GolA = 0
 	match.GolB = 0
-	match.KeyID = uuid.NewV4().String()
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = uuid.NewV4().String()
 
 	err := match.Validate()
 
@@ -49,7 +51,8 @@ func TestMatchNationalTeamBIsNotAUuid(t *testing.T) {
 	match.NationalTeamB = "ANY_ID"
 	match.GolA = 0
 	match.GolB = 0
-	match.KeyID = uuid.NewV4().String()
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = uuid.NewV4().String()
 
 	err := match.Validate()
 
@@ -64,7 +67,8 @@ func TestMatchGolAIsEmpty(t *testing.T) {
 	match.NationalTeamA = uuid.NewV4().String()
 	match.NationalTeamB = uuid.NewV4().String()
 	match.GolB = 0
-	match.KeyID = uuid.NewV4().String()
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = uuid.NewV4().String()
 
 	err := match.Validate()
 
@@ -79,14 +83,15 @@ func TestMatchGolBIsEmpty(t *testing.T) {
 	match.NationalTeamA = uuid.NewV4().String()
 	match.NationalTeamB = uuid.NewV4().String()
 	match.GolA = 0
-	match.KeyID = uuid.NewV4().String()
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = uuid.NewV4().String()
 
 	err := match.Validate()
 
 	require.Error(t, err)
 }
 
-func TestMatchKeyIDIsNotAUuid(t *testing.T) {
+func TestMatchBracketIDIsNotAUuid(t *testing.T) {
 	match := domain.NewMatch()
 
 	match.ID = uuid.NewV4().String()
@@ -95,7 +100,25 @@ func TestMatchKeyIDIsNotAUuid(t *testing.T) {
 	match.NationalTeamB = uuid.NewV4().String()
 	match.GolA = 0
 	match.GolB = 0
-	match.KeyID = "ANY_ID"
+	match.BracketID = "ANY_ID"
+	match.WinnerID = uuid.NewV4().String()
+
+	err := match.Validate()
+
+	require.Error(t, err)
+}
+
+func TestMatchWinnerIDIsNotAUuid(t *testing.T) {
+	match := domain.NewMatch()
+
+	match.ID = uuid.NewV4().String()
+	match.Date = time.Time{}
+	match.NationalTeamA = uuid.NewV4().String()
+	match.NationalTeamB = uuid.NewV4().String()
+	match.GolA = 0
+	match.GolB = 0
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = "ANY_ID"
 
 	err := match.Validate()
 
@@ -110,7 +133,8 @@ func TestMatchDateIsEmpty(t *testing.T) {
 	match.NationalTeamB = uuid.NewV4().String()
 	match.GolA = 0
 	match.GolB = 0
-	match.KeyID = uuid.NewV4().String()
+	match.BracketID = uuid.NewV4().String()
+	match.WinnerID = uuid.NewV4().String()
 
 	err := match.Validate()
 
