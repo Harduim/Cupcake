@@ -1,8 +1,9 @@
 package domain
 
 type UserPoints struct {
-	User   User `gorm:"embedded"`
-	Points int8 `json:"points"`
+	User   *User  `json:"user" valid:"-"`
+	UserID string `json:"-" validate:"-" gorm:"type:uuid;notnull"`
+	Points int8   `json:"points"`
 }
 
 func NewUserPoints() *UserPoints {
