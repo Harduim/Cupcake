@@ -23,7 +23,7 @@ func TestUserPointsValidation(t *testing.T) {
 	user := MakeNewUser()
 
 	userPoints := domain.NewUserPoints()
-	userPoints.User = *user
+	userPoints.User = user
 	userPoints.Points = 0
 
 	err := userPoints.Validate()
