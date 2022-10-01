@@ -1,44 +1,29 @@
 package database
 
 import (
+	"strconv"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 )
 
+type DatabaseConfig struct {
+	Host     string
+	Username string
+	Password string
+	Port     int
+	Database string
+}
+
 type Database struct {
-	Db            *gorm.DB
-	Dsn           string
-	DsnTest       string
-	DbType        string
-	DbTypeTest    string
-	Debug         bool
-	AutoMigrateDb bool
-	Env           string
+	*gorm.DB
 }
 
-func NewDb() *Database {
-	return &Database{}
-}
+func New(config *DatabaseConfig) (*Database, error) {
+	var db *gorm.DB
+	var err error
+	dsn := "user=" + config.Username + " password=" + config.Password + " dbname=" + config.Database + " host=" + config.Host + " port=" + strconv.Itoa(config.Port) + " TimeZone=UTC"
+	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-func NewDbTest() *gorm.DB {
-	dbInstance := NewDb()
-	dbInstance.Env = "test"
-	dbInstance.DbTypeTest = "sqlite3"
-	dbInstance.DsnTest = ":memory:"
-	dbInstance.AutoMigrateDb = true
-	dbInstance.Debug = true
-
-	connection, err := dbInstance.Connect()
-
-	if err != nil {
-		log.Fatalf("Test db error %v", err)
-	}
-
-	return connection
-}
-
-func (d *Database) Connect() (*gorm.DB, error) {
-	db, err := gorm.Open(postgres.Open(d.Dsn), &gorm.Config{})
-	return db, err
+	return &Database{db}, err
 }
