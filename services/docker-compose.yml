@@ -22,8 +22,6 @@ services:
       - POSTGRES_USER=$DB_USERNAME
       - POSTGRES_PASSWORD=$DB_PASSWORD
       - POSTGRES_PORT=$DB_PORT
-    networks:
-      - default
     ports:
       - "5432:5432"
 
