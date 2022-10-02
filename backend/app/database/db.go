@@ -2,10 +2,11 @@ package database
 
 import (
 	"cupcake/app/domain"
-	"strconv"
-
+	"fmt"
 	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 type DatabaseConfig struct {
@@ -18,6 +19,24 @@ type DatabaseConfig struct {
 
 type Database struct {
 	*gorm.DB
+}
+
+func NewTest() (*Database, error) {
+	db, err := gorm.Open(sqlite.Open("gorm"), &gorm.Config{})
+
+	if err != nil {
+		fmt.Print(err)
+		return nil, err
+	}
+
+	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
+		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{}, &domain.NationalTeamBracket{})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &Database{db}, nil
 }
 
 func New(config *DatabaseConfig) (*Database, error) {
