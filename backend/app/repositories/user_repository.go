@@ -32,7 +32,7 @@ func (repo UserRepositoryDb) Find(id string) (*domain.User, error) {
 	repo.Db.First(&user, "id = ?", id)
 
 	if user.ID == "" {
-		return nil, fmt.Errorf("job does not exist")
+		return nil, fmt.Errorf("user does not exist")
 	}
 
 	return &user, nil

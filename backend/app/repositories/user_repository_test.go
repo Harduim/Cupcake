@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestJobRepositoryDbInsert(t *testing.T) {
+func TestUserRepositoryDbInsert(t *testing.T) {
 	db, err := database.NewTest()
 	require.Nil(t, err)
 
@@ -27,7 +27,7 @@ func TestJobRepositoryDbInsert(t *testing.T) {
 	require.Equal(t, createdUser.Email, user.Email)
 }
 
-func TestJobRepositoryDbUpdate(t *testing.T) {
+func TestUserRepositoryDbUpdate(t *testing.T) {
 	db, err := database.NewTest()
 	require.Nil(t, err)
 
