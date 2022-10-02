@@ -1,9 +1,9 @@
-package repository
+package repositories
 
 import (
+	"cupcake/app/database"
 	"cupcake/app/domain"
 	"fmt"
-	"gorm.io/gorm"
 )
 
 type UserRepository interface {
@@ -13,7 +13,7 @@ type UserRepository interface {
 }
 
 type UserRepositoryDb struct {
-	Db *gorm.DB
+	Db *database.Database
 }
 
 func (repo UserRepositoryDb) Insert(user *domain.User) (*domain.User, error) {
