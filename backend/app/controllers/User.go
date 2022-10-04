@@ -2,15 +2,15 @@ package controllers
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/models"
-
+	"cupcake/app/domain"
+	"cupcake/app/repositories"
 	"github.com/gofiber/fiber/v2"
 )
 
 // Return all users as JSON
 func GetAllUsers(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		var Users []models.User
+		var Users []domain.User
 		if response := db.Find(&Users); response.Error != nil {
 			panic("Error occurred while retrieving users from the database: " + response.Error.Error())
 		}
@@ -25,12 +25,18 @@ func GetAllUsers(db *database.Database) fiber.Handler {
 // Return a single user as JSON
 func GetUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		User := new(models.User)
+		User := new(domain.User)
 		id := ctx.Params("id")
-		if response := db.Find(&User, id); response.Error != nil {
-			panic("An error occurred when retrieving the user: " + response.Error.Error())
+		User.ID = id
+
+		repo := repositories.UserRepositoryDb{Db: db}
+
+		if _, err := repo.Find(id); err != nil {
+			err := ctx.Status(fiber.StatusNotFound).SendString(err.Error())
+			return err
 		}
-		if User.ID == 0 {
+
+		if User.ID == "" {
 			err := ctx.SendStatus(fiber.StatusNotFound)
 			if err != nil {
 				panic("Cannot return status not found: " + err.Error())
@@ -54,7 +60,7 @@ func GetUser(db *database.Database) fiber.Handler {
 // Add a single user to the database
 func AddUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		User := new(models.User)
+		User := new(domain.User)
 		if err := ctx.BodyParser(User); err != nil {
 			panic("An error occurred when parsing the new user: " + err.Error())
 		}
@@ -73,8 +79,8 @@ func AddUser(db *database.Database) fiber.Handler {
 func EditUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id := ctx.Params("id")
-		EditUser := new(models.User)
-		User := new(models.User)
+		EditUser := new(domain.User)
+		User := new(domain.User)
 		if err := ctx.BodyParser(EditUser); err != nil {
 			panic("An error occurred when parsing the edited user: " + err.Error())
 		}
@@ -82,7 +88,7 @@ func EditUser(db *database.Database) fiber.Handler {
 			panic("An error occurred when retrieving the existing user: " + response.Error.Error())
 		}
 		// User does not exist
-		if User.ID == 0 {
+		if User.ID == "" {
 			err := ctx.SendStatus(fiber.StatusNotFound)
 			if err != nil {
 				panic("Cannot return status not found: " + err.Error())
@@ -113,7 +119,7 @@ func EditUser(db *database.Database) fiber.Handler {
 func DeleteUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id := ctx.Params("id")
-		var User models.User
+		var User domain.User
 		db.Find(&User, id)
 		if response := db.Find(&User); response.Error != nil {
 			panic("An error occurred when finding the user to be deleted" + response.Error.Error())
