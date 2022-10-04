@@ -3,6 +3,7 @@ package main
 import (
 	configuration "cupcake/app/config"
 	"cupcake/app/database"
+	"cupcake/app/routes"
 	"github.com/gofiber/fiber/v2"
 	"log"
 	"os"
@@ -11,7 +12,6 @@ import (
 
 type App struct {
 	*fiber.App
-
 	DB *database.Database
 }
 
@@ -25,7 +25,7 @@ func main() {
 		Port:     config.GetInt("DB_PORT"),
 	}
 
-	_, err := database.New(&dbConfig)
+	db, err := database.New(&dbConfig)
 
 	if err != nil {
 		log.Fatalf("Error connecting to DB")
@@ -33,10 +33,11 @@ func main() {
 
 	app := App{
 		App: fiber.New(),
+		DB:  db,
 	}
 
-	//api := app.Group("/api")
-	//routes.RegisterRoutes(api, app.DB)
+	api := app.Group("/api")
+	routes.RegisterRoutes(api, app.DB)
 
 	// Custom 404 Handler
 	app.Use(func(c *fiber.Ctx) error {
