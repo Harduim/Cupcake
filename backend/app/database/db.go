@@ -47,7 +47,7 @@ func New(config *DatabaseConfig) (*Database, error) {
 	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
 		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{}, &domain.NationalTeamBracket{})
 
-	if err == nil {
+	if err != nil {
 		return nil, err
 	}
 
