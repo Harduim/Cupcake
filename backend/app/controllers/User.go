@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// Return all users as JSON
+// GetAllUsers Return all users as JSON
 func GetAllUsers(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		var Users []domain.User
@@ -22,7 +22,7 @@ func GetAllUsers(db *database.Database) fiber.Handler {
 	}
 }
 
-// Return a single user as JSON
+// GetUser Return a single user as JSON
 func GetUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		User := new(domain.User)
@@ -57,7 +57,7 @@ func GetUser(db *database.Database) fiber.Handler {
 	}
 }
 
-// Add a single user to the database
+// AddUser Add a single user to the database
 func AddUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		User := new(domain.User)
@@ -75,7 +75,7 @@ func AddUser(db *database.Database) fiber.Handler {
 	}
 }
 
-// Edit a single user
+// EditUser Edit a single user
 func EditUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id := ctx.Params("id")
@@ -115,7 +115,7 @@ func EditUser(db *database.Database) fiber.Handler {
 	}
 }
 
-// Delete a single user
+// DeleteUser Delete a single user
 func DeleteUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id := ctx.Params("id")
