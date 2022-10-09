@@ -16,6 +16,20 @@ type App struct {
 	DB *database.Database
 }
 
+func getDB(config *configuration.Config) (*database.Database, error) {
+	dbConfig := database.DatabaseConfig{
+		Host:     config.GetString("DB_HOST"),
+		Username: config.GetString("DB_USERNAME"),
+		Database: config.GetString("DB_DATABASE"),
+		Password: config.GetString("DB_PASSWORD"),
+		Port:     config.GetInt("DB_PORT"),
+	}
+
+	db, err := database.New(&dbConfig)
+
+	return db, err
+}
+
 func getSSO(config *configuration.Config) (*service.SSOClient, error) {
 	ssoClient := service.NewSSO()
 	ssoConfig := service.SSOConfig{
@@ -35,29 +49,22 @@ func getSSO(config *configuration.Config) (*service.SSOClient, error) {
 
 func main() {
 	config := configuration.New()
-	dbConfig := database.DatabaseConfig{
-		Host:     config.GetString("DB_HOST"),
-		Username: config.GetString("DB_USERNAME"),
-		Database: config.GetString("DB_DATABASE"),
-		Password: config.GetString("DB_PASSWORD"),
-		Port:     config.GetInt("DB_PORT"),
-	}
 
-	db, err := database.New(&dbConfig)
+	db, err := getDB(config)
 
 	if err != nil {
 		log.Fatalf("Error connecting to DB")
-	}
-
-	app := App{
-		App: fiber.New(),
-		DB:  db,
 	}
 
 	sso, err := getSSO(config)
 
 	if err != nil {
 		log.Fatalf("Error getting sso service")
+	}
+
+	app := App{
+		App: fiber.New(),
+		DB:  db,
 	}
 
 	api := app.Group("/api")
