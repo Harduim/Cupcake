@@ -12,7 +12,7 @@ func TestBetIdIsNotAUuid(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = "ANY_ID"
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = uuid.NewV4().String()
 	bet.NationalTeamBID = uuid.NewV4().String()
 	bet.GolA = 0
@@ -29,7 +29,7 @@ func TestBetNationalTeamAIsNotAUuid(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = "ANY_ID"
 	bet.NationalTeamBID = uuid.NewV4().String()
 	bet.GolA = 0
@@ -46,7 +46,7 @@ func TestBetNationalTeamBIsNotAUuid(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = uuid.NewV4().String()
 	bet.NationalTeamBID = "ANY_ID"
 	bet.GolA = 0
@@ -63,7 +63,7 @@ func TestBetGolAIsEmpty(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = uuid.NewV4().String()
 	bet.NationalTeamBID = uuid.NewV4().String()
 	bet.GolB = 0
@@ -79,7 +79,7 @@ func TestBetGolBIsEmpty(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = uuid.NewV4().String()
 	bet.NationalTeamBID = uuid.NewV4().String()
 	bet.GolA = 0
@@ -95,7 +95,7 @@ func TestBetUserIDIsNotAUuid(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = uuid.NewV4().String()
 	bet.NationalTeamBID = uuid.NewV4().String()
 	bet.GolA = 0
@@ -112,7 +112,7 @@ func TestBetMatchIDIsNotAUuid(t *testing.T) {
 	bet := domain.NewBet()
 
 	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Time{}
+	bet.CreatedAt = time.Now().UTC()
 	bet.NationalTeamAID = uuid.NewV4().String()
 	bet.NationalTeamBID = uuid.NewV4().String()
 	bet.GolA = 0
