@@ -7,24 +7,11 @@ import (
 	"testing"
 )
 
-func MakeNewUser() *domain.User {
-	user := domain.NewUser()
-	falseBoolean := false
-
-	user.ID = uuid.NewV4().String()
-	user.Name = "ANY_NAME"
-	user.Email = "example@test.com"
-	user.IsAdmin = &falseBoolean
-
-	return user
-}
-
 func TestUserPointsValidation(t *testing.T) {
-	user := MakeNewUser()
-
 	userPoints := domain.NewUserPoints()
-	userPoints.User = user
-	userPoints.Points = 0
+
+	userPoints.UserID = uuid.NewV4().String()
+	userPoints.Points = 1
 
 	err := userPoints.Validate()
 	require.Nil(t, err)
