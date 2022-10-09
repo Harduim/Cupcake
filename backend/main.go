@@ -16,16 +16,17 @@ type App struct {
 	DB *database.Database
 }
 
-func getSSO() (*service.SSOClient, error) {
-	config := configuration.New()
+func getSSO(config *configuration.Config) (*service.SSOClient, error) {
 	ssoClient := service.NewSSO()
-	err, s := ssoClient.Init(
-		config.GetString("AUTHORITY"),
-		config.GetString("CLIENT_ID"),
-		config.GetString("CLIENT_SECRET"),
-		config.GetString("REDIRECT"),
-		[]string{config.GetString("SCOPES")},
-	)
+	ssoConfig := service.SSOConfig{
+		Authority:    config.GetString("AUTHORITY"),
+		ClientId:     config.GetString("CLIENT_ID"),
+		ClientSecret: config.GetString("CLIENT_SECRET"),
+		RedirectUrl:  config.GetString("REDIRECT"),
+		Scopes:       []string{config.GetString("SCOPES")}}
+
+	err, s := ssoClient.Init(&ssoConfig)
+
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +54,7 @@ func main() {
 		DB:  db,
 	}
 
-	sso, err := getSSO()
+	sso, err := getSSO(config)
 
 	if err != nil {
 		log.Fatalf("Error getting sso service")

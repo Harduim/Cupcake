@@ -6,6 +6,14 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
+type SSOConfig struct {
+	Authority    string
+	ClientId     string
+	ClientSecret string
+	RedirectUrl  string
+	Scopes       []string
+}
+
 type SSOClient struct {
 	App         *confidential.Client
 	ClientId    string
@@ -17,19 +25,19 @@ func NewSSO() *SSOClient {
 	return &SSOClient{}
 }
 
-func (client *SSOClient) Init(authority string, clientId string, clientSecret string, redirectUrl string, scopes []string) (error, *SSOClient) {
-	cred, err := confidential.NewCredFromSecret(clientSecret)
+func (client *SSOClient) Init(config *SSOConfig) (error, *SSOClient) {
+	cred, err := confidential.NewCredFromSecret(config.ClientSecret)
 	if err != nil {
 		return fmt.Errorf("could not create a cred from a secret: %w", err), nil
 	}
-	confidentialClientApp, err := confidential.New(clientId,
+	confidentialClientApp, err := confidential.New(config.ClientId,
 		cred,
-		confidential.WithAuthority(authority))
+		confidential.WithAuthority(config.Authority))
 
 	client.App = &confidentialClientApp
-	client.ClientId = clientId
-	client.RedirectUrl = redirectUrl
-	client.Scopes = scopes
+	client.ClientId = config.ClientId
+	client.RedirectUrl = config.RedirectUrl
+	client.Scopes = config.Scopes
 
 	return nil, client
 }
