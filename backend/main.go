@@ -4,6 +4,7 @@ import (
 	configuration "cupcake/app/config"
 	"cupcake/app/database"
 	"cupcake/app/routes"
+	"cupcake/app/service"
 	"github.com/gofiber/fiber/v2"
 	"log"
 	"os"
@@ -13,6 +14,22 @@ import (
 type App struct {
 	*fiber.App
 	DB *database.Database
+}
+
+func getSSO() (*service.SSOClient, error) {
+	config := configuration.New()
+	ssoClient := service.NewSSO()
+	err, s := ssoClient.Init(
+		config.GetString("AUTHORITY"),
+		config.GetString("CLIENT_ID"),
+		config.GetString("CLIENT_SECRET"),
+		config.GetString("REDIRECT"),
+		[]string{config.GetString("SCOPES")},
+	)
+	if err != nil {
+		return nil, err
+	}
+	return s, nil
 }
 
 func main() {
@@ -36,8 +53,14 @@ func main() {
 		DB:  db,
 	}
 
+	sso, err := getSSO()
+
+	if err != nil {
+		log.Fatalf("Error getting sso service")
+	}
+
 	api := app.Group("/api")
-	routes.RegisterRoutes(api, app.DB)
+	routes.RegisterRoutes(api, app.DB, sso)
 
 	// Custom 404 Handler
 	app.Use(func(c *fiber.Ctx) error {

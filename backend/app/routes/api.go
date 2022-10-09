@@ -3,12 +3,14 @@ package routes
 import (
 	Controller "cupcake/app/controllers"
 	"cupcake/app/database"
+	"cupcake/app/service"
 
 	"github.com/gofiber/fiber/v2"
 )
 
-func RegisterRoutes(api fiber.Router, db *database.Database) {
+func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOClient) {
 	registerUsers(api, db)
+	registerAuth(api, db, sso)
 }
 
 func registerUsers(api fiber.Router, db *database.Database) {
@@ -19,4 +21,9 @@ func registerUsers(api fiber.Router, db *database.Database) {
 	users.Post("/", Controller.AddUser(db))
 	users.Put("/:id", Controller.EditUser(db))
 	users.Delete("/:id", Controller.DeleteUser(db))
+}
+
+func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient) {
+	users := api.Group("/auth")
+	users.Get("/sso", Controller.AuthenticateSSO(sso))
 }
