@@ -55,6 +55,8 @@ func TestUserPointsRepositoryDbUpdate(t *testing.T) {
 	createdUserPoints.Points = 2
 	updatedUserPoints, err := repo.Update(createdUserPoints)
 
+	require.Nil(t, err)
+
 	require.Equal(t, createdUserPoints.UserID, updatedUserPoints.UserID)
 	require.Equal(t, createdUserPoints.Points, updatedUserPoints.Points)
 }
