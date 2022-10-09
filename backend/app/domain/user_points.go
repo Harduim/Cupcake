@@ -1,9 +1,9 @@
 package domain
 
 type UserPoints struct {
-	User   *User  `json:"user" valid:"-"`
-	UserID string `json:"-" validate:"-" gorm:"type:uuid;notnull"`
-	Points int8   `json:"points"`
+	User   User   `gorm:"foreignKey:UserID"`
+	UserID string `json:"user_id" validate:"required,uuid" gorm:"type:varchar(255);primary_key"`
+	Points int8   `json:"points" validate:"required" gorm:"type:integer"`
 }
 
 func NewUserPoints() *UserPoints {
