@@ -47,3 +47,11 @@ func (repo UserRepositoryDb) Update(user *domain.User) (*domain.User, error) {
 
 	return user, nil
 }
+
+func (repo UserRepositoryDb) FindAll() (*[]domain.User, error) {
+	var users []domain.User
+
+	repo.Db.Find(&users)
+
+	return &users, nil
+}
