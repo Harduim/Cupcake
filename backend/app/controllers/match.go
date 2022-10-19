@@ -15,7 +15,7 @@ func GetAllMatches(db *database.Database) fiber.Handler {
 		}
 		err := ctx.JSON(Matches)
 		if err != nil {
-			panic("Error occurred when returning JSON of users: " + err.Error())
+			panic("Error occurred when returning JSON of matches: " + err.Error())
 		}
 		return err
 	}
