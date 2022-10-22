@@ -14,7 +14,7 @@ type Match struct {
 	BracketID       string        `json:"bracket_id" validate:"required,uuid" gorm:"type:varchar(255)"`
 	Bracket         *Bracket      `gorm:"foreignKey:BracketID"`
 	WinnerID        string        `json:"winner_id" validate:"required,uuid" gorm:"type:varchar(255)"`
-	Winner          *User         `gorm:"foreignKey:WinnerID"`
+	Winner          *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
 func NewMatch() *Match {
