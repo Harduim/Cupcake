@@ -3,6 +3,7 @@ package main
 import (
 	configuration "cupcake/app/config"
 	"cupcake/app/database"
+	"cupcake/app/database/fixtures"
 	"cupcake/app/routes"
 	"cupcake/app/service"
 	"github.com/gofiber/fiber/v2"
@@ -60,6 +61,14 @@ func main() {
 
 	if err != nil {
 		log.Fatalf("Error getting sso service")
+	}
+
+	if config.GetString("ENV") == "dev" {
+		err = fixtures.CreateFixtures(db)
+
+		if err != nil {
+			log.Fatalf("Error creating fixuters")
+		}
 	}
 
 	app := App{
