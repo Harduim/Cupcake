@@ -9,6 +9,7 @@ import (
 type MatchRepository interface {
 	Insert(match *domain.Match) (*domain.Match, error)
 	Find(id string) (*domain.Match, error)
+	FindAll() ([]*domain.Match, error)
 	Update(match *domain.Match) (*domain.Match, error)
 }
 
