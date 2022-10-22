@@ -38,6 +38,14 @@ func (repo NationalTeamRepositoryDb) Find(id string) (*domain.NationalTeam, erro
 	return &nationalTeam, nil
 }
 
+func (repo NationalTeamRepositoryDb) FindAll() (*[]domain.NationalTeam, error) {
+	var nationalTeams []domain.NationalTeam
+
+	repo.Db.Find(&nationalTeams)
+
+	return &nationalTeams, nil
+}
+
 func (repo NationalTeamRepositoryDb) Update(nationalTeam *domain.NationalTeam) (*domain.NationalTeam, error) {
 	err := repo.Db.Save(&nationalTeam).Error
 
