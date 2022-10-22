@@ -9,6 +9,7 @@ import (
 type BracketRepository interface {
 	Insert(bracket *domain.Bracket) (*domain.Bracket, error)
 	Find(id string) (*domain.Bracket, error)
+	FindAll() ([]*domain.Bracket, error)
 	Update(bracket *domain.Bracket) (*domain.Bracket, error)
 }
 
