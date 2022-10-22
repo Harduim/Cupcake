@@ -1,49 +1,50 @@
-package database
+package fixtures
 
 import (
+	"cupcake/app/database"
 	"cupcake/app/domain"
 	"cupcake/app/repositories"
 	"time"
 )
 
-func CreateFixtures(db *Database) error {
-	err := NationalTeamsFixtures(db)
+func CreateFixtures(db *database.Database) error {
+	err := nationalTeamsFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = BracketFixtures(db)
+	err = bracketFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = MatchFixtures(db)
+	err = matchFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = NationalTeamBracketsFixtures(db)
+	err = nationalTeamBracketsFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = UserFixtures(db)
+	err = userFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = UserPointsFixtures(db)
+	err = userPointsFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = BetFixtures(db)
+	err = betFixtures(db)
 
 	if err != nil {
 		return err
@@ -52,7 +53,7 @@ func CreateFixtures(db *Database) error {
 	return nil
 }
 
-func NationalTeamsFixtures(db *Database) error {
+func nationalTeamsFixtures(db *database.Database) error {
 	repo := repositories.NationalTeamRepositoryDb{Db: db}
 
 	brazil := domain.NationalTeam{
@@ -77,7 +78,7 @@ func NationalTeamsFixtures(db *Database) error {
 	return nil
 }
 
-func BracketFixtures(db *Database) error {
+func bracketFixtures(db *database.Database) error {
 	repo := repositories.BracketRepositoryDb{Db: db}
 
 	bracket := domain.Bracket{
@@ -95,7 +96,7 @@ func BracketFixtures(db *Database) error {
 	return nil
 }
 
-func MatchFixtures(db *Database) error {
+func matchFixtures(db *database.Database) error {
 	repo := repositories.MatchRepositoryDb{Db: db}
 
 	match := domain.Match{
@@ -118,7 +119,7 @@ func MatchFixtures(db *Database) error {
 	return nil
 }
 
-func NationalTeamBracketsFixtures(db *Database) error {
+func nationalTeamBracketsFixtures(db *database.Database) error {
 	repo := repositories.NationalTeamBracketRepositoryDb{Db: db}
 
 	nationalTeamBracketsBrazilFinal := domain.NationalTeamBracket{
@@ -146,7 +147,7 @@ func NationalTeamBracketsFixtures(db *Database) error {
 	return nil
 }
 
-func BetFixtures(db *Database) error {
+func betFixtures(db *database.Database) error {
 	repo := repositories.BetRepositoryDb{Db: db}
 
 	bet := domain.Bet{
@@ -154,7 +155,7 @@ func BetFixtures(db *Database) error {
 		CreatedAt:       time.Date(2022, 12, 18, 13, 0, 0, 0, time.Local),
 		GolA:            2,
 		GolB:            0,
-		UserID:          "",
+		UserID:          "b8ee5ddd-1137-45de-9071-20e08ba3f51f",
 		MatchID:         "719cf785-0753-4864-a0c9-546d1c8cf998",
 		NationalTeamAID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
 		NationalTeamBID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
@@ -169,7 +170,7 @@ func BetFixtures(db *Database) error {
 	return nil
 }
 
-func UserFixtures(db *Database) error {
+func userFixtures(db *database.Database) error {
 	repo := repositories.UserRepositoryDb{Db: db}
 	falseBoolean := false
 
@@ -189,7 +190,7 @@ func UserFixtures(db *Database) error {
 	return nil
 }
 
-func UserPointsFixtures(db *Database) error {
+func userPointsFixtures(db *database.Database) error {
 	repo := repositories.UserPointsRepositoryDb{Db: db}
 
 	userPoints := domain.UserPoints{
