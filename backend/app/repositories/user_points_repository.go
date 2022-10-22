@@ -9,6 +9,7 @@ import (
 type UserPointsRepository interface {
 	Insert(userPoints *domain.UserPoints) (*domain.UserPoints, error)
 	Find(id string) (*domain.UserPoints, error)
+	FindAll() ([]*domain.UserPoints, error)
 	Update(userPoints *domain.UserPoints) (*domain.UserPoints, error)
 }
 
