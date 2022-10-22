@@ -38,6 +38,14 @@ func (repo UserPointsRepositoryDb) Find(id string) (*domain.UserPoints, error) {
 	return &userPoints, nil
 }
 
+func (repo UserPointsRepositoryDb) FindAll() (*[]domain.UserPoints, error) {
+	var userPoints []domain.UserPoints
+
+	repo.Db.Find(&userPoints)
+
+	return &userPoints, nil
+}
+
 func (repo UserPointsRepositoryDb) Update(userPoints *domain.UserPoints) (*domain.UserPoints, error) {
 	err := repo.Db.Save(&userPoints).Error
 
