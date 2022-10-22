@@ -15,6 +15,7 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 	registerMatches(api, db)
 	registerNationalTeam(api, db)
 	registerNationalTeamBrackets(api, db)
+	registerUserPoints(api, db)
 }
 
 func registerUsers(api fiber.Router, db *database.Database) {
@@ -50,4 +51,9 @@ func registerNationalTeam(api fiber.Router, db *database.Database) {
 func registerNationalTeamBrackets(api fiber.Router, db *database.Database) {
 	nationalTeamsBrackets := api.Group("/national_teams_brackets")
 	nationalTeamsBrackets.Get("/", Controller.GetAllNationalTeamsBrackets(db))
+}
+
+func registerUserPoints(api fiber.Router, db *database.Database) {
+	userPoints := api.Group("/points")
+	userPoints.Get("/", Controller.GetAllUserPoints(db))
 }
