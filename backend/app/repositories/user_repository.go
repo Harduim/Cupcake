@@ -9,6 +9,7 @@ import (
 type UserRepository interface {
 	Insert(user *domain.User) (*domain.User, error)
 	Find(id string) (*domain.User, error)
+	FindAll() ([]*domain.User, error)
 	Update(user *domain.User) (*domain.User, error)
 }
 
