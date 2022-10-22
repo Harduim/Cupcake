@@ -38,6 +38,14 @@ func (repo BracketRepositoryDb) Find(id string) (*domain.Bracket, error) {
 	return &bracket, nil
 }
 
+func (repo BracketRepositoryDb) FindAll() (*[]domain.Bracket, error) {
+	var brackets []domain.Bracket
+
+	repo.Db.Find(&brackets)
+
+	return &brackets, nil
+}
+
 func (repo BracketRepositoryDb) Update(bracket *domain.Bracket) (*domain.Bracket, error) {
 	err := repo.Db.Save(&bracket).Error
 
