@@ -9,6 +9,7 @@ import (
 type BetRepository interface {
 	Insert(match *domain.Bet) (*domain.Bet, error)
 	Find(id string) (*domain.Bet, error)
+	FindAll() ([]*domain.Bet, error)
 	Update(match *domain.Bet) (*domain.Bet, error)
 }
 
@@ -16,8 +17,8 @@ type BetRepositoryDb struct {
 	Db *database.Database
 }
 
-func (bet BetRepositoryDb) Insert(match *domain.Bet) (*domain.Bet, error) {
-	err := bet.Db.Create(match).Error
+func (repo BetRepositoryDb) Insert(match *domain.Bet) (*domain.Bet, error) {
+	err := repo.Db.Create(match).Error
 
 	if err != nil {
 		return nil, err
@@ -26,10 +27,10 @@ func (bet BetRepositoryDb) Insert(match *domain.Bet) (*domain.Bet, error) {
 	return match, nil
 }
 
-func (bet BetRepositoryDb) Find(id string) (*domain.Bet, error) {
+func (repo BetRepositoryDb) Find(id string) (*domain.Bet, error) {
 	var match domain.Bet
 
-	bet.Db.First(&match, "id = ?", id)
+	repo.Db.First(&match, "id = ?", id)
 
 	if match.ID == "" {
 		return nil, fmt.Errorf("match does not exist")
@@ -38,8 +39,16 @@ func (bet BetRepositoryDb) Find(id string) (*domain.Bet, error) {
 	return &match, nil
 }
 
-func (bet BetRepositoryDb) Update(match *domain.Bet) (*domain.Bet, error) {
-	err := bet.Db.Save(&match).Error
+func (repo BetRepositoryDb) FindAll() (*[]domain.Bet, error) {
+	var bets []domain.Bet
+
+	repo.Db.Find(&bets)
+
+	return &bets, nil
+}
+
+func (repo BetRepositoryDb) Update(match *domain.Bet) (*domain.Bet, error) {
+	err := repo.Db.Save(&match).Error
 
 	if err != nil {
 		return nil, err
