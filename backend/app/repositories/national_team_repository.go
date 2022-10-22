@@ -9,6 +9,7 @@ import (
 type NationalTeamRepository interface {
 	Insert(nationalTeam *domain.NationalTeam) (*domain.NationalTeam, error)
 	Find(id string) (*domain.NationalTeam, error)
+	FindAll() ([]*domain.NationalTeam, error)
 	Update(nationalTeam *domain.NationalTeam) (*domain.NationalTeam, error)
 }
 
