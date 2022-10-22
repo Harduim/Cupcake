@@ -38,6 +38,14 @@ func (repo MatchRepositoryDb) Find(id string) (*domain.Match, error) {
 	return &match, nil
 }
 
+func (repo MatchRepositoryDb) FindAll() (*[]domain.Match, error) {
+	var matches []domain.Match
+
+	repo.Db.Find(&matches)
+
+	return &matches, nil
+}
+
 func (repo MatchRepositoryDb) Update(match *domain.Match) (*domain.Match, error) {
 	err := repo.Db.Save(&match).Error
 
