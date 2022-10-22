@@ -9,6 +9,7 @@ import (
 type NationalTeamBracketRepository interface {
 	Insert(nationalTeamBracket *domain.NationalTeamBracket) (*domain.NationalTeamBracket, error)
 	Find(id string) (*domain.NationalTeamBracket, error)
+	FindAll() ([]*domain.NationalTeamBracket, error)
 	Update(nationalTeamBracket *domain.NationalTeamBracket) (*domain.NationalTeamBracket, error)
 }
 
