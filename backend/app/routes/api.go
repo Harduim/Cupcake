@@ -12,6 +12,7 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 	registerUsers(api, db)
 	registerAuth(api, db, sso)
 	registerBrackets(api, db)
+	registerMatches(api, db)
 }
 
 func registerUsers(api fiber.Router, db *database.Database) {
@@ -32,4 +33,9 @@ func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClien
 func registerBrackets(api fiber.Router, db *database.Database) {
 	brackets := api.Group("/brackets")
 	brackets.Get("/", Controller.GetAllBrackets(db))
+}
+
+func registerMatches(api fiber.Router, db *database.Database) {
+	matches := api.Group("/matches")
+	matches.Get("/", Controller.GetAllMatches(db))
 }
