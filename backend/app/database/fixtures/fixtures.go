@@ -8,13 +8,13 @@ import (
 )
 
 func CreateFixtures(db *database.Database) error {
-	err := nationalTeamsFixtures(db)
+	err := bracketFixtures(db)
 
 	if err != nil {
 		return err
 	}
 
-	err = bracketFixtures(db)
+	err = nationalTeamsFixtures(db)
 
 	if err != nil {
 		return err
@@ -47,31 +47,6 @@ func CreateFixtures(db *database.Database) error {
 	return nil
 }
 
-func nationalTeamsFixtures(db *database.Database) error {
-	repo := repositories.NationalTeamRepositoryDb{Db: db}
-
-	brazil := domain.NationalTeam{
-		ID:   "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
-		Name: "Brazil",
-	}
-
-	_, err := repo.Insert(&brazil)
-	if err != nil {
-		return err
-	}
-
-	france := domain.NationalTeam{
-		ID:   "4935b4e1-f422-41a7-9a22-051f429ff5e4",
-		Name: "France",
-	}
-
-	_, err = repo.Insert(&france)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func bracketFixtures(db *database.Database) error {
 	repo := repositories.BracketRepositoryDb{Db: db}
 
@@ -87,6 +62,35 @@ func bracketFixtures(db *database.Database) error {
 		return err
 	}
 
+	return nil
+}
+
+func nationalTeamsFixtures(db *database.Database) error {
+	repo := repositories.NationalTeamRepositoryDb{Db: db}
+	bracket := domain.Bracket{
+		ID: "5ef28a89-f697-4af2-931d-808c41cbd2d1",
+	}
+	brazil := domain.NationalTeam{
+		ID:       "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
+		Name:     "Brazil",
+		Brackets: []domain.Bracket{bracket},
+	}
+
+	_, err := repo.Insert(&brazil)
+	if err != nil {
+		return err
+	}
+
+	france := domain.NationalTeam{
+		ID:       "4935b4e1-f422-41a7-9a22-051f429ff5e4",
+		Name:     "France",
+		Brackets: []domain.Bracket{bracket},
+	}
+
+	_, err = repo.Insert(&france)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
