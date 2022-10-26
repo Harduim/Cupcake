@@ -30,7 +30,7 @@ func NewTest() (*Database, error) {
 	}
 
 	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
-		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{}, &domain.NationalTeamBracket{})
+		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{})
 
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func New(config *DatabaseConfig) (*Database, error) {
 	dsn := "user=" + config.Username + " password=" + config.Password + " dbname=" + config.Database + " host=" + config.Host + " port=" + strconv.Itoa(config.Port) + " TimeZone=UTC"
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
-		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{}, &domain.NationalTeamBracket{})
+		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{})
 
 	if err != nil {
 		return nil, err

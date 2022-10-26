@@ -26,12 +26,6 @@ func CreateFixtures(db *database.Database) error {
 		return err
 	}
 
-	err = nationalTeamBracketsFixtures(db)
-
-	if err != nil {
-		return err
-	}
-
 	err = userFixtures(db)
 
 	if err != nil {
@@ -111,34 +105,6 @@ func matchFixtures(db *database.Database) error {
 	}
 
 	_, err := repo.Insert(&match)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func nationalTeamBracketsFixtures(db *database.Database) error {
-	repo := repositories.NationalTeamBracketRepositoryDb{Db: db}
-
-	nationalTeamBracketsBrazilFinal := domain.NationalTeamBracket{
-		NationalTeamID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
-		BracketID:      "5ef28a89-f697-4af2-931d-808c41cbd2d1", // Finals
-	}
-
-	_, err := repo.Insert(&nationalTeamBracketsBrazilFinal)
-
-	if err != nil {
-		return err
-	}
-
-	nationalTeamBracketsFranceFinal := domain.NationalTeamBracket{
-		NationalTeamID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
-		BracketID:      "5ef28a89-f697-4af2-931d-808c41cbd2d1", // Finals
-	}
-
-	_, err = repo.Insert(&nationalTeamBracketsFranceFinal)
 
 	if err != nil {
 		return err
