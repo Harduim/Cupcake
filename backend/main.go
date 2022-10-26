@@ -67,7 +67,7 @@ func main() {
 		err = fixtures.CreateFixtures(db)
 
 		if err != nil {
-			log.Fatalf("Error creating fixuters")
+			log.Fatalf("Error creating fixtures")
 		}
 	}
 
