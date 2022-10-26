@@ -3,56 +3,81 @@ package main
 import (
 	configuration "cupcake/app/config"
 	"cupcake/app/database"
-	"cupcake/app/models"
+	"cupcake/app/database/fixtures"
 	"cupcake/app/routes"
-	"fmt"
+	"cupcake/app/service"
+	"github.com/gofiber/fiber/v2"
+	"log"
 	"os"
 	"os/signal"
-
-	"github.com/gofiber/fiber/v2"
 )
 
 type App struct {
 	*fiber.App
-
 	DB *database.Database
+}
+
+func getDB(config *configuration.Config) (*database.Database, error) {
+	dbConfig := database.DatabaseConfig{
+		Host:     config.GetString("DB_HOST"),
+		Username: config.GetString("DB_USERNAME"),
+		Database: config.GetString("DB_DATABASE"),
+		Password: config.GetString("DB_PASSWORD"),
+		Port:     config.GetInt("DB_PORT"),
+	}
+
+	db, err := database.New(&dbConfig)
+
+	return db, err
+}
+
+func getSSO(config *configuration.Config) (*service.SSOClient, error) {
+	ssoClient := service.NewSSO()
+	ssoConfig := service.SSOConfig{
+		Authority:    config.GetString("AUTHORITY"),
+		ClientId:     config.GetString("CLIENT_ID"),
+		ClientSecret: config.GetString("CLIENT_SECRET"),
+		RedirectUrl:  config.GetString("REDIRECT"),
+		Scopes:       []string{config.GetString("SCOPES")}}
+
+	err, s := ssoClient.Init(&ssoConfig)
+
+	if err != nil {
+		return nil, err
+	}
+	return s, nil
 }
 
 func main() {
 	config := configuration.New()
 
-	app := App{
-		App: fiber.New(),
+	db, err := getDB(config)
+
+	if err != nil {
+		log.Fatalf("Error connecting to DB")
 	}
 
-	// Initialize database
-	db, err := database.New(&database.DatabaseConfig{
-		Host:     config.GetString("DB_HOST"),
-		Username: config.GetString("DB_USERNAME"),
-		Password: config.GetString("DB_PASSWORD"),
-		Port:     config.GetInt("DB_PORT"),
-		Database: config.GetString("DB_DATABASE"),
-	})
+	sso, err := getSSO(config)
 
-	// Auto-migrate database models
 	if err != nil {
-		fmt.Println("failed to connect to database:", err.Error())
-	} else {
-		if db == nil {
-			fmt.Println("failed to connect to database: db variable is nil")
-		} else {
-			app.DB = db
+		log.Fatalf("Error getting sso service")
+	}
 
-			err = app.DB.AutoMigrate(&models.User{})
-			if err != nil {
-				fmt.Println("failed to auto migrate user model:", err.Error())
-				return
-			}
+	if config.GetString("ENV") == "dev" {
+		err = fixtures.CreateFixtures(db)
+
+		if err != nil {
+			log.Fatalf("Error creating fixtures")
 		}
 	}
 
+	app := App{
+		App: fiber.New(),
+		DB:  db,
+	}
+
 	api := app.Group("/api")
-	routes.RegisterRoutes(api, app.DB)
+	routes.RegisterRoutes(api, app.DB, sso)
 
 	// Custom 404 Handler
 	app.Use(func(c *fiber.Ctx) error {

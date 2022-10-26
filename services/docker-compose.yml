@@ -1,5 +1,19 @@
 version: "3.9"
 services:
+  cupcake_backend:
+    container_name: cupcake_backend
+    build: ./backend
+    volumes:
+      - ../backend:/go/src/
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=$DB_HOST
+      - DB_DATABASE=$DB_DATABASE
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_USERNAME=$DB_USERNAME
+      - DB_PORT=$DB_PORT
+
   cupcake_db:
     image: postgres:12
     container_name: cupcake_db
@@ -22,8 +36,6 @@ services:
       - POSTGRES_USER=$DB_USERNAME
       - POSTGRES_PASSWORD=$DB_PASSWORD
       - POSTGRES_PORT=$DB_PORT
-    networks:
-      - default
     ports:
       - "5432:5432"
 

@@ -24,3 +24,9 @@ CLIENT_SECRET=SOME_SECRET
 REDIRECT=http://localhost:3000/auth-response
 ```
 
+## Setup backend development env
+Executar o comando abaixo na pasta raiz do projeto (a mesma do README)
+```
+make
+```
+Pode levar entre 10 - 20 segundos para que o build esteja completo
