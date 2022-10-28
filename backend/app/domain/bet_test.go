@@ -5,138 +5,56 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
-	"time"
 )
 
-func TestBetIdIsNotAUuid(t *testing.T) {
-	bet := domain.NewBet()
-
-	bet.ID = "ANY_ID"
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
-
-	require.Error(t, err)
-}
-
 func TestBetNationalTeamAIsNotAUuid(t *testing.T) {
-	bet := domain.NewBet()
+	nationalTeamAID := "ANY_ID"
+	nationalTeamBID := uuid.NewV4().String()
+	golA := 0
+	golB := 0
+	userID := uuid.NewV4().String()
+	matchID := uuid.NewV4().String()
 
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = "ANY_ID"
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB)
 
 	require.Error(t, err)
 }
 
 func TestBetNationalTeamBIsNotAUuid(t *testing.T) {
-	bet := domain.NewBet()
+	nationalTeamAID := uuid.NewV4().String()
+	nationalTeamBID := "ANY_ID"
+	golA := 0
+	golB := 0
+	userID := uuid.NewV4().String()
+	matchID := uuid.NewV4().String()
 
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = "ANY_ID"
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
-
-	require.Error(t, err)
-}
-
-func TestBetGolAIsEmpty(t *testing.T) {
-	bet := domain.NewBet()
-
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
-
-	require.Error(t, err)
-}
-
-func TestBetGolBIsEmpty(t *testing.T) {
-	bet := domain.NewBet()
-
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB)
 
 	require.Error(t, err)
 }
 
 func TestBetUserIDIsNotAUuid(t *testing.T) {
-	bet := domain.NewBet()
+	nationalTeamAID := uuid.NewV4().String()
+	nationalTeamBID := uuid.NewV4().String()
+	golA := 0
+	golB := 0
+	userID := "ANY_ID"
+	matchID := uuid.NewV4().String()
 
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = "ANY_ID"
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB)
 
 	require.Error(t, err)
 }
 
 func TestBetMatchIDIsNotAUuid(t *testing.T) {
-	bet := domain.NewBet()
+	nationalTeamAID := uuid.NewV4().String()
+	nationalTeamBID := uuid.NewV4().String()
+	golA := 0
+	golB := 0
+	userID := uuid.NewV4().String()
+	matchID := "ANY_ID"
 
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = "ANY_ID"
-
-	err := bet.Validate()
-
-	require.Error(t, err)
-}
-
-func TestBetDateIsEmpty(t *testing.T) {
-	bet := domain.NewBet()
-
-	bet.ID = uuid.NewV4().String()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
-
-	err := bet.Validate()
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB)
 
 	require.Error(t, err)
 }

@@ -7,20 +7,17 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	"testing"
-	"time"
 )
 
 func MakeBet() *domain.Bet {
-	bet := domain.NewBet()
+	nationalTeamAID := uuid.NewV4().String()
+	nationalTeamBID := uuid.NewV4().String()
+	golA := 0
+	golB := 0
+	userID := uuid.NewV4().String()
+	matchID := uuid.NewV4().String()
 
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = time.Now().UTC()
-	bet.NationalTeamAID = uuid.NewV4().String()
-	bet.NationalTeamBID = uuid.NewV4().String()
-	bet.GolA = 0
-	bet.GolB = 0
-	bet.UserID = uuid.NewV4().String()
-	bet.MatchID = uuid.NewV4().String()
+	bet, _ := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB)
 
 	return bet
 }

@@ -17,14 +17,14 @@ type BetRepositoryDb struct {
 	Db *database.Database
 }
 
-func (repo BetRepositoryDb) Insert(match *domain.Bet) (*domain.Bet, error) {
-	err := repo.Db.Create(match).Error
+func (repo BetRepositoryDb) Insert(bet *domain.Bet) (*domain.Bet, error) {
+	err := repo.Db.Create(bet).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	return match, nil
+	return bet, nil
 }
 
 func (repo BetRepositoryDb) Find(id string) (*domain.Bet, error) {
