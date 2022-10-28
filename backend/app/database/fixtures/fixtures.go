@@ -54,6 +54,8 @@ func bracketFixtures(db *database.Database) error {
 		ID:         "5ef28a89-f697-4af2-931d-808c41cbd2d1",
 		Name:       "Final",
 		Multiplier: 3,
+		OpenDate:   time.Date(2022, 12, 10, 15, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 20, 15, 0, 0, 0, time.Local),
 	}
 
 	_, err := repo.Insert(&bracket)
