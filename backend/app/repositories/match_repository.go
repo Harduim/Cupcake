@@ -4,6 +4,7 @@ import (
 	"cupcake/app/database"
 	"cupcake/app/domain"
 	"fmt"
+	uuid "github.com/satori/go.uuid"
 )
 
 type MatchRepository interface {
@@ -18,6 +19,10 @@ type MatchRepositoryDb struct {
 }
 
 func (repo MatchRepositoryDb) Insert(match *domain.Match) (*domain.Match, error) {
+	if match.ID == "" {
+		match.ID = uuid.NewV4().String()
+	}
+
 	err := repo.Db.Create(match).Error
 
 	if err != nil {

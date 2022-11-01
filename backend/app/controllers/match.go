@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"cupcake/app/database"
+	"cupcake/app/domain"
 	"cupcake/app/repositories"
 	"github.com/gofiber/fiber/v2"
 )
@@ -10,16 +11,44 @@ import (
 func GetAllMatches(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		repo := repositories.MatchRepositoryDb{Db: db}
-		brackets, err := repo.FindAll()
+		matches, err := repo.FindAll()
 
 		if err != nil {
 			panic("Error occurred while retrieving matches from the database: " + err.Error())
 		}
 
-		response := ctx.JSON(brackets)
+		response := ctx.JSON(matches)
 
 		if err != nil {
 			panic("Error occurred when returning JSON of matches: " + err.Error())
+		}
+
+		return response
+	}
+}
+
+// CreateMatch Create match from body
+func CreateMatch(db *database.Database) fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		match := new(domain.Match)
+
+		err := ctx.BodyParser(match)
+
+		if err != nil {
+			return err
+		}
+
+		repo := repositories.MatchRepositoryDb{Db: db}
+		match, err = repo.Insert(match)
+
+		if err != nil {
+			panic("Error occurred while creating match from the database: " + err.Error())
+		}
+
+		response := ctx.JSON(match)
+
+		if err != nil {
+			panic("Error occurred when returning JSON of match: " + err.Error())
 		}
 
 		return response
