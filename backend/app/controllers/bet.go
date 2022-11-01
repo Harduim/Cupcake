@@ -49,3 +49,26 @@ func CreateBet(db *database.Database) fiber.Handler {
 		return response
 	}
 }
+
+// UpdateBet Update bet
+func UpdateBet(db *database.Database) fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		bet := new(domain.Bet)
+		err := ctx.BodyParser(bet)
+
+		repo := repositories.BetRepositoryDb{Db: db}
+		brackets, err := repo.Update(bet)
+
+		if err != nil {
+			panic("Error occurred while updating bet from the database: " + err.Error())
+		}
+
+		response := ctx.JSON(brackets)
+
+		if err != nil {
+			panic("Error occurred when returning JSON of bets: " + err.Error())
+		}
+
+		return response
+	}
+}

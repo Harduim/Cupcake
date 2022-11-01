@@ -61,4 +61,5 @@ func registerBets(api fiber.Router, db *database.Database) {
 	userPoints := api.Group("/bets")
 	userPoints.Get("/", Controller.GetAllBets(db))
 	userPoints.Post("/", Controller.CreateBet(db))
+	userPoints.Put("/", Controller.UpdateBet(db))
 }
