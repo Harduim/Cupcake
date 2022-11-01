@@ -43,6 +43,7 @@ func registerMatches(api fiber.Router, db *database.Database) {
 	matches := api.Group("/matches")
 	matches.Get("/", Controller.GetAllMatches(db))
 	matches.Post("/", Controller.CreateMatch(db))
+	matches.Put("/", Controller.UpdateMatch(db))
 }
 
 func registerNationalTeam(api fiber.Router, db *database.Database) {

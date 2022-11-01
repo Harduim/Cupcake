@@ -54,3 +54,31 @@ func CreateMatch(db *database.Database) fiber.Handler {
 		return response
 	}
 }
+
+// UpdateMatch Update match from body
+func UpdateMatch(db *database.Database) fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		match := new(domain.Match)
+
+		err := ctx.BodyParser(match)
+
+		if err != nil {
+			return err
+		}
+
+		repo := repositories.MatchRepositoryDb{Db: db}
+		data, err := repo.Update(match)
+
+		if err != nil {
+			panic("Error occurred while updating match from the database: " + err.Error())
+		}
+
+		response := ctx.JSON(data)
+
+		if err != nil {
+			panic("Error occurred when returning JSON of match: " + err.Error())
+		}
+
+		return response
+	}
+}
