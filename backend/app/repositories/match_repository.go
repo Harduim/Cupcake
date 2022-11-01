@@ -61,3 +61,13 @@ func (repo MatchRepositoryDb) Update(match *domain.Match) (*domain.Match, error)
 
 	return match, nil
 }
+
+func (repo MatchRepositoryDb) Delete(match *domain.Match) (*domain.Match, error) {
+	err := repo.Db.Delete(&match).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return match, nil
+}
