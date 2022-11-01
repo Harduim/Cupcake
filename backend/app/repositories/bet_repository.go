@@ -47,12 +47,22 @@ func (repo BetRepositoryDb) FindAll() (*[]domain.Bet, error) {
 	return &bets, nil
 }
 
-func (repo BetRepositoryDb) Update(match *domain.Bet) (*domain.Bet, error) {
-	err := repo.Db.Save(&match).Error
+func (repo BetRepositoryDb) Update(bet *domain.Bet) (*domain.Bet, error) {
+	err := repo.Db.Save(&bet).Error
 
 	if err != nil {
 		return nil, err
 	}
 
-	return match, nil
+	return bet, nil
+}
+
+func (repo BetRepositoryDb) Delete(bet *domain.Bet) (*domain.Bet, error) {
+	err := repo.Db.Delete(&bet).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return bet, nil
 }

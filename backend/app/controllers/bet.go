@@ -72,3 +72,31 @@ func UpdateBet(db *database.Database) fiber.Handler {
 		return response
 	}
 }
+
+// DeleteBet Delete bet
+func DeleteBet(db *database.Database) fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		bet := new(domain.Bet)
+
+		err := ctx.BodyParser(bet)
+
+		if err != nil {
+			return err
+		}
+
+		repo := repositories.BetRepositoryDb{Db: db}
+		data, err := repo.Delete(bet)
+
+		if err != nil {
+			panic("Error occurred while deleting bet from the database: " + err.Error())
+		}
+
+		response := ctx.JSON(data)
+
+		if err != nil {
+			panic("Error occurred when returning JSON of bet: " + err.Error())
+		}
+
+		return response
+	}
+}
