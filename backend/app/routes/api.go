@@ -16,6 +16,7 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 	registerNationalTeam(api, db)
 	registerUserPoints(api, db)
 	registerBets(api, db)
+	registerJoker(api, db)
 }
 
 func registerUsers(api fiber.Router, db *database.Database) {
@@ -64,4 +65,12 @@ func registerBets(api fiber.Router, db *database.Database) {
 	userPoints.Post("/", Controller.CreateBet(db))
 	userPoints.Put("/", Controller.UpdateBet(db))
 	userPoints.Put("/", Controller.DeleteBet(db))
+}
+
+func registerJoker(api fiber.Router, db *database.Database) {
+	userPoints := api.Group("/joker")
+	userPoints.Get("/", Controller.GetAllJokers(db))
+	userPoints.Post("/", Controller.CreateJoker(db))
+	userPoints.Put("/", Controller.UpdateJoker(db))
+	userPoints.Put("/", Controller.DeleteJoker(db))
 }

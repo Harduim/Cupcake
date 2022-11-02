@@ -44,6 +44,12 @@ func CreateFixtures(db *database.Database) error {
 		return err
 	}
 
+	err = jokerFixtures(db)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -215,6 +221,31 @@ func userPointsFixtures(db *database.Database) error {
 	}
 
 	_, err := repo.Insert(&userPoints)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func jokerFixtures(db *database.Database) error {
+	repo := repositories.JokerRepositoryDb{Db: db}
+
+	golA := 3
+	golB := 2
+	joker := domain.Joker{
+		ID:              "9d28a01a-fc22-4d60-9a2a-33df213b71a3",
+		CreatedAt:       time.Date(2022, 12, 18, 13, 0, 0, 0, time.Local),
+		GolA:            &golA,
+		GolB:            &golB,
+		UserID:          "b8ee5ddd-1137-45de-9071-20e08ba3f51f",
+		BracketID:       "5ef28a89-f697-4af2-931d-808c41cbd2d1",
+		NationalTeamAID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
+		NationalTeamBID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
+		WinnerID:        "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
+	}
+	_, err := repo.Insert(&joker)
 
 	if err != nil {
 		return err
