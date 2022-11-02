@@ -50,15 +50,57 @@ func CreateFixtures(db *database.Database) error {
 func bracketFixtures(db *database.Database) error {
 	repo := repositories.BracketRepositoryDb{Db: db}
 
-	bracket := domain.Bracket{
+	final := domain.Bracket{
 		ID:         "5ef28a89-f697-4af2-931d-808c41cbd2d1",
 		Name:       "Final",
-		Multiplier: 3,
-		OpenDate:   time.Date(2022, 12, 10, 15, 0, 0, 0, time.Local),
-		CloseDate:  time.Date(2022, 12, 20, 15, 0, 0, 0, time.Local),
+		Multiplier: 8,
+		OpenDate:   time.Date(2022, 12, 18, 12, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 18, 14, 0, 0, 0, time.Local),
 	}
 
-	_, err := repo.Insert(&bracket)
+	semi := domain.Bracket{
+		ID:         "40e58268-0fc5-4dec-8fcb-b52b46006215",
+		Name:       "Semi Final",
+		Multiplier: 3,
+		OpenDate:   time.Date(2022, 12, 13, 16, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 14, 18, 0, 0, 0, time.Local),
+	}
+
+	quartas := domain.Bracket{
+		ID:         "22ecea42-848e-43d1-a387-5de1bd468338",
+		Name:       "Quartas",
+		Multiplier: 2,
+		OpenDate:   time.Date(2022, 12, 9, 12, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 10, 12, 0, 0, 0, time.Local),
+	}
+
+	oitavas := domain.Bracket{
+		ID:         "ef13e77f-b345-4f4d-b4a7-2d1cfb12fa48",
+		Name:       "Oitavas",
+		Multiplier: 1,
+		OpenDate:   time.Date(2022, 12, 3, 12, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 6, 18, 0, 0, 0, time.Local),
+	}
+
+	_, err := repo.Insert(&final)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = repo.Insert(&oitavas)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = repo.Insert(&quartas)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = repo.Insert(&semi)
 
 	if err != nil {
 		return err
