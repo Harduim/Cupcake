@@ -50,6 +50,12 @@ func CreateFixtures(db *database.Database) error {
 		return err
 	}
 
+	err = groupsFixtures(db)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -246,6 +252,25 @@ func jokerFixtures(db *database.Database) error {
 		WinnerID:        "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
 	}
 	_, err := repo.Insert(&joker)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func groupsFixtures(db *database.Database) error {
+	repo := repositories.GroupsRepositoryDb{Db: db}
+
+	groups := domain.Groups{
+		CreatedAt: time.Date(2022, 12, 18, 13, 0, 0, 0, time.Local),
+		UserID:    "b8ee5ddd-1137-45de-9071-20e08ba3f51f",
+		BracketID: "ef13e77f-b345-4f4d-b4a7-2d1cfb12fa48",
+		NationalTeams: []*domain.NationalTeam{{ID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c"},
+			{ID: "4935b4e1-f422-41a7-9a22-051f429ff5e4"}},
+	}
+	_, err := repo.Insert(&groups)
 
 	if err != nil {
 		return err
