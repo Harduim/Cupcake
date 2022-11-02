@@ -10,7 +10,7 @@ type Joker struct {
 	CreatedAt       time.Time     `json:"created_at"`
 	GolA            *int          `json:"gol_a" validate:"required" gorm:"type:integer"`
 	GolB            *int          `json:"gol_b" validate:"required" gorm:"type:integer"`
-	UserID          string        `json:"user_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	UserID          string        `json:"user_id" validate:"required,uuid" gorm:"type:varchar(255);primary_key"`
 	User            *User         `gorm:"foreignKey:UserID"`
 	BracketID       string        `json:"bracket_id" validate:"required,uuid" gorm:"type:varchar(255)"`
 	Bracket         *Bracket      `gorm:"foreignKey:BracketID"`
