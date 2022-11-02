@@ -18,6 +18,8 @@ type Bet struct {
 	NationalTeamBID string        `json:"national_team_b" validate:"required,uuid" gorm:"type:varchar(255)"`
 	NationalTeamA   *NationalTeam `gorm:"foreignKey:NationalTeamAID"`
 	NationalTeamB   *NationalTeam `gorm:"foreignKey:NationalTeamBID"`
+	WinnerID        string        `json:"winner_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	Winner          *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
 func NewBet(nationalTeamAID string,
@@ -25,7 +27,8 @@ func NewBet(nationalTeamAID string,
 	matchID string,
 	userID string,
 	golA *int,
-	golB *int) (*Bet, error) {
+	golB *int,
+	winnerId string) (*Bet, error) {
 
 	bet := &Bet{
 		NationalTeamAID: nationalTeamAID,
@@ -34,6 +37,7 @@ func NewBet(nationalTeamAID string,
 		UserID:          userID,
 		GolA:            golA,
 		GolB:            golB,
+		WinnerID:        winnerId,
 	}
 	bet.prepare()
 

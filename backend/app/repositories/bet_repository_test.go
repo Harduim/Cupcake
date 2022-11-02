@@ -16,8 +16,8 @@ func MakeBet() *domain.Bet {
 	golB := 0
 	userID := uuid.NewV4().String()
 	matchID := uuid.NewV4().String()
-
-	bet, _ := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB)
+	winnerID := uuid.NewV4().String()
+	bet, _ := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
 
 	return bet
 }
@@ -43,6 +43,7 @@ func TestBetRepositoryDbInsert(t *testing.T) {
 	require.Equal(t, createdBet.GolB, bet.GolB)
 	require.Equal(t, createdBet.UserID, bet.UserID)
 	require.Equal(t, createdBet.MatchID, bet.MatchID)
+	require.Equal(t, createdBet.WinnerID, bet.WinnerID)
 }
 
 func TestBetRepositoryDbUpdate(t *testing.T) {
@@ -70,6 +71,7 @@ func TestBetRepositoryDbUpdate(t *testing.T) {
 	require.Equal(t, createdBet.GolB, bet.GolB)
 	require.Equal(t, createdBet.UserID, bet.UserID)
 	require.Equal(t, createdBet.MatchID, bet.MatchID)
+	require.Equal(t, createdBet.WinnerID, bet.WinnerID)
 
 	createdBet.NationalTeamAID = uuid.NewV4().String()
 	updatedBet, err := repo.Update(createdBet)
@@ -82,4 +84,5 @@ func TestBetRepositoryDbUpdate(t *testing.T) {
 	require.Equal(t, createdBet.GolB, updatedBet.GolB)
 	require.Equal(t, createdBet.UserID, updatedBet.UserID)
 	require.Equal(t, createdBet.MatchID, updatedBet.MatchID)
+	require.Equal(t, createdBet.WinnerID, updatedBet.WinnerID)
 }

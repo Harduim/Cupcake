@@ -163,7 +163,7 @@ func matchFixtures(db *database.Database) error {
 
 func betFixtures(db *database.Database) error {
 	repo := repositories.BetRepositoryDb{Db: db}
-	golA := 2
+	golA := 3
 	golB := 2
 	bet := domain.Bet{
 		ID:              "da3db00f-dfc3-4b83-ad31-0dd78b32ae56",
@@ -174,6 +174,7 @@ func betFixtures(db *database.Database) error {
 		MatchID:         "719cf785-0753-4864-a0c9-546d1c8cf998",
 		NationalTeamAID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
 		NationalTeamBID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
+		WinnerID:        "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
 	}
 
 	_, err := repo.Insert(&bet)
