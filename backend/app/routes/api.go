@@ -55,6 +55,7 @@ func registerNationalTeam(api fiber.Router, db *database.Database) {
 func registerUserPoints(api fiber.Router, db *database.Database) {
 	userPoints := api.Group("/points")
 	userPoints.Get("/", Controller.GetAllUserPoints(db))
+	userPoints.Patch("/", Controller.UpdateUserPoints(db))
 }
 
 func registerBets(api fiber.Router, db *database.Database) {
