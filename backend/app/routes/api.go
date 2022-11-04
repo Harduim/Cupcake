@@ -32,7 +32,7 @@ func registerUsers(api fiber.Router, db *database.Database) {
 func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient) {
 	users := api.Group("/auth")
 	users.Get("/sso", Controller.AuthenticateSSO(sso))
-	users.Get("/token", Controller.Token(sso))
+	users.Get("/token", Controller.Token(sso, db))
 }
 
 func registerBrackets(api fiber.Router, db *database.Database) {
