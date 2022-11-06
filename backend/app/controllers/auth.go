@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+	"time"
 )
 
 type MsalToken struct {
@@ -41,6 +42,22 @@ type MsalToken struct {
 type AuthResponse struct {
 	Token     string `json:"access_token"`
 	TokenType string `json:"token_type"`
+}
+
+func generateJWT(user *domain.User, secretKey string) (string, error) {
+	token := jwt.New(jwt.SigningMethodEdDSA)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(10 * time.Minute)
+	claims["authorized"] = true
+	claims["user"] = user.ID
+
+	tokenString, err := token.SignedString(secretKey)
+
+	if err != nil {
+		return "", err
+	}
+
+	return tokenString, nil
 }
 
 func getInfoFromSSOToken(token string) *MsalToken {
@@ -79,7 +96,7 @@ func AuthenticateSSO(sso *service.SSOClient) fiber.Handler {
 	}
 }
 
-func Token(sso *service.SSOClient, db *database.Database) fiber.Handler {
+func Token(sso *service.SSOClient, db *database.Database, secretKey string) fiber.Handler {
 	repo := repositories.UserRepositoryDb{Db: db}
 
 	return func(ctx *fiber.Ctx) error {
@@ -106,11 +123,19 @@ func Token(sso *service.SSOClient, db *database.Database) fiber.Handler {
 		if err != nil && user.Email == "" {
 			return err
 		} else {
-			newUser := CreateAccount(repo, userEmail, userName)
+			user = CreateAccount(repo, userEmail, userName)
 		}
 
+		accessToken, err := generateJWT(user, secretKey)
+
+		if err != nil {
+			err := ctx.Status(fiber.StatusUnauthorized).SendString(err.Error())
+			if err != nil {
+				return err
+			}
+		}
 		response := AuthResponse{
-			Token:     result.AccessToken,
+			Token:     accessToken,
 			TokenType: "bearer",
 		}
 

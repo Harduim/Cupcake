@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"cupcake/app/config"
 	Controller "cupcake/app/controllers"
 	"cupcake/app/database"
 	"cupcake/app/service"
@@ -8,9 +9,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOClient) {
+func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOClient, config *config.Config) {
 	registerUsers(api, db)
-	registerAuth(api, db, sso)
+	registerAuth(api, db, sso, config.GetString("TOKEN_SECRET"))
 	registerBrackets(api, db)
 	registerMatches(api, db)
 	registerNationalTeam(api, db)
@@ -29,10 +30,10 @@ func registerUsers(api fiber.Router, db *database.Database) {
 	users.Delete("/:id", Controller.DeleteUser(db))
 }
 
-func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient) {
+func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient, accessToken string) {
 	users := api.Group("/auth")
 	users.Get("/sso", Controller.AuthenticateSSO(sso))
-	users.Get("/token", Controller.Token(sso, db))
+	users.Get("/token", Controller.Token(sso, db, accessToken))
 }
 
 func registerBrackets(api fiber.Router, db *database.Database) {

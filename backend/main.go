@@ -77,7 +77,7 @@ func main() {
 	}
 
 	api := app.Group("/api")
-	routes.RegisterRoutes(api, app.DB, sso)
+	routes.RegisterRoutes(api, app.DB, sso, config)
 
 	// Custom 404 Handler
 	app.Use(func(c *fiber.Ctx) error {
