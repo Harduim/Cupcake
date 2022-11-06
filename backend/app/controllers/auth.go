@@ -45,13 +45,12 @@ type AuthResponse struct {
 }
 
 func generateJWT(user *domain.User, secretKey string) (string, error) {
-	token := jwt.New(jwt.SigningMethodEdDSA)
+	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(10 * time.Minute)
+	claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
 	claims["authorized"] = true
 	claims["user"] = user.ID
-
-	tokenString, err := token.SignedString(secretKey)
+	tokenString, err := token.SignedString([]byte(secretKey))
 
 	if err != nil {
 		return "", err
@@ -66,20 +65,21 @@ func getInfoFromSSOToken(token string) *MsalToken {
 	return &msalToken
 }
 
-func CreateAccount(db repositories.UserRepositoryDb, name string, email string) *domain.User {
-	newUser, err := domain.NewUser(name, email)
+func CreateAccount(db repositories.UserRepositoryDb, name string, email string) (*domain.User, error) {
+	isAdmin := false
+	newUser, err := domain.NewUser(name, email, &isAdmin)
 
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
 	user, err := db.Insert(newUser)
 
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return user
+	return user, nil
 }
 
 func AuthenticateSSO(sso *service.SSOClient) fiber.Handler {
@@ -120,10 +120,12 @@ func Token(sso *service.SSOClient, db *database.Database, secretKey string) fibe
 
 		user, err := repo.FindByEmail(userEmail)
 
-		if err != nil && user.Email == "" {
+		if err != nil {
+			user, err = CreateAccount(repo, userName, userEmail)
+		}
+
+		if err != nil {
 			return err
-		} else {
-			user = CreateAccount(repo, userEmail, userName)
 		}
 
 		accessToken, err := generateJWT(user, secretKey)

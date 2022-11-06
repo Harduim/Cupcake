@@ -12,8 +12,8 @@ type User struct {
 	IsAdmin *bool  `json:"is_admin" validate:"required" gorm:"type:bool;default:false"`
 }
 
-func NewUser(name string, email string) (*User, error) {
-	user := &User{Name: name, Email: email}
+func NewUser(name string, email string, isAdmin *bool) (*User, error) {
+	user := &User{Name: name, Email: email, IsAdmin: isAdmin}
 	user.prepare()
 
 	err := user.Validate()
