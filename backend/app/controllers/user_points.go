@@ -25,3 +25,19 @@ func GetAllUserPoints(db *database.Database) fiber.Handler {
 		return response
 	}
 }
+
+// UpdateUserPoints Run procedure to update user points
+func UpdateUserPoints(db *database.Database) fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		repo := repositories.UserPointsRepositoryDb{Db: db}
+		err := repo.RunScoreUpdate()
+
+		if err != nil {
+			panic("Error occurred while updating user points from the database: " + err.Error())
+		}
+
+		response := ctx.Status(fiber.StatusAccepted).SendString("Running table update")
+
+		return response
+	}
+}

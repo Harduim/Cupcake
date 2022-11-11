@@ -2,6 +2,7 @@ package domain
 
 import (
 	_ "github.com/go-playground/validator/v10"
+	uuid "github.com/satori/go.uuid"
 )
 
 type User struct {
@@ -11,8 +12,18 @@ type User struct {
 	IsAdmin *bool  `json:"is_admin" validate:"required" gorm:"type:bool;default:false"`
 }
 
-func NewUser() *User {
-	return &User{}
+func NewUser(name string, email string, isAdmin *bool) (*User, error) {
+	user := &User{Name: name, Email: email, IsAdmin: isAdmin}
+	user.prepare()
+
+	err := user.Validate()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+
 }
 
 func (user *User) Validate() error {
@@ -22,4 +33,8 @@ func (user *User) Validate() error {
 		return err
 	}
 	return nil
+}
+
+func (user *User) prepare() {
+	user.ID = uuid.NewV4().String()
 }

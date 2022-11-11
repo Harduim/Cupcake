@@ -5,15 +5,15 @@ import (
 	"time"
 )
 
-type Bet struct {
+type Joker struct {
 	ID              string        `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`
 	CreatedAt       time.Time     `json:"created_at"`
 	GolA            *int          `json:"gol_a" validate:"required" gorm:"type:integer"`
 	GolB            *int          `json:"gol_b" validate:"required" gorm:"type:integer"`
-	UserID          string        `json:"user_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	UserID          string        `json:"user_id" validate:"required,uuid" gorm:"type:varchar(255);primary_key"`
 	User            *User         `gorm:"foreignKey:UserID"`
-	MatchID         string        `json:"match_id" validate:"required,uuid" gorm:"type:varchar(255)"`
-	Match           *Match        `gorm:"foreignKey:MatchID"`
+	BracketID       string        `json:"bracket_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	Bracket         *Bracket      `gorm:"foreignKey:BracketID"`
 	NationalTeamAID string        `json:"national_team_a" validate:"required,uuid" gorm:"type:varchar(255)"`
 	NationalTeamBID string        `json:"national_team_b" validate:"required,uuid" gorm:"type:varchar(255)"`
 	NationalTeamA   *NationalTeam `gorm:"foreignKey:NationalTeamAID"`
@@ -22,42 +22,42 @@ type Bet struct {
 	Winner          *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
-func NewBet(nationalTeamAID string,
+func NewJoker(nationalTeamAID string,
 	nationalTeamBID string,
 	matchID string,
 	userID string,
 	golA *int,
 	golB *int,
-	winnerId string) (*Bet, error) {
+	winnerId string) (*Joker, error) {
 
-	bet := &Bet{
+	joker := &Joker{
 		NationalTeamAID: nationalTeamAID,
 		NationalTeamBID: nationalTeamBID,
-		MatchID:         matchID,
+		BracketID:       matchID,
 		UserID:          userID,
 		GolA:            golA,
 		GolB:            golB,
 		WinnerID:        winnerId,
 	}
-	bet.prepare()
+	joker.prepare()
 
-	err := bet.Validate()
+	err := joker.Validate()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return bet, nil
+	return joker, nil
 }
 
-func (bet *Bet) prepare() {
+func (joker *Joker) prepare() {
 	now := time.Now().UTC()
-	bet.ID = uuid.NewV4().String()
-	bet.CreatedAt = now
+	joker.ID = uuid.NewV4().String()
+	joker.CreatedAt = now
 }
 
-func (bet *Bet) Validate() error {
-	err := validate.Struct(bet)
+func (joker *Joker) Validate() error {
+	err := validate.Struct(joker)
 
 	if err != nil {
 		return err
