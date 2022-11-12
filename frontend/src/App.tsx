@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BrowserRouter } from 'react-router-dom'
 import './App.css'
+import { GlobalProvider } from './context/GlobalContext'
 import AppRouter from './Routes'
 import { queryClient } from './services/api'
 
@@ -14,8 +15,10 @@ const App = () => {
     <EuiProvider colorMode='light'>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <AppRouter />
-          {REACT_APP_ENVIRONMENT === 'DEV' && <ReactQueryDevtools />}
+          <GlobalProvider>
+            <AppRouter />
+            {REACT_APP_ENVIRONMENT === 'DEV' && <ReactQueryDevtools />}
+          </GlobalProvider>
         </BrowserRouter>
       </QueryClientProvider>
     </EuiProvider>
