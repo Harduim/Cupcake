@@ -1,12 +1,4 @@
-import {
-  EuiButton,
-  EuiErrorBoundary,
-  EuiPageSidebar,
-  EuiPageTemplate,
-  EuiSideNav,
-  EuiText,
-  htmlIdGenerator,
-} from '@elastic/eui'
+import { EuiButton, EuiErrorBoundary, EuiPageTemplate } from '@elastic/eui'
 import { useEffect } from 'react'
 
 const Login = () => {
@@ -16,10 +8,15 @@ const Login = () => {
 
   return (
     <EuiErrorBoundary>
-      <EuiPageTemplate panelled={true} bottomBorder={'extended'} grow offset={1}>
-        <EuiPageTemplate.Section grow bottomBorder='extended'>
-          {' Login form'}
-        </EuiPageTemplate.Section>
+      <EuiPageTemplate panelled={true} bottomBorder={'extended'} grow>
+        <EuiPageTemplate.EmptyPrompt
+          title={<span>Faça login con sua conta Microsoft</span>}
+          footer={
+            <EuiButton color='primary' fill onClick={() => {}}>
+              Login Corporativo
+            </EuiButton>
+          }
+        />
       </EuiPageTemplate>
     </EuiErrorBoundary>
   )
