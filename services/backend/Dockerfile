@@ -1,6 +1,10 @@
-FROM golang:1.18-alpine3.16
+FROM golang:1.18-bullseye
 
-RUN apk add --update bash gcc g++ scons
+
+# TODO: Multi-step build
+
+
+RUN apt update && apt install scons build-essential -y
 
 WORKDIR /go/src
 
