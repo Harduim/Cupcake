@@ -27,6 +27,7 @@ const isAuthenticated = () => {
 const getToken = (raw = false) => {
   const cookies = new Cookies()
   const jwt_string = cookies.get(TOKEN_KEY) as string
+  if (!jwt_string) return null
   const jwt = parseJWT(jwt_string)
   if (isExpired(jwt.exp)) return null
   if (raw) return jwt_string
