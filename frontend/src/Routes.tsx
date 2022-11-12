@@ -4,6 +4,7 @@ import PageEmpty from './components/PageLayout/PageEmpty'
 import { GlobalProvider } from './context/GlobalContext'
 import Admin from './pages/Admin'
 import Home from './pages/Home'
+import Login from './pages/Login'
 import Results from './pages/Results'
 import Rules from './pages/Rules'
 import { isAuthenticated } from './services/auth'
@@ -27,7 +28,7 @@ const ProtectedRoute = ({
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path='login' element={<div />} />
+      <Route path='login' element={<Login />} />
       <Route path='*' element={<PageEmpty />} />
       <Route path='/' element={<Home />} />
       <Route path='home' element={<Home />} />
