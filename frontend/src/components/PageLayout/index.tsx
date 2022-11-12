@@ -28,11 +28,10 @@ const PageLayout = ({ title, children, isLoading }: IPageProps) => {
         <EuiPageTemplate.Sidebar sticky>
           <SideBar title={title} />
         </EuiPageTemplate.Sidebar>
-        <EuiPageTemplate.Header rightSideItems={[<LogoutButton key='LogoutButton' />]}>
-          <EuiText textAlign='center'>
-            <strong>{title}</strong>
-          </EuiText>
-        </EuiPageTemplate.Header>
+        <EuiPageTemplate.Header
+          rightSideItems={[<LogoutButton key='LogoutButton' />]}
+          pageTitle={title}
+        />
         <EuiPageTemplate.Section grow bottomBorder='extended'>
           {isLoading ? <PageLoading /> : <EuiErrorBoundary>{children}</EuiErrorBoundary>}
         </EuiPageTemplate.Section>
