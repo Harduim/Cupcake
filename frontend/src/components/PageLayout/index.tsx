@@ -1,67 +1,13 @@
-import {
-  EuiButton,
-  EuiErrorBoundary,
-  EuiPageSidebar,
-  EuiPageTemplate,
-  EuiSideNav,
-  EuiText,
-  htmlIdGenerator,
-} from '@elastic/eui'
+import { EuiButton, EuiErrorBoundary, EuiPageTemplate, EuiText } from '@elastic/eui'
 import { useEffect } from 'react'
 import PageLoading from './PageLoading'
+import SideBar from './Sidebar'
 
 const LogoutButton = () => {
   return (
     <EuiButton color={'primary'} onClick={() => {}}>
       Sair{' '}
     </EuiButton>
-  )
-}
-
-const SideBar = ({ title }: { title: string }) => {
-  const sideNav = [
-    {
-      name: 'Cupcake',
-      id: htmlIdGenerator('Cupcake')(),
-      items: [
-        {
-          name: 'Página Inicial',
-          id: htmlIdGenerator('Página Inicial')(),
-          onClick: () => {},
-          isSelected: false,
-        },
-        {
-          name: 'Resultados',
-          id: htmlIdGenerator('Resultados')(),
-          href: '/#/navigation/side-nav',
-          isSelected: false,
-        },
-        {
-          name: 'Regras',
-          id: htmlIdGenerator('Regras')(),
-          onClick: () => {},
-          isSelected: true,
-        },
-        {
-          name: 'Administração',
-          id: htmlIdGenerator('Administração')(),
-          disabled: false,
-          isSelected: false,
-        },
-      ],
-    },
-  ]
-
-  return (
-    <EuiPageSidebar paddingSize='m' sticky>
-      <EuiSideNav
-        aria-label='sidebar-nav'
-        mobileTitle={title}
-        toggleOpenOnMobile={() => {}}
-        isOpenOnMobile={false}
-        items={sideNav}
-      />
-    </EuiPageSidebar>
   )
 }
 
