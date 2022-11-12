@@ -1,4 +1,4 @@
-import { EuiButton, EuiErrorBoundary, EuiPageTemplate, EuiText } from '@elastic/eui'
+import { EuiButton, EuiErrorBoundary, EuiPageTemplate } from '@elastic/eui'
 import { useEffect } from 'react'
 import PageLoading from './PageLoading'
 import SideBar from './Sidebar'
