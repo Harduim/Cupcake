@@ -24,11 +24,13 @@ const isAuthenticated = () => {
   return getToken() !== null
 }
 
-const getToken = () => {
+const getToken = (raw = false) => {
   const cookies = new Cookies()
   const jwt_string = cookies.get(TOKEN_KEY) as string
   const jwt = parseJWT(jwt_string)
-  return isExpired(jwt.exp) ? jwt : null
+  if (isExpired(jwt.exp)) return null
+  if (raw) return jwt_string
+  return jwt
 }
 
 const login = (jwt_string: string) => {
