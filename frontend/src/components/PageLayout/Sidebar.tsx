@@ -1,10 +1,4 @@
-import {
-  EuiListGroup,
-  EuiListGroupItem,
-  EuiPageSidebar,
-  EuiSideNav,
-  htmlIdGenerator,
-} from '@elastic/eui'
+import { EuiPageSidebar, EuiSideNav, htmlIdGenerator } from '@elastic/eui'
 import { useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import GlobalContext from '../../context/GlobalContext'
