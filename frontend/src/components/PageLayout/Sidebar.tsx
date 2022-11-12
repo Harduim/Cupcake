@@ -1,5 +1,5 @@
 import { EuiPageSidebar, EuiSideNav, htmlIdGenerator } from '@elastic/eui'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import GlobalContext from '../../context/GlobalContext'
 
@@ -7,6 +7,10 @@ const SideBar = ({ title }: { title: string }) => {
   const { pathname } = useLocation()
   const { isLoading } = useContext(GlobalContext)
   const navigate = useNavigate()
+  const [isSideNavOpenOnMobile, setisSideNavOpenOnMobile] = useState(false)
+  const toggleOpenOnMobile = () => {
+    setisSideNavOpenOnMobile(!isSideNavOpenOnMobile)
+  }
 
   if (isLoading) return null
   const sideNav = [
@@ -48,8 +52,8 @@ const SideBar = ({ title }: { title: string }) => {
       <EuiSideNav
         aria-label='sidebar-nav'
         mobileTitle={title}
-        toggleOpenOnMobile={() => {}}
-        isOpenOnMobile={false}
+        toggleOpenOnMobile={toggleOpenOnMobile}
+        isOpenOnMobile={isSideNavOpenOnMobile}
         items={sideNav}
       />
     </EuiPageSidebar>
