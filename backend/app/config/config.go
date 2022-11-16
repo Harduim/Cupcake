@@ -46,7 +46,7 @@ func (config *Config) GetFiberConfig() *fiber.Config {
 
 func (config *Config) setDefaults() {
 	// Set default App configuration
-	config.SetDefault("APP_ADDR", ":8080")
+	config.SetDefault("APP_ADDR", ":3000")
 	config.SetDefault("APP_ENV", "local")
 
 	// Set default database configuration
