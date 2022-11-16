@@ -1,11 +1,15 @@
 FROM golang:1.18-bullseye
 
 
-# TODO: Multi-step build
+RUN addgroup --gid 1000 "cupcake"
+RUN adduser --quiet "cupcake" --uid 1000 --gid 1000
+RUN mkdir /opt/cupcake
+RUN chown cupcake:cupcake /opt/cupcake
 
+RUN apt update && apt install --no-install-recommends tini scons build-essential -y
 
-RUN apt update && apt install scons build-essential -y
+USER "cupcake"
+WORKDIR /opt/cupcake
 
-WORKDIR /go/src
-
-ENTRYPOINT [ "go", "run", "main.go" ]
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["sleep", "infinity"]
