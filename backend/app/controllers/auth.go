@@ -6,9 +6,10 @@ import (
 	"cupcake/app/repositories"
 	"cupcake/app/service"
 	"encoding/json"
+	"time"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	"time"
 )
 
 type MsalToken struct {

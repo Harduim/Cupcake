@@ -6,10 +6,11 @@ import (
 	"cupcake/app/database/fixtures"
 	"cupcake/app/routes"
 	"cupcake/app/service"
-	"github.com/gofiber/fiber/v2"
 	"log"
 	"os"
 	"os/signal"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type App struct {

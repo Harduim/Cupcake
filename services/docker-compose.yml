@@ -1,33 +1,34 @@
 version: "3.9"
+name: "cupcake"
 services:
   cupcake_backend:
     container_name: cupcake_backend
     build: ./backend
     volumes:
-      - ../backend:/go/src/
+      - ../backend:/opt/cupcake
     ports:
-      - "8080:8080"
+      - "3000:3000"
     environment:
       - DB_HOST=$DB_HOST
       - DB_DATABASE=$DB_DATABASE
       - DB_PASSWORD=$DB_PASSWORD
       - DB_USERNAME=$DB_USERNAME
       - DB_PORT=$DB_PORT
+      - ENV=$ENV
+      - DEBUG=$DEBUG
+      - AUTO_MIGRATE_DB=$AUTO_MIGRATE_DB
+      - AUTHORITY=$AUTHORITY
+      - CLIENT_ID=$CLIENT_ID
+      - CLIENT_SECRET=$CLIENT_SECRET
+      - REDIRECT=$REDIRECT
+      - SCOPES=$SCOPES
 
   cupcake_db:
     image: postgres:12
     container_name: cupcake_db
     restart: "no"
     healthcheck:
-      test:
-        [
-          "CMD",
-          "pg_isready",
-          "-p",
-          "${POSTGRES_PORT:-5432}",
-          "-U",
-          "postgres"
-        ]
+      test: ["CMD","pg_isready","-p","${POSTGRES_PORT:-5432}","-U","postgres"]
       interval: 20s
       timeout: 5s
       retries: 3

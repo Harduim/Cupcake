@@ -13,10 +13,7 @@ const Rules = () => {
             Os usuários tem até a data de inicio da <strong>Fase de Grupos</strong> para fazer a
             aposta;
           </li>
-          <li>
-            Cada acerto vale 3 pontos; Rodada coringa: Cada usuário escolhe: Seleção campeã; Seleção
-            vice;
-          </li>
+          <li>Cada acerto vale 3 pontos;</li>
         </ul>
         <h2>Rodada Coringa</h2>
         <ul>
