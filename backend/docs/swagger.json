@@ -1,0 +1,11 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is the Cuppake REST API",
+        "title": "Cuppake REST API",
+        "contact": {},
+        "version": "23.123"
+    },
+    "basePath": "/",
+    "paths": {}
+}

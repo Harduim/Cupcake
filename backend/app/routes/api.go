@@ -7,7 +7,10 @@ import (
 	"cupcake/app/middlewares"
 	"cupcake/app/service"
 
+	_ "cupcake/docs"
+
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 )
 
 func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOClient, config *config.Config) {
@@ -22,6 +25,7 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 	registerUserPoints(api, db, authorizationMiddleware)
 	registerBets(api, db, authorizationMiddleware)
 	registerJoker(api, db, authorizationMiddleware)
+	registerDocs(api, db)
 }
 
 func registerUsers(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
@@ -47,6 +51,14 @@ func registerBrackets(api fiber.Router, db *database.Database, authorization fun
 
 func registerMatches(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	matches := api.Group("/matches", authorization)
+	//	@Summary      Get ALL Matches
+	//	@Description  Get Matches
+	//	@ID           get-all-matches
+	//	@Produce      json
+	//	@Success      200      {string}  string        "ok"
+	//	@Failure      400      {object}  web.APIError  "We need ID!!"
+	//	@Failure      404      {object}  web.APIError  "Can not find ID"
+	//	@Router       /api/matches [get]
 	matches.Get("/", Controller.GetAllMatches(db))
 	matches.Post("/", Controller.CreateMatch(db))
 	matches.Put("/", Controller.UpdateMatch(db))
@@ -78,4 +90,9 @@ func registerJoker(api fiber.Router, db *database.Database, authorization func(c
 	userPoints.Post("/", Controller.CreateJoker(db))
 	userPoints.Put("/", Controller.UpdateJoker(db))
 	userPoints.Put("/", Controller.DeleteJoker(db))
+}
+
+func registerDocs(api fiber.Router, db *database.Database) {
+	docs := api.Group("/docs")
+	docs.Get("/*", swagger.HandlerDefault)
 }

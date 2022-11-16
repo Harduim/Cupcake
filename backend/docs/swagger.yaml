@@ -1,0 +1,8 @@
+basePath: /
+info:
+  contact: {}
+  description: This is the Cuppake REST API
+  title: Cuppake REST API
+  version: "23.123"
+paths: {}
+swagger: "2.0"

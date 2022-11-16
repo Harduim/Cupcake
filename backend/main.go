@@ -49,6 +49,10 @@ func getSSO(config *configuration.Config) (*service.SSOClient, error) {
 	return s, nil
 }
 
+// @title Cuppake REST API
+// @version 23.123
+// @description This is the Cuppake REST API
+// @BasePath /
 func main() {
 	config := configuration.New()
 
