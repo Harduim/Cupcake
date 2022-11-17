@@ -32,10 +32,11 @@ func registerUsers(api fiber.Router, db *database.Database, authorization func(c
 	users := api.Group("/users", authorization)
 
 	users.Get("/", Controller.GetAllUsers(db))
-	users.Get("/:id", Controller.GetUser(db))
-	users.Post("/", Controller.AddUser(db))
-	users.Put("/:id", Controller.EditUser(db))
-	users.Delete("/:id", Controller.DeleteUser(db))
+	users.Get("/me", Controller.GetMe(db))
+	// users.Get("/:id", Controller.GetUser(db))
+	// users.Post("/", Controller.AddUser(db))
+	// users.Put("/:id", Controller.EditUser(db))
+	// users.Delete("/:id", Controller.DeleteUser(db))
 }
 
 func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient, secretKey string) {
