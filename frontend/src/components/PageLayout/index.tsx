@@ -1,12 +1,19 @@
 import { EuiButton, EuiErrorBoundary, EuiPageTemplate } from '@elastic/eui'
 import { useEffect } from 'react'
+import { logout } from '../../services/auth'
 import PageLoading from './PageLoading'
 import SideBar from './Sidebar'
 
 const LogoutButton = () => {
   return (
-    <EuiButton color={'primary'} onClick={() => {}}>
-      Sair{' '}
+    <EuiButton
+      color={'primary'}
+      onClick={() => {
+        logout()
+        window.location.href = '/'
+      }}
+    >
+      Sair
     </EuiButton>
   )
 }
