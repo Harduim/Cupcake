@@ -4,6 +4,7 @@ import (
 	"cupcake/app/database"
 	"cupcake/app/domain"
 	"cupcake/app/repositories"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -132,6 +133,22 @@ func DeleteUser(db *database.Database) fiber.Handler {
 		})
 		if err != nil {
 			panic("Error occurred when returning JSON of a user: " + err.Error())
+		}
+		return err
+	}
+}
+
+func GetMe(db *database.Database) fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		User := new(domain.User)
+		id := ctx.Locals("user_id").(string)
+		User.ID = id
+
+		repo := repositories.UserRepositoryDb{Db: db}
+
+		user, err := repo.Find(id)
+		if err == nil {
+			ctx.JSON(user)
 		}
 		return err
 	}
