@@ -17,7 +17,7 @@ const parseJWT = (jwt_string: string) => {
 }
 
 const isExpired = (expires: number) => {
-  return Math.floor(new Date().getTime()) <= expires
+  return Math.floor(new Date().getTime() / 1000) >= expires
 }
 
 const isAuthenticated = () => {
