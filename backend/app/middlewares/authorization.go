@@ -47,8 +47,16 @@ func Authorization(tokenSecret string) func(c *fiber.Ctx) (err error) {
 			err := ctx.Status(fiber.StatusUnauthorized).SendString(err_msg)
 			return err
 		}
-
 		ctx.Locals("user_id", user_id)
+
+		is_admin := claims["admin"]
+		if is_admin == nil {
+			err_msg := "Unable to find user permissions"
+			log.Println(err_msg)
+			err := ctx.Status(fiber.StatusUnauthorized).SendString(err_msg)
+			return err
+		}
+		ctx.Locals("is_admin", is_admin)
 
 		return ctx.Next()
 	}

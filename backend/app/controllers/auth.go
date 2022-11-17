@@ -48,7 +48,7 @@ func generateJWT(user *domain.User, secretKey string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["exp"] = time.Now().Add(time.Minute * 86400).Unix()
-	claims["authorized"] = true
+	claims["admin"] = user.IsAdmin
 	claims["user"] = user.ID
 	tokenString, err := token.SignedString([]byte(secretKey))
 
