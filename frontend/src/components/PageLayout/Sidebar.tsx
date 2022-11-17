@@ -50,6 +50,9 @@ const SideBar = ({ title }: { title: string }) => {
   return (
     <EuiPageSidebar paddingSize='m' sticky>
       <EuiAvatar size='xl' type='space' name={me.name} />
+      <p style={{ marginTop: '1rem' }}>
+        <b>{me.name}</b>
+      </p>
       <EuiSpacer />
       <EuiSideNav
         aria-label='sidebar-nav'
