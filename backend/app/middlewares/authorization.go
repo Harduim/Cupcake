@@ -19,18 +19,37 @@ func Authorization(tokenSecret string) func(c *fiber.Ctx) (err error) {
 
 		parsed, err := jwt.Parse(token, secretFunc)
 		if err != nil {
-			log.Printf("Failed to parse JWT.\nError: %s\n", err.Error())
-			err := ctx.Status(fiber.StatusUnauthorized).SendString(err.Error())
+			err_msg := "Failed to parse JWT.\nError: " + err.Error()
+			log.Println(err_msg)
+			err := ctx.Status(fiber.StatusUnauthorized).SendString(err_msg)
 			return err
 		}
 
 		if !parsed.Valid {
-			log.Println("Token is not valid.")
-			err := ctx.Status(fiber.StatusUnauthorized).SendString(err.Error())
+			err_msg := "Token is not valid"
+			log.Println(err_msg)
+			err := ctx.Status(fiber.StatusUnauthorized).SendString(err_msg)
 			return err
 		}
 
-		log.Println("Token is valid.")
+		claims := parsed.Claims.(jwt.MapClaims)
+		if claims == nil {
+			err_msg := "Unable to find claims"
+			log.Println(err_msg)
+			err := ctx.Status(fiber.StatusUnauthorized).SendString(err_msg)
+			return err
+		}
+
+		user_id := claims["user"]
+		if user_id == nil {
+			err_msg := "Unable to find user UUID"
+			log.Println(err_msg)
+			err := ctx.Status(fiber.StatusUnauthorized).SendString(err_msg)
+			return err
+		}
+
+		ctx.Locals("user_id", user_id)
+
 		return ctx.Next()
 	}
 }
