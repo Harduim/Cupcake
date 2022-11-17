@@ -1,6 +1,7 @@
 package fixtures
 
 import (
+	Config "cupcake/app/config"
 	"cupcake/app/database"
 	"cupcake/app/domain"
 	"cupcake/app/repositories"
@@ -44,12 +45,6 @@ func CreateFixtures(db *database.Database) error {
 		return err
 	}
 
-	err = jokerFixtures(db)
-
-	if err != nil {
-		return err
-	}
-
 	err = groupsFixtures(db)
 
 	if err != nil {
@@ -63,7 +58,7 @@ func bracketFixtures(db *database.Database) error {
 	repo := repositories.BracketRepositoryDb{Db: db}
 
 	final := domain.Bracket{
-		ID:         "5ef28a89-f697-4af2-931d-808c41cbd2d1",
+		ID:         Config.BRKT_FINAIS,
 		Name:       "Final",
 		Multiplier: 8,
 		OpenDate:   time.Date(2022, 12, 10, 0, 0, 0, 0, time.Local),
@@ -71,7 +66,7 @@ func bracketFixtures(db *database.Database) error {
 	}
 
 	terceiro := domain.Bracket{
-		ID:         "5e87f7d4-ac15-4f8b-b82c-3f50f2d5371f",
+		ID:         Config.BRKT_TERCERIRO,
 		Name:       "Disputa pelo 3º lugar",
 		Multiplier: 3,
 		OpenDate:   time.Date(2022, 12, 12, 0, 0, 0, 0, time.Local),
@@ -79,7 +74,7 @@ func bracketFixtures(db *database.Database) error {
 	}
 
 	semi := domain.Bracket{
-		ID:         "40e58268-0fc5-4dec-8fcb-b52b46006215",
+		ID:         Config.BRKT_SEMIFINAIS,
 		Name:       "Semi Final",
 		Multiplier: 3,
 		OpenDate:   time.Date(2022, 12, 4, 0, 0, 0, 0, time.Local),
@@ -87,7 +82,7 @@ func bracketFixtures(db *database.Database) error {
 	}
 
 	quartas := domain.Bracket{
-		ID:         "22ecea42-848e-43d1-a387-5de1bd468338",
+		ID:         Config.BRKT_QUARTAS,
 		Name:       "Quartas",
 		Multiplier: 2,
 		OpenDate:   time.Date(2022, 12, 2, 0, 0, 0, 0, time.Local),
@@ -95,11 +90,19 @@ func bracketFixtures(db *database.Database) error {
 	}
 
 	oitavas := domain.Bracket{
-		ID:         "ef13e77f-b345-4f4d-b4a7-2d1cfb12fa48",
+		ID:         Config.BRKT_OITAVAS,
 		Name:       "Oitavas",
 		Multiplier: 1,
 		OpenDate:   time.Date(2022, 11, 30, 12, 0, 0, 0, time.Local),
 		CloseDate:  time.Date(2022, 12, 6, 18, 0, 0, 0, time.Local),
+	}
+
+	coringa := domain.Bracket{
+		ID:         Config.BRKT_CORINGA,
+		Name:       "Rodada Coringa",
+		Multiplier: 9,
+		OpenDate:   time.Date(2022, 11, 10, 0, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 6, 0, 0, 0, 0, time.Local),
 	}
 
 	_, err := repo.Insert(&final)
@@ -132,6 +135,12 @@ func bracketFixtures(db *database.Database) error {
 		return err
 	}
 
+	_, err = repo.Insert(&coringa)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -141,7 +150,7 @@ func nationalTeamsFixtures(db *database.Database) error {
 		ID: "5ef28a89-f697-4af2-931d-808c41cbd2d1",
 	}
 	brazil := domain.NationalTeam{
-		ID:       "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
+		ID:       Config.NT_BRAZIL,
 		Name:     "Brazil",
 		Brackets: []domain.Bracket{bracket},
 	}
@@ -152,7 +161,7 @@ func nationalTeamsFixtures(db *database.Database) error {
 	}
 
 	france := domain.NationalTeam{
-		ID:       "4935b4e1-f422-41a7-9a22-051f429ff5e4",
+		ID:       Config.NT_FRANCE,
 		Name:     "France",
 		Brackets: []domain.Bracket{bracket},
 	}
@@ -165,20 +174,89 @@ func nationalTeamsFixtures(db *database.Database) error {
 }
 
 func matchFixtures(db *database.Database) error {
-	repo := repositories.MatchRepositoryDb{Db: db}
-
-	match := domain.Match{
-		ID:              "719cf785-0753-4864-a0c9-546d1c8cf998",
-		Date:            time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
-		NationalTeamAID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
-		NationalTeamBID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
-		GolA:            2,
-		GolB:            0,
-		BracketID:       "5ef28a89-f697-4af2-931d-808c41cbd2d1", // Finals
-		WinnerID:        "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil, of course.
+	matches := []domain.Match{
+		// Coringa
+		{
+			ID:        Config.MATCH_CORINGA,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_CORINGA,
+		},
+		// Oitavas
+		{
+			ID:        Config.MATCH_OITAVAS_01,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_02,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_03,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_04,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_05,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_06,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_07,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		{
+			ID:        Config.MATCH_OITAVAS_08,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_OITAVAS,
+		},
+		// Quartas
+		{
+			ID:        Config.MATCH_QUARTAS_01,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_QUARTAS,
+		},
+		{
+			ID:        Config.MATCH_QUARTAS_02,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_QUARTAS,
+		},
+		{
+			ID:        Config.MATCH_QUARTAS_03,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_QUARTAS,
+		},
+		{
+			ID:        Config.MATCH_QUARTAS_04,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_QUARTAS,
+		},
+		// Semifinais
+		{
+			ID:        Config.MATCH_SEMIFINAIS_01,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_SEMIFINAIS,
+		},
+		{
+			ID:        Config.MATCH_SEMIFINAIS_02,
+			Date:      time.Date(2022, 12, 18, 15, 0, 0, 0, time.Local),
+			BracketID: Config.BRKT_SEMIFINAIS,
+		},
 	}
 
-	_, err := repo.Insert(&match)
+	err := db.Create(&matches).Error
 
 	if err != nil {
 		return err
@@ -197,9 +275,9 @@ func betFixtures(db *database.Database) error {
 		GolA:            &golA,
 		GolB:            &golB,
 		UserID:          "b8ee5ddd-1137-45de-9071-20e08ba3f51f",
-		MatchID:         "719cf785-0753-4864-a0c9-546d1c8cf998",
+		MatchID:         Config.MATCH_CORINGA,
 		NationalTeamAID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
-		NationalTeamBID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
+		NationalTeamBID: Config.NT_FRANCE,                       // France
 		WinnerID:        "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
 	}
 
@@ -249,31 +327,6 @@ func userPointsFixtures(db *database.Database) error {
 	return nil
 }
 
-func jokerFixtures(db *database.Database) error {
-	repo := repositories.JokerRepositoryDb{Db: db}
-
-	golA := 3
-	golB := 2
-	joker := domain.Joker{
-		ID:              "9d28a01a-fc22-4d60-9a2a-33df213b71a3",
-		CreatedAt:       time.Date(2022, 12, 18, 13, 0, 0, 0, time.Local),
-		GolA:            &golA,
-		GolB:            &golB,
-		UserID:          "b8ee5ddd-1137-45de-9071-20e08ba3f51f",
-		BracketID:       "5ef28a89-f697-4af2-931d-808c41cbd2d1",
-		NationalTeamAID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c", // Brazil
-		NationalTeamBID: "4935b4e1-f422-41a7-9a22-051f429ff5e4", // France
-		WinnerID:        "6d71278a-4eca-42a8-8ec2-fa51a31ef95c",
-	}
-	_, err := repo.Insert(&joker)
-
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func groupsFixtures(db *database.Database) error {
 	repo := repositories.GroupsRepositoryDb{Db: db}
 
@@ -282,7 +335,7 @@ func groupsFixtures(db *database.Database) error {
 		UserID:    "b8ee5ddd-1137-45de-9071-20e08ba3f51f",
 		BracketID: "ef13e77f-b345-4f4d-b4a7-2d1cfb12fa48",
 		NationalTeams: []*domain.NationalTeam{{ID: "6d71278a-4eca-42a8-8ec2-fa51a31ef95c"},
-			{ID: "4935b4e1-f422-41a7-9a22-051f429ff5e4"}},
+			{ID: Config.NT_FRANCE}},
 	}
 	_, err := repo.Insert(&groups)
 
