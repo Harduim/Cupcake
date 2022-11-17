@@ -1,24 +1,25 @@
 package domain
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 type Bet struct {
 	ID              string        `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`
-	CreatedAt       time.Time     `json:"created_at"`
-	GolA            *int          `json:"gol_a" validate:"required" gorm:"type:integer"`
-	GolB            *int          `json:"gol_b" validate:"required" gorm:"type:integer"`
-	UserID          string        `json:"user_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	CreatedAt       time.Time     `json:"createdAt"`
+	GolA            *int          `json:"golA" validate:"required" gorm:"type:integer"`
+	GolB            *int          `json:"golB" validate:"required" gorm:"type:integer"`
+	UserID          string        `json:"userId" validate:"required,uuid" gorm:"type:varchar(255)"`
 	User            *User         `gorm:"foreignKey:UserID"`
-	MatchID         string        `json:"match_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	MatchID         string        `json:"matchId" validate:"required,uuid" gorm:"type:varchar(255)"`
 	Match           *Match        `gorm:"foreignKey:MatchID"`
-	NationalTeamAID string        `json:"national_team_a" validate:"required,uuid" gorm:"type:varchar(255)"`
-	NationalTeamBID string        `json:"national_team_b" validate:"required,uuid" gorm:"type:varchar(255)"`
+	NationalTeamAID string        `json:"nationalTeamAId" validate:"required,uuid" gorm:"type:varchar(255)"`
+	NationalTeamBID string        `json:"nationalTeamBId" validate:"required,uuid" gorm:"type:varchar(255)"`
 	NationalTeamA   *NationalTeam `gorm:"foreignKey:NationalTeamAID"`
 	NationalTeamB   *NationalTeam `gorm:"foreignKey:NationalTeamBID"`
-	WinnerID        string        `json:"winner_id" validate:"required,uuid" gorm:"type:varchar(255)"`
+	WinnerID        string        `json:"winnerId" validate:"required,uuid" gorm:"type:varchar(255)"`
 	Winner          *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
