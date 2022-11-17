@@ -66,15 +66,23 @@ func bracketFixtures(db *database.Database) error {
 		ID:         "5ef28a89-f697-4af2-931d-808c41cbd2d1",
 		Name:       "Final",
 		Multiplier: 8,
-		OpenDate:   time.Date(2022, 12, 18, 12, 0, 0, 0, time.Local),
+		OpenDate:   time.Date(2022, 12, 10, 0, 0, 0, 0, time.Local),
 		CloseDate:  time.Date(2022, 12, 18, 14, 0, 0, 0, time.Local),
+	}
+
+	terceiro := domain.Bracket{
+		ID:         "5e87f7d4-ac15-4f8b-b82c-3f50f2d5371f",
+		Name:       "Disputa pelo 3º lugar",
+		Multiplier: 3,
+		OpenDate:   time.Date(2022, 12, 12, 0, 0, 0, 0, time.Local),
+		CloseDate:  time.Date(2022, 12, 17, 14, 0, 0, 0, time.Local),
 	}
 
 	semi := domain.Bracket{
 		ID:         "40e58268-0fc5-4dec-8fcb-b52b46006215",
 		Name:       "Semi Final",
 		Multiplier: 3,
-		OpenDate:   time.Date(2022, 12, 13, 16, 0, 0, 0, time.Local),
+		OpenDate:   time.Date(2022, 12, 4, 0, 0, 0, 0, time.Local),
 		CloseDate:  time.Date(2022, 12, 14, 18, 0, 0, 0, time.Local),
 	}
 
@@ -82,7 +90,7 @@ func bracketFixtures(db *database.Database) error {
 		ID:         "22ecea42-848e-43d1-a387-5de1bd468338",
 		Name:       "Quartas",
 		Multiplier: 2,
-		OpenDate:   time.Date(2022, 12, 9, 12, 0, 0, 0, time.Local),
+		OpenDate:   time.Date(2022, 12, 2, 0, 0, 0, 0, time.Local),
 		CloseDate:  time.Date(2022, 12, 10, 12, 0, 0, 0, time.Local),
 	}
 
@@ -90,7 +98,7 @@ func bracketFixtures(db *database.Database) error {
 		ID:         "ef13e77f-b345-4f4d-b4a7-2d1cfb12fa48",
 		Name:       "Oitavas",
 		Multiplier: 1,
-		OpenDate:   time.Date(2022, 12, 3, 12, 0, 0, 0, time.Local),
+		OpenDate:   time.Date(2022, 11, 30, 12, 0, 0, 0, time.Local),
 		CloseDate:  time.Date(2022, 12, 6, 18, 0, 0, 0, time.Local),
 	}
 
@@ -101,6 +109,12 @@ func bracketFixtures(db *database.Database) error {
 	}
 
 	_, err = repo.Insert(&oitavas)
+
+	if err != nil {
+		return err
+	}
+
+	_, err = repo.Insert(&terceiro)
 
 	if err != nil {
 		return err
