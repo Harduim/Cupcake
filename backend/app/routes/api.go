@@ -66,7 +66,7 @@ func registerMatches(api fiber.Router, db *database.Database, authorization func
 }
 
 func registerNationalTeam(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
-	nationalTeams := api.Group("/national_teams", authorization)
+	nationalTeams := api.Group("/national-teams", authorization)
 	nationalTeams.Get("/", Controller.GetAllNationalTeams(db))
 }
 
