@@ -1,11 +1,11 @@
-import { EuiPageSidebar, EuiSideNav, htmlIdGenerator } from '@elastic/eui'
+import { EuiAvatar, EuiPageSidebar, EuiSideNav, EuiSpacer, htmlIdGenerator } from '@elastic/eui'
 import { useContext, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import GlobalContext from '../../context/GlobalContext'
 
 const SideBar = ({ title }: { title: string }) => {
   const { pathname } = useLocation()
-  const { isLoading } = useContext(GlobalContext)
+  const { isLoading, me } = useContext(GlobalContext)
   const navigate = useNavigate()
   const [isSideNavOpenOnMobile, setisSideNavOpenOnMobile] = useState(false)
   const toggleOpenOnMobile = () => {
@@ -15,7 +15,7 @@ const SideBar = ({ title }: { title: string }) => {
   if (isLoading) return null
   const sideNav = [
     {
-      name: 'Cupcake',
+      name: ' ',
       id: htmlIdGenerator('Cupcake')(),
       items: [
         {
@@ -39,7 +39,7 @@ const SideBar = ({ title }: { title: string }) => {
         {
           name: 'Administração',
           id: htmlIdGenerator('Administração')(),
-          disabled: true,
+          disabled: !me?.isAdmin,
           isSelected: pathname === '/admin',
           onClick: () => navigate('/admin'),
         },
@@ -49,6 +49,8 @@ const SideBar = ({ title }: { title: string }) => {
 
   return (
     <EuiPageSidebar paddingSize='m' sticky>
+      <EuiAvatar size='xl' type='space' name={me.name} />
+      <EuiSpacer />
       <EuiSideNav
         aria-label='sidebar-nav'
         mobileTitle={title}
