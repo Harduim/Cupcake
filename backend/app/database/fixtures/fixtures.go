@@ -27,6 +27,8 @@ func CreateFixtures(db *database.Database) error {
 		return err
 	}
 
+	return nil
+
 }
 
 func bracketFixtures(db *database.Database) error {
