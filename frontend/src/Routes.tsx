@@ -29,12 +29,12 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path='login' element={<Login />} />
-      <Route path='*' element={<PageEmpty />} />
-      <Route path='/' element={<Home />} />
-      <Route path='home' element={<Home />} />
-      <Route path='/rules' element={<Rules />} />
-      <Route path='/results' element={<Results />} />
       <Route element={<ProtectedRoute />}>
+        <Route path='*' element={<PageEmpty />} />
+        <Route path='/' element={<Home />} />
+        <Route path='home' element={<Home />} />
+        <Route path='/rules' element={<Rules />} />
+        <Route path='/results' element={<Results />} />
         <Route path='/admin' element={<Admin />} />
       </Route>
     </Routes>

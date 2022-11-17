@@ -17,7 +17,7 @@ const parseJWT = (jwt_string: string) => {
 }
 
 const isExpired = (expires: number) => {
-  return Math.floor(new Date().getTime() / 1000) <= expires
+  return Math.floor(new Date().getTime()) <= expires
 }
 
 const isAuthenticated = () => {
@@ -27,9 +27,15 @@ const isAuthenticated = () => {
 const getToken = (raw = false) => {
   const cookies = new Cookies()
   const jwt_string = cookies.get(TOKEN_KEY) as string | undefined
-  if (!jwt_string) return null
+  if (!jwt_string) {
+    console.error('Empty jwt string')
+    return null
+  }
   const jwt = parseJWT(jwt_string)
-  if (isExpired(jwt.exp)) return null
+  if (isExpired(jwt.exp)) {
+    console.error('Authorization token expired')
+    return null
+  }
   if (raw) return jwt_string
   return jwt
 }

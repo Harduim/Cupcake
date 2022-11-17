@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { login } from '../services/auth'
 
 const { REACT_APP_API_URL } = process.env
-const REDIRECT_URL = `${REACT_APP_API_URL}/login/sso`
+const REDIRECT_URL = `${REACT_APP_API_URL}/api/auth/sso`
 
 const Login = () => {
   useEffect(() => {
@@ -12,7 +12,7 @@ const Login = () => {
   }, [])
 
   const { search } = useLocation()
-  const jwt_string = new URLSearchParams(search).get('code')
+  const jwt_string = new URLSearchParams(search).get('tkn')
   if (jwt_string) {
     login(jwt_string)
     window.location.href = '/home'
