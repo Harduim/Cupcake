@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { login } from '../services/auth'
 
 const { REACT_APP_API_URL } = process.env
-const REDIRECT_URL = `${REACT_APP_API_URL}/api/auth/sso`
+const REDIRECT_URL = `${REACT_APP_API_URL}/auth/sso`
 
 const Login = () => {
   useEffect(() => {

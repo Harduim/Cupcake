@@ -11,6 +11,7 @@ import (
 	"os/signal"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 type App struct {
@@ -80,6 +81,9 @@ func main() {
 		App: fiber.New(),
 		DB:  db,
 	}
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:5000, https://bolao.rioenergy.com.br",
+	}))
 
 	api := app.Group("/api")
 	routes.RegisterRoutes(api, app.DB, sso, config)
