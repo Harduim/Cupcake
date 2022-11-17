@@ -5,7 +5,6 @@ import (
 	"cupcake/app/domain"
 	"cupcake/app/repositories"
 	"cupcake/app/service"
-	"encoding/json"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -137,17 +136,7 @@ func Token(sso *service.SSOClient, db *database.Database, secretKey string) fibe
 				return err
 			}
 		}
-		response := AuthResponse{
-			Token:     accessToken,
-			TokenType: "bearer",
-		}
 
-		u, err := json.Marshal(response)
-
-		if err != nil {
-			return err
-		}
-
-		return ctx.Status(fiber.StatusOK).SendString(string(u))
+		return ctx.Status(fiber.StatusOK).Redirect("/login?tkn=" + accessToken)
 	}
 }
