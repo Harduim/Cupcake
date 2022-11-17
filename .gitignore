@@ -2,3 +2,5 @@
 .env
 .idea/*
 *node_modules*
+backend/*bin*
+backend/tmp/*
