@@ -4,7 +4,6 @@ import (
 	"cupcake/app/config"
 	"cupcake/app/database"
 	"cupcake/app/models"
-	"cupcake/app/repositories"
 	"time"
 )
 
@@ -85,31 +84,47 @@ func bracketFixtures(db *database.Database) error {
 }
 
 func nationalTeamsFixtures(db *database.Database) error {
-	repo := repositories.NationalTeamRepositoryDb{Db: db}
-	bracket := models.Bracket{
-		ID: config.BRKT_OITAVAS,
-	}
-	brazil := models.NationalTeam{
-		ID:       config.NT_BRAZIL,
-		Name:     "Brazil",
-		Brackets: []models.Bracket{bracket},
+	teams := []models.NationalTeam{
+		{ID: config.NT_ALEMANHA, Name: "Alemanha"},
+		{ID: config.NT_ARABIA_SAUDITA, Name: "Arábia_Saudita"},
+		{ID: config.NT_ARGENTINA, Name: "Argentina"},
+		{ID: config.NT_AUSTRALIA, Name: "Australia"},
+		{ID: config.NT_BELGICA, Name: "Bélgica"},
+		{ID: config.NT_BRASIL, Name: "Brasil"},
+		{ID: config.NT_CAMAROES, Name: "Camarões"},
+		{ID: config.NT_CANADA, Name: "Canadá"},
+		{ID: config.NT_CATAR, Name: "Catar"},
+		{ID: config.NT_COREIA_DO_SUL, Name: "Coreia_do_Sul"},
+		{ID: config.NT_COSTA_RICA, Name: "Costa_Rica"},
+		{ID: config.NT_CROACIA, Name: "Croácia"},
+		{ID: config.NT_DINAMARCA, Name: "Dinamarca"},
+		{ID: config.NT_EQUADOR, Name: "Equador"},
+		{ID: config.NT_ESPANHA, Name: "Espanha"},
+		{ID: config.NT_ESTADOS_UNIDOS, Name: "Estados_Unidos"},
+		{ID: config.NT_FRANÇA, Name: "França"},
+		{ID: config.NT_GANA, Name: "Gana"},
+		{ID: config.NT_HOLANDA, Name: "Holanda"},
+		{ID: config.NT_INGLATERRA, Name: "Inglaterra"},
+		{ID: config.NT_IRÃ, Name: "Irã"},
+		{ID: config.NT_JAPAO, Name: "Japao"},
+		{ID: config.NT_MARROCOS, Name: "Marrocos"},
+		{ID: config.NT_MEXICO, Name: "México"},
+		{ID: config.NT_PAIS_DE_GALES, Name: "País_de_Gales"},
+		{ID: config.NT_POLONIA, Name: "Polonia"},
+		{ID: config.NT_PORTUGAL, Name: "Portugal"},
+		{ID: config.NT_SENEGAL, Name: "Senegal"},
+		{ID: config.NT_SERVIA, Name: "Servia"},
+		{ID: config.NT_SUIÇA, Name: "Suíça"},
+		{ID: config.NT_TUNISIA, Name: "tunisia"},
+		{ID: config.NT_URUGUAI, Name: "Uruguai"},
 	}
 
-	_, err := repo.Insert(&brazil)
+	err := db.Create(&teams).Error
+
 	if err != nil {
 		return err
 	}
 
-	france := models.NationalTeam{
-		ID:       config.NT_FRANCE,
-		Name:     "France",
-		Brackets: []models.Bracket{bracket},
-	}
-
-	_, err = repo.Insert(&france)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
