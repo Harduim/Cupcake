@@ -133,94 +133,108 @@ func matchFixtures(db *database.Database) error {
 		// Coringa
 		{
 			ID:        config.MATCH_CORINGA,
+			Name:      "Finais (Coringa)",
 			Date:      time.Date(2022, 12, 6, 0, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_CORINGA,
 		},
 		// Oitavas
 		{
-			ID:              config.MATCH_OITAVAS_01,
-			Date:            time.Date(2022, 12, 3, 12, 0, 0, 0, time.Local),
-			BracketID:       config.BRKT_OITAVAS,
-			NationalTeamAID: &config.NT_CATAR,
-			NationalTeamBID: &config.NT_ALEMANHA,
-			WinnerID:        &config.NT_CATAR,
+			ID:        config.MATCH_OITAVAS_01,
+			Name:      "Vencedor gr. A vs Segundo gr. B",
+			Date:      time.Date(2022, 12, 3, 12, 0, 0, 0, time.Local),
+			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_02,
+			Name:      "Vencedor gr. C vs Segundo gr. D",
 			Date:      time.Date(2022, 12, 3, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_03,
+			Name:      "Vencedor gr. D vs Segundo gr. C",
 			Date:      time.Date(2022, 12, 4, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_04,
+			Name:      "Vencedor gr. B vs Segundo gr. A",
 			Date:      time.Date(2022, 12, 4, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_05,
+			Name:      "Vencedor gr. E vs Segundo gr. F",
 			Date:      time.Date(2022, 12, 5, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_06,
+			Name:      "Vencedor gr. G vs Segundo gr. H",
 			Date:      time.Date(2022, 12, 5, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_07,
+			Name:      "Vencedor gr. F vs Segundo gr. E",
 			Date:      time.Date(2022, 12, 6, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_08,
+			Name:      "Vencedor gr. H vs Segundo gr. G",
 			Date:      time.Date(2022, 12, 6, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_OITAVAS,
 		},
 		// Quartas
 		{
 			ID:        config.MATCH_QUARTAS_01,
+			Name:      "Vencedor OF 5 vs Vencedor OF 6",
 			Date:      time.Date(2022, 12, 9, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_QUARTAS,
 		},
 		{
 			ID:        config.MATCH_QUARTAS_02,
+			Name:      "Vencedor OF 1 vs Vencedor OF 2",
 			Date:      time.Date(2022, 12, 9, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_QUARTAS,
 		},
 		{
 			ID:        config.MATCH_QUARTAS_03,
+			Name:      "Vencedor OF 7 vs Vencedor OF 8",
 			Date:      time.Date(2022, 12, 10, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_QUARTAS,
 		},
 		{
 			ID:        config.MATCH_QUARTAS_04,
+			Name:      "Vencedor OF 3 vs Vencedor OF 4",
 			Date:      time.Date(2022, 12, 10, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_QUARTAS,
 		},
 		// Semifinais
 		{
 			ID:        config.MATCH_SEMIFINAIS_01,
+			Name:      "Vencedor QF 2 vs Vencedor QF 1",
 			Date:      time.Date(2022, 12, 13, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_SEMIFINAIS,
 		},
 		{
 			ID:        config.MATCH_SEMIFINAIS_02,
+			Name:      "Vencedor QF 4 vs Vencedor QF 3",
 			Date:      time.Date(2022, 12, 14, 16, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_SEMIFINAIS,
 		},
 		// Terceiro
 		{
 			ID:        config.MATCH_TERCEIRO,
+			Name:      "Perdedor SF 1 vs Perdedor SF 2",
 			Date:      time.Date(2022, 12, 17, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_TERCERIRO,
 		},
 		// Finais
 		{
 			ID:        config.MATCH_FINAIS,
+			Name:      "Vencedor SF 1 vs Vencedor SF 2",
 			Date:      time.Date(2022, 12, 18, 12, 0, 0, 0, time.Local),
 			BracketID: config.BRKT_FINAIS,
 		},

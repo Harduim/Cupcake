@@ -4,6 +4,8 @@
 import { Bracket } from './Bracket'
 
 export type Match = {
+  id: string
+  name: string
   date: string
   nationalTeamAId: string
   nationalTeamBId: string
