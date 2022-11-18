@@ -1,6 +1,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { Bracket } from './Bracket'
+
 export type Match = {
   date: string
   nationalTeamAId: string
@@ -9,4 +11,5 @@ export type Match = {
   golB: string
   bracketId: string
   winnerId: string
+  Bracket: Bracket
 }
