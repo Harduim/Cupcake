@@ -1,7 +1,7 @@
 package database
 
 import (
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"fmt"
 	"strconv"
 
@@ -30,9 +30,9 @@ func NewTest() (*Database, error) {
 		return nil, err
 	}
 
-	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
-		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{},
-		&domain.Joker{}, &domain.Groups{})
+	err = db.AutoMigrate(&models.Bet{}, &models.Bracket{}, &models.Match{},
+		&models.NationalTeam{}, &models.User{}, &models.UserPoints{},
+		&models.Joker{}, &models.Groups{})
 
 	if err != nil {
 		return nil, err
@@ -45,10 +45,10 @@ func New(config *DatabaseConfig) (*Database, error) {
 	var db *gorm.DB
 	var err error
 	dsn := "user=" + config.Username + " password=" + config.Password + " dbname=" + config.Database + " host=" + config.Host + " port=" + strconv.Itoa(config.Port) + " TimeZone=UTC"
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	err = db.AutoMigrate(&domain.Bet{}, &domain.Bracket{}, &domain.Match{},
-		&domain.NationalTeam{}, &domain.User{}, &domain.UserPoints{},
-		&domain.Joker{}, &domain.Groups{})
+	db, _ = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	err = db.AutoMigrate(&models.Bet{}, &models.Bracket{}, &models.Match{},
+		&models.NationalTeam{}, &models.User{}, &models.UserPoints{},
+		&models.Joker{}, &models.Groups{})
 
 	if err != nil {
 		return nil, err
