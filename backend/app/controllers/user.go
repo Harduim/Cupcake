@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	models "cupcake/app/models"
 	"cupcake/app/repositories"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,7 +11,7 @@ import (
 // GetAllUsers Return all users as JSON
 func GetAllUsers(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		var Users []domain.User
+		var Users []models.User
 		if response := db.Find(&Users); response.Error != nil {
 			panic("Error occurred while retrieving users from the database: " + response.Error.Error())
 		}
@@ -26,7 +26,7 @@ func GetAllUsers(db *database.Database) fiber.Handler {
 // GetUser Return a single user as JSON
 func GetUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		User := new(domain.User)
+		User := new(models.User)
 		id := ctx.Params("id")
 		User.ID = id
 
@@ -61,7 +61,7 @@ func GetUser(db *database.Database) fiber.Handler {
 // AddUser Add a single user to the database
 func AddUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		User := new(domain.User)
+		User := new(models.User)
 		if err := ctx.BodyParser(User); err != nil {
 			panic("An error occurred when parsing the new user: " + err.Error())
 		}
@@ -80,8 +80,8 @@ func AddUser(db *database.Database) fiber.Handler {
 func EditUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id := ctx.Params("id")
-		EditUser := new(domain.User)
-		User := new(domain.User)
+		EditUser := new(models.User)
+		User := new(models.User)
 		if err := ctx.BodyParser(EditUser); err != nil {
 			panic("An error occurred when parsing the edited user: " + err.Error())
 		}
@@ -120,7 +120,7 @@ func EditUser(db *database.Database) fiber.Handler {
 func DeleteUser(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		id := ctx.Params("id")
-		var User domain.User
+		var User models.User
 		db.Find(&User, id)
 		if response := db.Find(&User); response.Error != nil {
 			panic("An error occurred when finding the user to be deleted" + response.Error.Error())
@@ -140,7 +140,7 @@ func DeleteUser(db *database.Database) fiber.Handler {
 
 func GetMe(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		User := new(domain.User)
+		User := new(models.User)
 		id := ctx.Locals("user_id").(string)
 		User.ID = id
 

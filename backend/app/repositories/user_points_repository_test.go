@@ -2,11 +2,12 @@ package repositories_test
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"cupcake/app/repositories"
+	"testing"
+
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func MakeUserPoints() *domain.UserPoints {

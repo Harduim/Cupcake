@@ -2,18 +2,19 @@ package repositories_test
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	models "cupcake/app/models"
 	"cupcake/app/repositories"
+	"testing"
+
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestUserRepositoryDbInsert(t *testing.T) {
 	db, err := database.NewTest()
 	require.Nil(t, err)
 
-	user := domain.NewUser()
+	user := models.NewUser()
 	user.ID = uuid.NewV4().String()
 	user.Name = "ANY_NAME"
 	user.Email = "any@email.com"
@@ -31,7 +32,7 @@ func TestUserRepositoryDbUpdate(t *testing.T) {
 	db, err := database.NewTest()
 	require.Nil(t, err)
 
-	user := domain.NewUser()
+	user := models.NewUser()
 	user.ID = uuid.NewV4().String()
 	user.Name = "ANY_NAME"
 	user.Email = "any@email.com"

@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"fmt"
 
 	uuid "github.com/satori/go.uuid"
@@ -48,11 +48,11 @@ func (repo MatchRepositoryDb) Find(id string) (*domain.Match, error) {
 func (repo MatchRepositoryDb) FindAll() (*[]domain.Match, error) {
 	var matches []domain.Match
 
-	// TODO: handle err
-	repo.Db.Model(&domain.Match{}).Preload("Bracket").Find(&matches)
+	err := repo.Db.Model(&domain.Match{}).Preload("Bracket").Find(&matches).Error
 
-	// repo.Db.Find(&matches)
-	// repo.Db.Model(matches).Related().Find()
+	if err != nil {
+		return nil, err
+	}
 
 	return &matches, nil
 }

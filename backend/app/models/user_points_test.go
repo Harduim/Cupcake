@@ -1,10 +1,11 @@
 package domain_test
 
 import (
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
+	"testing"
+
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestUserPointsValidation(t *testing.T) {

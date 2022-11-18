@@ -2,16 +2,17 @@ package repositories_test
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	models "cupcake/app/models"
 	"cupcake/app/repositories"
-	uuid "github.com/satori/go.uuid"
-	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
+	"github.com/stretchr/testify/require"
 )
 
-func MakeMatch() *domain.Match {
-	match := domain.NewMatch()
+func MakeMatch() *models.Match {
+	match := models.NewMatch()
 
 	match.ID = uuid.NewV4().String()
 	match.Date = time.Time{}

@@ -1,13 +1,14 @@
 package domain_test
 
 import (
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
+	"testing"
+
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
-func TestJokerNationalTeamAIsNotAUuid(t *testing.T) {
+func TestBetNationalTeamAIsNotAUuid(t *testing.T) {
 	nationalTeamAID := "ANY_ID"
 	nationalTeamBID := uuid.NewV4().String()
 	golA := 0
@@ -16,12 +17,12 @@ func TestJokerNationalTeamAIsNotAUuid(t *testing.T) {
 	matchID := uuid.NewV4().String()
 	winnerID := uuid.NewV4().String()
 
-	_, err := domain.NewJoker(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
 
 	require.Error(t, err)
 }
 
-func TestJokerNationalTeamBIsNotAUuid(t *testing.T) {
+func TestBetNationalTeamBIsNotAUuid(t *testing.T) {
 	nationalTeamAID := uuid.NewV4().String()
 	nationalTeamBID := "ANY_ID"
 	golA := 0
@@ -30,12 +31,12 @@ func TestJokerNationalTeamBIsNotAUuid(t *testing.T) {
 	matchID := uuid.NewV4().String()
 	winnerID := uuid.NewV4().String()
 
-	_, err := domain.NewJoker(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
 
 	require.Error(t, err)
 }
 
-func TestJokerUserIDIsNotAUuid(t *testing.T) {
+func TestBetUserIDIsNotAUuid(t *testing.T) {
 	nationalTeamAID := uuid.NewV4().String()
 	nationalTeamBID := uuid.NewV4().String()
 	golA := 0
@@ -44,12 +45,12 @@ func TestJokerUserIDIsNotAUuid(t *testing.T) {
 	matchID := uuid.NewV4().String()
 	winnerID := uuid.NewV4().String()
 
-	_, err := domain.NewJoker(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
 
 	require.Error(t, err)
 }
 
-func TestJokerMatchIDIsNotAUuid(t *testing.T) {
+func TestBetMatchIDIsNotAUuid(t *testing.T) {
 	nationalTeamAID := uuid.NewV4().String()
 	nationalTeamBID := uuid.NewV4().String()
 	golA := 0
@@ -58,12 +59,12 @@ func TestJokerMatchIDIsNotAUuid(t *testing.T) {
 	matchID := "ANY_ID"
 	winnerID := uuid.NewV4().String()
 
-	_, err := domain.NewJoker(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
 
 	require.Error(t, err)
 }
 
-func TestJokerWinnerIDIsNotAUuid(t *testing.T) {
+func TestBetWinnerIDIsNotAUuid(t *testing.T) {
 	nationalTeamAID := uuid.NewV4().String()
 	nationalTeamBID := uuid.NewV4().String()
 	golA := 0
@@ -72,7 +73,7 @@ func TestJokerWinnerIDIsNotAUuid(t *testing.T) {
 	matchID := uuid.NewV4().String()
 	winnerID := "ANY_ID"
 
-	_, err := domain.NewJoker(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
+	_, err := domain.NewBet(nationalTeamAID, nationalTeamBID, matchID, userID, &golA, &golB, winnerID)
 
 	require.Error(t, err)
 }

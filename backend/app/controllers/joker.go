@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"cupcake/app/repositories"
+
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -1,12 +1,13 @@
 package database
 
 import (
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"fmt"
+	"strconv"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 type DatabaseConfig struct {

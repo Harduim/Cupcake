@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"cupcake/app/repositories"
 	"cupcake/app/service"
 	"time"

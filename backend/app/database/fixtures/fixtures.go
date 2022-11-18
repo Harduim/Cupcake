@@ -3,7 +3,7 @@ package fixtures
 import (
 	Config "cupcake/app/config"
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"cupcake/app/repositories"
 	"time"
 )

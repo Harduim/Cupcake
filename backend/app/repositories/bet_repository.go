@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	"cupcake/app/domain"
+	domain "cupcake/app/models"
 	"fmt"
 )
 

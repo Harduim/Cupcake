@@ -1,11 +1,12 @@
 package domain_test
 
 import (
-	"cupcake/app/domain"
-	uuid "github.com/satori/go.uuid"
-	"github.com/stretchr/testify/require"
+	domain "cupcake/app/models"
 	"testing"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
+	"github.com/stretchr/testify/require"
 )
 
 func TestValidateIfBracketIsEmpty(t *testing.T) {
