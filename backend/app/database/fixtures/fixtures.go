@@ -138,9 +138,12 @@ func matchFixtures(db *database.Database) error {
 		},
 		// Oitavas
 		{
-			ID:        config.MATCH_OITAVAS_01,
-			Date:      time.Date(2022, 12, 3, 12, 0, 0, 0, time.Local),
-			BracketID: config.BRKT_OITAVAS,
+			ID:              config.MATCH_OITAVAS_01,
+			Date:            time.Date(2022, 12, 3, 12, 0, 0, 0, time.Local),
+			BracketID:       config.BRKT_OITAVAS,
+			NationalTeamAID: &config.NT_CATAR,
+			NationalTeamBID: &config.NT_ALEMANHA,
+			WinnerID:        &config.NT_CATAR,
 		},
 		{
 			ID:        config.MATCH_OITAVAS_02,
