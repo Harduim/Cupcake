@@ -4,6 +4,7 @@ import (
 	"cupcake/app/database"
 	"cupcake/app/domain"
 	"fmt"
+
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -47,7 +48,11 @@ func (repo MatchRepositoryDb) Find(id string) (*domain.Match, error) {
 func (repo MatchRepositoryDb) FindAll() (*[]domain.Match, error) {
 	var matches []domain.Match
 
-	repo.Db.Find(&matches)
+	// TODO: handle err
+	repo.Db.Model(&domain.Match{}).Preload("Bracket").Find(&matches)
+
+	// repo.Db.Find(&matches)
+	// repo.Db.Model(matches).Related().Find()
 
 	return &matches, nil
 }
