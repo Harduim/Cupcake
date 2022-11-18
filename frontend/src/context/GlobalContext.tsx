@@ -1,11 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { createContext, ReactNode } from 'react'
 import { User } from '../clients'
+import { Match } from '../clients/models/Match'
 import api from '../services/api'
 
 type IGlobalContext = {
   isLoading: boolean
   me: User
+  matches: Match[]
 }
 
 export type { IGlobalContext }
@@ -13,6 +15,7 @@ export type { IGlobalContext }
 const globalContextDefaults: IGlobalContext = {
   isLoading: true,
   me: {} as User,
+  matches: [] as Match[],
 }
 
 interface IContextProps {
@@ -33,11 +36,18 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     queryFn: () => api.get('users/me').then(r => r.data),
     ...queryOptions,
   })
+  const { isLoading: matchesIsLoading, data: matches } = useQuery({
+    queryKey: ['matches'],
+    queryFn: () => api.get('matches').then(r => r.data),
+    enabled: !!me,
+    ...queryOptions,
+  })
 
-  const isLoading = meIsLoading
+  const isLoading = meIsLoading || matchesIsLoading
 
   const provides = {
     isLoading,
+    matches,
     me,
   }
 
