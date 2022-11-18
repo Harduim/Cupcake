@@ -1,4 +1,4 @@
-package domain_test
+package models_test
 
 import (
 	domain "cupcake/app/models"

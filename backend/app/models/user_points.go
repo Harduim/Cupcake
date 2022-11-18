@@ -1,4 +1,4 @@
-package domain
+package models
 
 type UserPoints struct {
 	User   *User  `json:"-" gorm:"foreignKey:UserID"`

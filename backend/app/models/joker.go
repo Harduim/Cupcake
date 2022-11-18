@@ -1,8 +1,9 @@
-package domain
+package models
 
 import (
-	uuid "github.com/satori/go.uuid"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 type Joker struct {
