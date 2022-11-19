@@ -14,6 +14,7 @@ import { Match, NationalTeam } from '../clients'
 import PageLayout from '../components/PageLayout'
 import GlobalContext from '../context/GlobalContext'
 import api, { queryClient } from '../services/api'
+import { dateToBrDateString, timeStringToBrDateString } from '../utils/datetime'
 
 const updateMatch = async (match: Match) => {
   console.log(match)
@@ -35,7 +36,6 @@ const MatchForm = ({ match, teams }: { match: Match; teams: NationalTeam[] }) =>
     const newMatch = { ..._match, [prop]: value }
     setMatch(newMatch)
   }
-  const matchDate = new Date(match.date)
   const matchClose = new Date(Date.parse(match.date) - 1000 * 60 * 60 * 6)
 
   return (
@@ -45,12 +45,10 @@ const MatchForm = ({ match, teams }: { match: Match; teams: NationalTeam[] }) =>
       </EuiTitle>
       <EuiSpacer size='s' />
       <p>
-        <b>Horário do jogo:</b> {matchDate.toLocaleDateString('pt-BR')} -{' '}
-        {matchDate.toLocaleTimeString('pt-BR')}
+        <b>Horário do jogo:</b> {timeStringToBrDateString(match.date)}
       </p>
       <p>
-        <b>Encerramento:</b> &nbsp;&nbsp;{matchClose.toLocaleDateString('pt-BR')} -{' '}
-        {matchClose.toLocaleTimeString('pt-BR')}
+        <b>Encerramento:</b> &nbsp;&nbsp;{dateToBrDateString(matchClose)}
       </p>
 
       <EuiSpacer size='s' />
@@ -121,13 +119,13 @@ const Admin = () => {
 
   if (isLoading || !matches || !brackets || !teams) {
     return (
-      <PageLayout title='Apuração' isLoading>
+      <PageLayout title='Administração' isLoading>
         {' '}
       </PageLayout>
     )
   }
   return (
-    <PageLayout title='Apuração' isLoading={isLoading}>
+    <PageLayout title='Administração' isLoading={isLoading}>
       {brackets
         .sort((a, b) => Date.parse(a.openDate) - Date.parse(b.openDate))
         .map(b => {
