@@ -14,7 +14,8 @@ import { Match, NationalTeam } from '../clients'
 import PageLayout from '../components/PageLayout'
 import GlobalContext from '../context/GlobalContext'
 import api, { queryClient } from '../services/api'
-import { dateToBrDateString, timeStringToBrDateString } from '../utils/datetime'
+import { HOURS_BEFORE_MATCH_IN_MILLISECONDS } from '../utils/constants'
+import { dateToBrDateTimeString, timeStringToBrDateTimeString } from '../utils/datetime'
 
 const updateMatch = async (match: Match) => {
   console.log(match)
@@ -36,7 +37,7 @@ const MatchForm = ({ match, teams }: { match: Match; teams: NationalTeam[] }) =>
     const newMatch = { ..._match, [prop]: value }
     setMatch(newMatch)
   }
-  const matchClose = new Date(Date.parse(match.date) - 1000 * 60 * 60 * 6)
+  const matchClose = new Date(Date.parse(match.date) - HOURS_BEFORE_MATCH_IN_MILLISECONDS)
 
   return (
     <>
@@ -45,10 +46,10 @@ const MatchForm = ({ match, teams }: { match: Match; teams: NationalTeam[] }) =>
       </EuiTitle>
       <EuiSpacer size='s' />
       <p>
-        <b>Horário do jogo:</b> {timeStringToBrDateString(match.date)}
+        <b>Horário do jogo:</b> {timeStringToBrDateTimeString(match.date)}
       </p>
       <p>
-        <b>Encerramento:</b> &nbsp;&nbsp;{dateToBrDateString(matchClose)}
+        <b>Encerramento:</b> &nbsp;&nbsp;{dateToBrDateTimeString(matchClose)}
       </p>
 
       <EuiSpacer size='s' />
