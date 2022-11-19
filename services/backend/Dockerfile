@@ -9,7 +9,9 @@ RUN chown cupcake:cupcake /opt/cupcake
 RUN apt update && apt install --no-install-recommends tini scons build-essential -y
 
 USER "cupcake"
+ENV TZ="America/Sao_Paulo"
 WORKDIR /opt/cupcake
+RUN go install github.com/cosmtrek/air@latest
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["sleep", "infinity"]
