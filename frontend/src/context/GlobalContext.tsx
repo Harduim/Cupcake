@@ -11,6 +11,7 @@ type IGlobalContext = {
   matches: Match[]
   brackets: Bracket[]
   teams: NationalTeam[]
+  teamMap: Map<string, NationalTeam>
   bets: Bet[]
 }
 
@@ -23,6 +24,7 @@ const globalContextDefaults: IGlobalContext = {
   brackets: [] as Bracket[],
   teams: [] as NationalTeam[],
   bets: [] as Bet[],
+  teamMap: new Map(),
 }
 
 interface IContextProps {
@@ -68,6 +70,8 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     ...queryOptions,
   })
 
+  const teamMap = new Map()
+
   const isLoading = [
     meIsLoading,
     matchesIsLoading,
@@ -79,11 +83,16 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     !teams,
   ].some(l => l)
 
+  if (!isLoading && teams.length > 0) {
+    teams.forEach((t: NationalTeam) => teamMap.set(t.id, t))
+  }
+
   const provides = {
     isLoading,
     matches,
     brackets,
     teams,
+    teamMap,
     bets,
     me,
   }
