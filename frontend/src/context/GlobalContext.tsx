@@ -74,6 +74,9 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     bracketsIsLoading,
     teamsIsLoading,
     betsIsLoading,
+    !matches,
+    !brackets,
+    !teams,
   ].some(l => l)
 
   const provides = {
