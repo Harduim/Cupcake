@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { createContext, ReactNode } from 'react'
-import { NationalTeam, User } from '../clients'
+import { Bet, NationalTeam, User } from '../clients'
 import { Bracket } from '../clients/models/Bracket'
 import { Match } from '../clients/models/Match'
 import api from '../services/api'
@@ -11,6 +11,7 @@ type IGlobalContext = {
   matches: Match[]
   brackets: Bracket[]
   teams: NationalTeam[]
+  bets: Bet[]
 }
 
 export type { IGlobalContext }
@@ -21,6 +22,7 @@ const globalContextDefaults: IGlobalContext = {
   matches: [] as Match[],
   brackets: [] as Bracket[],
   teams: [] as NationalTeam[],
+  bets: [] as Bet[],
 }
 
 interface IContextProps {
@@ -59,14 +61,27 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     enabled: !!me,
     ...queryOptions,
   })
+  const { isLoading: betsIsLoading, data: bets } = useQuery({
+    queryKey: ['bets'],
+    queryFn: () => api.get('bets').then(r => r.data),
+    enabled: !!me,
+    ...queryOptions,
+  })
 
-  const isLoading = meIsLoading || matchesIsLoading || bracketsIsLoading || teamsIsLoading
+  const isLoading = [
+    meIsLoading,
+    matchesIsLoading,
+    bracketsIsLoading,
+    teamsIsLoading,
+    betsIsLoading,
+  ].some(l => l)
 
   const provides = {
     isLoading,
     matches,
     brackets,
     teams,
+    bets,
     me,
   }
 
