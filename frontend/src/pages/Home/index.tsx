@@ -159,6 +159,7 @@ const Home = () => {
         .sort((a, b) => Date.parse(a.openDate) - Date.parse(b.openDate))
         .map(b => {
           const isClosed = Date.parse(b.openDate) - Date.parse(b.closeDate) > 0
+          const bracketMatches = matches.filter(m => m.bracketId === b.id)
           return (
             <EuiPageSection key={b.id} color='subdued'>
               <EuiTitle>
@@ -170,9 +171,8 @@ const Home = () => {
                   : 'Inicia ' + timeStringToBrDateString(b.openDate)}
               </p>
               <EuiSpacer size='m' />
-              <EuiFlexGrid columns={3} gutterSize='m'>
-                {matches
-                  .filter(m => m.bracketId === b.id)
+              <EuiFlexGrid columns={bracketMatches.length > 3 ? 3 : 2} gutterSize='m'>
+                {bracketMatches
                   .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
                   .map(m => (
                     <EuiFlexItem key={m.id}>
