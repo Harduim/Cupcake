@@ -35,12 +35,24 @@ const MatchForm = ({ match, teams }: { match: Match; teams: NationalTeam[] }) =>
     const newMatch = { ..._match, [prop]: value }
     setMatch(newMatch)
   }
+  const matchDate = new Date(match.date)
+  const matchClose = new Date(Date.parse(match.date) - 1000 * 60 * 60 * 6)
 
   return (
     <>
       <EuiTitle size='xs'>
         <h2>{match.name}</h2>
       </EuiTitle>
+      <EuiSpacer size='s' />
+      <p>
+        <b>Horário do jogo:</b> {matchDate.toLocaleDateString('pt-BR')} -{' '}
+        {matchDate.toLocaleTimeString('pt-BR')}
+      </p>
+      <p>
+        <b>Encerramento:</b> &nbsp;&nbsp;{matchClose.toLocaleDateString('pt-BR')} -{' '}
+        {matchClose.toLocaleTimeString('pt-BR')}
+      </p>
+
       <EuiSpacer size='s' />
       <EuiSelect
         hasNoInitialSelection
@@ -128,6 +140,7 @@ const Admin = () => {
               <EuiFlexGroup gutterSize='m' wrap>
                 {matches
                   .filter(m => m.bracketId === b.id)
+                  .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
                   .map(m => (
                     <EuiFlexItem grow={false} key={m.id}>
                       <EuiPanel grow={false}>
