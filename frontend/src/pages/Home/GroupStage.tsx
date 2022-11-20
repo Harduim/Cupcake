@@ -1,4 +1,6 @@
 import {
+  EuiButton,
+  EuiCallOut,
   EuiCard,
   EuiFlexGrid,
   EuiFlexItem,
@@ -23,6 +25,7 @@ const GroupStage = () => {
     }
     setSelected(selected.filter(s => s !== newSelection))
   }
+  const isSendEnabled = selected.length === MAX_SELECTIONS
 
   if (isLoading) return null
   return (
@@ -51,6 +54,20 @@ const GroupStage = () => {
       <p>
         {selected.length} de {MAX_SELECTIONS} Seleções Escolhidas
       </p>
+      <EuiSpacer size='m' />
+      <EuiButton color='primary' onClick={() => {}} fill isDisabled={!isSendEnabled}>
+        Salvar
+      </EuiButton>
+      {!isSendEnabled && (
+        <>
+          <EuiSpacer size='m' />
+          <EuiCallOut
+            title='Escolha 16 seleções para habilitar salvamento'
+            color='warning'
+            iconType='help'
+          />
+        </>
+      )}
     </EuiPanel>
   )
 }
