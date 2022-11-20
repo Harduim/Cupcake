@@ -1,25 +1,18 @@
-import { EuiButton, EuiEmptyPrompt, EuiLink, EuiTitle } from '@elastic/eui'
+import { EuiButton, EuiEmptyPrompt } from '@elastic/eui'
+import { useNavigate } from 'react-router-dom'
 
 const PageEmpty = () => {
+  const navigate = useNavigate()
+
   return (
     <EuiEmptyPrompt
       iconType='logoSecurity'
-      title={<h1>Página não encontrada</h1>}
-      body={<p>Add a new case or change your filter settings.</p>}
+      title={<h1>Página Não Encontrada</h1>}
+      body={<p>Que tal voltar para a página inicial?</p>}
       actions={
-        <EuiButton color='primary' fill>
-          Add a case
+        <EuiButton color='primary' fill onClick={() => navigate('/')}>
+          Página Inicial
         </EuiButton>
-      }
-      footer={
-        <>
-          <EuiTitle size='xxs'>
-            <h3>Want to learn more?</h3>
-          </EuiTitle>
-          <EuiLink href='#' target='_blank'>
-            Read the docs
-          </EuiLink>
-        </>
       }
     />
   )
