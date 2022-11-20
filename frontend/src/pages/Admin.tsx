@@ -23,6 +23,7 @@ const updateMatch = async (match: Match) => {
     await api.put('matches', match)
   } catch (error) {
     console.error(error)
+    return
   }
   queryClient.invalidateQueries(['matches'])
 }
