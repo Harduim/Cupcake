@@ -11,8 +11,13 @@ import {
 } from '@elastic/eui'
 import { useContext, useState } from 'react'
 import GlobalContext from '../../context/GlobalContext'
+import api from '../../services/api'
 const { PUBLIC_URL } = process.env
 const MAX_SELECTIONS = 16
+
+const handleSubmit = async (teams: string[]) => {
+  await api.put('groups', teams)
+}
 
 const GroupStage = () => {
   const { teams, isLoading } = useContext(GlobalContext)
@@ -55,7 +60,12 @@ const GroupStage = () => {
         {selected.length} de {MAX_SELECTIONS} Seleções Escolhidas
       </p>
       <EuiSpacer size='m' />
-      <EuiButton color='primary' onClick={() => {}} fill isDisabled={!isSendEnabled}>
+      <EuiButton
+        color='primary'
+        onClick={() => handleSubmit(selected)}
+        fill
+        isDisabled={!isSendEnabled}
+      >
         Salvar
       </EuiButton>
       {!isSendEnabled && (
