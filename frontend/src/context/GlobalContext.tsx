@@ -12,7 +12,7 @@ type IGlobalContext = {
   brackets: Bracket[]
   teams: NationalTeam[]
   teamMap: Map<string, NationalTeam>
-  bets: Bet[]
+  bets?: Map<string, Bet>
 }
 
 export type { IGlobalContext }
@@ -23,7 +23,6 @@ const globalContextDefaults: IGlobalContext = {
   matches: [] as Match[],
   brackets: [] as Bracket[],
   teams: [] as NationalTeam[],
-  bets: [] as Bet[],
   teamMap: new Map(),
 }
 
@@ -65,7 +64,12 @@ export const GlobalProvider = ({ children }: IContextProps) => {
   })
   const { isLoading: betsIsLoading, data: bets } = useQuery({
     queryKey: ['bets'],
-    queryFn: () => api.get('bets').then(r => r.data),
+    queryFn: async () => {
+      const response = await api.get('bets')
+      let data = new Map()
+      response.data.forEach((t: Bet) => data.set(t.id, t))
+      return data as Map<string, Bet>
+    },
     enabled: !!me,
     ...queryOptions,
   })
@@ -93,7 +97,7 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     brackets,
     teams,
     teamMap,
-    bets,
+    bets: bets || new Map(),
     me,
   }
 
