@@ -18,6 +18,7 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 	authorizationMiddleware := middleware.Authorization(tokenSecret)
 
 	registerUsers(api, db, authorizationMiddleware)
+	registerGroups(api, db, authorizationMiddleware)
 	registerAuth(api, db, sso, tokenSecret)
 	registerBrackets(api, db, authorizationMiddleware)
 	registerMatches(api, db, authorizationMiddleware)
@@ -32,6 +33,13 @@ func registerUsers(api fiber.Router, db *database.Database, authorization func(c
 
 	users.Get("/", controllers.GetAllUsers(db))
 	users.Get("/me", controllers.GetMe(db))
+}
+
+func registerGroups(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
+	users := api.Group("/groups", authorization)
+
+	users.Get("/", controllers.GetGroups(db))
+	users.Put("/", controllers.UpdateGroup(db))
 }
 
 func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient, secretKey string) {
