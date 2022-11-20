@@ -1,4 +1,4 @@
-import { EuiButton, EuiFieldNumber, EuiSelect, EuiSpacer, EuiTitle } from '@elastic/eui'
+import { EuiButton, EuiCallOut, EuiFieldNumber, EuiSelect, EuiSpacer, EuiTitle } from '@elastic/eui'
 import { useState } from 'react'
 import { Match, NationalTeam } from '../clients'
 import { HOURS_BEFORE_MATCH_IN_MILLISECONDS } from '../utils/constants'
@@ -98,6 +98,16 @@ const MatchForm = ({ match, teams, onSubmit }: IPropType) => {
       <EuiButton color='primary' onClick={() => onSubmit(_match)} fill isDisabled={isSendDisabled}>
         Salvar
       </EuiButton>
+      {isSendDisabled && (
+        <>
+          <EuiSpacer size='m' />
+          <EuiCallOut
+            title='Escolha o vencedor e defina o placar para habilitar salvamento'
+            color='warning'
+            iconType='help'
+          />
+        </>
+      )}
     </>
   )
 }
