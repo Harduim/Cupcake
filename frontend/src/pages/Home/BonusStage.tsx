@@ -21,8 +21,8 @@ const BonusStage = () => {
     date: '2022-12-03',
     nationalTeamAId: '',
     nationalTeamBId: '',
-    golA: 0,
-    golB: 0,
+    golA: null,
+    golB: null,
     bracketId: '',
     winnerId: '',
   }

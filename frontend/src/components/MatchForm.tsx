@@ -15,12 +15,24 @@ const MatchForm = ({ match, teams, onSubmit }: IPropType) => {
   const options = teams.map(t => {
     return { text: t.name, value: t.id }
   })
-
+  const winnerOptions = options.filter(o =>
+    [_match.nationalTeamBId, _match.nationalTeamAId].includes(o.value)
+  )
   const handleChange = (prop: string, value: string | number) => {
     const newMatch = { ..._match, [prop]: value }
     setMatch(newMatch)
   }
+
   const matchClose = new Date(Date.parse(match.date) - HOURS_BEFORE_MATCH_IN_MILLISECONDS)
+  const isSendDisabled =
+    !_match.nationalTeamAId ||
+    !_match.nationalTeamBId ||
+    _match.winnerId === '' ||
+    _match.golA === undefined ||
+    _match.golB === undefined ||
+    _match.golA === null ||
+    _match.golB === null ||
+    _match.winnerId === undefined
 
   return (
     <>
@@ -55,26 +67,35 @@ const MatchForm = ({ match, teams, onSubmit }: IPropType) => {
       <EuiFieldNumber
         prepend='Gols A'
         placeholder='Gols Seleção A'
-        value={_match.golA || ''}
-        onChange={(e: any) => handleChange('golA', parseInt(e.target.value))}
+        value={_match.golA === undefined || _match.golA === null ? '' : _match.golA}
+        onChange={(e: any) => {
+          const gols = parseInt(e.target.value)
+          if (gols < 0 || Number.isNaN(gols)) return
+          handleChange('golA', gols)
+        }}
       />
       <EuiSpacer size='s' />
       <EuiFieldNumber
         prepend='Gols B'
         placeholder='Gols Seleção B'
-        value={_match.golB || ''}
-        onChange={(e: any) => handleChange('golB', parseInt(e.target.value))}
+        value={_match.golB === undefined || _match.golB === null ? '' : _match.golB}
+        onChange={(e: any) => {
+          const gols = parseInt(e.target.value)
+          if (gols < 0 || Number.isNaN(gols)) return
+          handleChange('golB', gols)
+        }}
       />
       <EuiSpacer size='s' />
       <EuiSelect
         hasNoInitialSelection
         prepend='Vencedor'
-        options={options}
+        options={winnerOptions}
         value={_match.winnerId || ''}
         onChange={(e: any) => handleChange('winnerId', e.target.value)}
+        disabled={winnerOptions.length === 0}
       />
       <EuiSpacer size='m' />
-      <EuiButton color='primary' onClick={() => onSubmit(_match)} fill>
+      <EuiButton color='primary' onClick={() => onSubmit(_match)} fill isDisabled={isSendDisabled}>
         Salvar
       </EuiButton>
     </>

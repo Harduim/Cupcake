@@ -7,8 +7,8 @@ export type Match = {
   date: string
   nationalTeamAId: string
   nationalTeamBId: string
-  golA: number
-  golB: number
+  golA: number | null
+  golB: number | null
   bracketId: string
   winnerId: string
 }
