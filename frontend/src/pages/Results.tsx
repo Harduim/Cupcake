@@ -41,7 +41,7 @@ const Results = () => {
             { field: 'name', name: 'Nome', sortable: true },
             { field: 'points', name: 'Pontuação', sortable: true },
           ]}
-          items={users.sort((a: User, b: User) => a.points - b.points)}
+          items={users.sort((a: User, b: User) => b.points - a.points)}
         />
         <EuiSpacer size='xl' />
       </EuiPageTemplate.Section>
