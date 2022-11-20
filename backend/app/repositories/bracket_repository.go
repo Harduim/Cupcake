@@ -4,6 +4,8 @@ import (
 	"cupcake/app/database"
 	"cupcake/app/models"
 	"fmt"
+
+	"gorm.io/gorm/clause"
 )
 
 type BracketRepository interface {
@@ -42,7 +44,7 @@ func (repo BracketRepositoryDb) Find(id string) (*models.Bracket, error) {
 func (repo BracketRepositoryDb) FindAll() (*[]models.Bracket, error) {
 	var brackets []models.Bracket
 
-	repo.Db.Find(&brackets)
+	repo.Db.Preload("Matches.NationalTeamA").Preload("Matches.NationalTeamB").Preload("Matches.Winner").Preload(clause.Associations).Find(&brackets)
 
 	return &brackets, nil
 }

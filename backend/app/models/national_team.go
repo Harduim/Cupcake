@@ -1,9 +1,8 @@
 package models
 
 type NationalTeam struct {
-	ID       string    `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`
-	Name     string    `json:"name" validate:"required" gorm:"type:varchar(255)"`
-	Brackets []Bracket `gorm:"many2many:national_team_brackets;"`
+	ID   string `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`
+	Name string `json:"name" validate:"required" gorm:"type:varchar(255)"`
 }
 
 func NewNationalTeam() *NationalTeam {

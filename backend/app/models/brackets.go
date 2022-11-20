@@ -20,6 +20,7 @@ type Bracket struct {
 	Multiplier int8      `json:"multiplier" validate:"required"`
 	OpenDate   time.Time `json:"openDate" validate:"required"`
 	CloseDate  time.Time `json:"closeDate" validate:"required"`
+	Matches    []Match
 }
 
 func NewBracket() *Bracket {
