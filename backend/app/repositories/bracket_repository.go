@@ -2,22 +2,22 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"fmt"
 )
 
 type BracketRepository interface {
-	Insert(bracket *domain.Bracket) (*domain.Bracket, error)
-	Find(id string) (*domain.Bracket, error)
-	FindAll() ([]*domain.Bracket, error)
-	Update(bracket *domain.Bracket) (*domain.Bracket, error)
+	Insert(bracket *models.Bracket) (*models.Bracket, error)
+	Find(id string) (*models.Bracket, error)
+	FindAll() ([]*models.Bracket, error)
+	Update(bracket *models.Bracket) (*models.Bracket, error)
 }
 
 type BracketRepositoryDb struct {
 	Db *database.Database
 }
 
-func (repo BracketRepositoryDb) Insert(bracket *domain.Bracket) (*domain.Bracket, error) {
+func (repo BracketRepositoryDb) Insert(bracket *models.Bracket) (*models.Bracket, error) {
 	err := repo.Db.Create(bracket).Error
 
 	if err != nil {
@@ -27,8 +27,8 @@ func (repo BracketRepositoryDb) Insert(bracket *domain.Bracket) (*domain.Bracket
 	return bracket, nil
 }
 
-func (repo BracketRepositoryDb) Find(id string) (*domain.Bracket, error) {
-	var bracket domain.Bracket
+func (repo BracketRepositoryDb) Find(id string) (*models.Bracket, error) {
+	var bracket models.Bracket
 
 	repo.Db.First(&bracket, "id = ?", id)
 
@@ -39,15 +39,15 @@ func (repo BracketRepositoryDb) Find(id string) (*domain.Bracket, error) {
 	return &bracket, nil
 }
 
-func (repo BracketRepositoryDb) FindAll() (*[]domain.Bracket, error) {
-	var brackets []domain.Bracket
+func (repo BracketRepositoryDb) FindAll() (*[]models.Bracket, error) {
+	var brackets []models.Bracket
 
 	repo.Db.Find(&brackets)
 
 	return &brackets, nil
 }
 
-func (repo BracketRepositoryDb) Update(bracket *domain.Bracket) (*domain.Bracket, error) {
+func (repo BracketRepositoryDb) Update(bracket *models.Bracket) (*models.Bracket, error) {
 	err := repo.Db.Save(&bracket).Error
 
 	if err != nil {

@@ -2,22 +2,22 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"fmt"
 )
 
 type UserPointsRepository interface {
-	Insert(userPoints *domain.UserPoints) (*domain.UserPoints, error)
-	Find(id string) (*domain.UserPoints, error)
-	FindAll() ([]*domain.UserPoints, error)
-	Update(userPoints *domain.UserPoints) (*domain.UserPoints, error)
+	Insert(userPoints *models.UserPoints) (*models.UserPoints, error)
+	Find(id string) (*models.UserPoints, error)
+	FindAll() ([]*models.UserPoints, error)
+	Update(userPoints *models.UserPoints) (*models.UserPoints, error)
 }
 
 type UserPointsRepositoryDb struct {
 	Db *database.Database
 }
 
-func (repo UserPointsRepositoryDb) Insert(userPoints *domain.UserPoints) (*domain.UserPoints, error) {
+func (repo UserPointsRepositoryDb) Insert(userPoints *models.UserPoints) (*models.UserPoints, error) {
 	err := repo.Db.Create(userPoints).Error
 
 	if err != nil {
@@ -27,8 +27,8 @@ func (repo UserPointsRepositoryDb) Insert(userPoints *domain.UserPoints) (*domai
 	return userPoints, nil
 }
 
-func (repo UserPointsRepositoryDb) Find(id string) (*domain.UserPoints, error) {
-	var userPoints domain.UserPoints
+func (repo UserPointsRepositoryDb) Find(id string) (*models.UserPoints, error) {
+	var userPoints models.UserPoints
 
 	repo.Db.First(&userPoints, "user_id = ?", id)
 
@@ -39,15 +39,15 @@ func (repo UserPointsRepositoryDb) Find(id string) (*domain.UserPoints, error) {
 	return &userPoints, nil
 }
 
-func (repo UserPointsRepositoryDb) FindAll() (*[]domain.UserPoints, error) {
-	var userPoints []domain.UserPoints
+func (repo UserPointsRepositoryDb) FindAll() (*[]models.UserPoints, error) {
+	var userPoints []models.UserPoints
 
 	repo.Db.Find(&userPoints)
 
 	return &userPoints, nil
 }
 
-func (repo UserPointsRepositoryDb) Update(userPoints *domain.UserPoints) (*domain.UserPoints, error) {
+func (repo UserPointsRepositoryDb) Update(userPoints *models.UserPoints) (*models.UserPoints, error) {
 	err := repo.Db.Save(&userPoints).Error
 
 	if err != nil {

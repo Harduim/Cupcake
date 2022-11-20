@@ -2,22 +2,22 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"fmt"
 )
 
 type BetRepository interface {
-	Insert(match *domain.Bet) (*domain.Bet, error)
-	Find(id string) (*domain.Bet, error)
-	FindAll() ([]*domain.Bet, error)
-	Update(match *domain.Bet) (*domain.Bet, error)
+	Insert(match *models.Bet) (*models.Bet, error)
+	Find(id string) (*models.Bet, error)
+	FindAll() ([]*models.Bet, error)
+	Update(match *models.Bet) (*models.Bet, error)
 }
 
 type BetRepositoryDb struct {
 	Db *database.Database
 }
 
-func (repo BetRepositoryDb) Insert(bet *domain.Bet) (*domain.Bet, error) {
+func (repo BetRepositoryDb) Insert(bet *models.Bet) (*models.Bet, error) {
 	err := repo.Db.Create(bet).Error
 
 	if err != nil {
@@ -27,8 +27,8 @@ func (repo BetRepositoryDb) Insert(bet *domain.Bet) (*domain.Bet, error) {
 	return bet, nil
 }
 
-func (repo BetRepositoryDb) Find(id string) (*domain.Bet, error) {
-	var match domain.Bet
+func (repo BetRepositoryDb) Find(id string) (*models.Bet, error) {
+	var match models.Bet
 
 	repo.Db.First(&match, "id = ?", id)
 
@@ -39,15 +39,15 @@ func (repo BetRepositoryDb) Find(id string) (*domain.Bet, error) {
 	return &match, nil
 }
 
-func (repo BetRepositoryDb) FindAll() (*[]domain.Bet, error) {
-	var bets []domain.Bet
+func (repo BetRepositoryDb) FindAll() (*[]models.Bet, error) {
+	var bets []models.Bet
 
 	repo.Db.Find(&bets)
 
 	return &bets, nil
 }
 
-func (repo BetRepositoryDb) Update(bet *domain.Bet) (*domain.Bet, error) {
+func (repo BetRepositoryDb) Update(bet *models.Bet) (*models.Bet, error) {
 	err := repo.Db.Save(&bet).Error
 
 	if err != nil {
@@ -57,7 +57,7 @@ func (repo BetRepositoryDb) Update(bet *domain.Bet) (*domain.Bet, error) {
 	return bet, nil
 }
 
-func (repo BetRepositoryDb) Delete(bet *domain.Bet) (*domain.Bet, error) {
+func (repo BetRepositoryDb) Delete(bet *models.Bet) (*models.Bet, error) {
 	err := repo.Db.Delete(&bet).Error
 
 	if err != nil {

@@ -2,22 +2,22 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"fmt"
 )
 
 type JokerRepository interface {
-	Insert(joker *domain.Joker) (*domain.Joker, error)
-	Find(id string) (*domain.Joker, error)
-	FindAll() ([]*domain.Joker, error)
-	Update(joker *domain.Joker) (*domain.Joker, error)
+	Insert(joker *models.Joker) (*models.Joker, error)
+	Find(id string) (*models.Joker, error)
+	FindAll() ([]*models.Joker, error)
+	Update(joker *models.Joker) (*models.Joker, error)
 }
 
 type JokerRepositoryDb struct {
 	Db *database.Database
 }
 
-func (repo JokerRepositoryDb) Insert(joker *domain.Joker) (*domain.Joker, error) {
+func (repo JokerRepositoryDb) Insert(joker *models.Joker) (*models.Joker, error) {
 	err := repo.Db.Create(joker).Error
 
 	if err != nil {
@@ -27,8 +27,8 @@ func (repo JokerRepositoryDb) Insert(joker *domain.Joker) (*domain.Joker, error)
 	return joker, nil
 }
 
-func (repo JokerRepositoryDb) Find(id string) (*domain.Joker, error) {
-	var joker domain.Joker
+func (repo JokerRepositoryDb) Find(id string) (*models.Joker, error) {
+	var joker models.Joker
 
 	repo.Db.First(&joker, "id = ?", id)
 
@@ -39,15 +39,15 @@ func (repo JokerRepositoryDb) Find(id string) (*domain.Joker, error) {
 	return &joker, nil
 }
 
-func (repo JokerRepositoryDb) FindAll() (*[]domain.Joker, error) {
-	var bets []domain.Joker
+func (repo JokerRepositoryDb) FindAll() (*[]models.Joker, error) {
+	var bets []models.Joker
 
 	repo.Db.Find(&bets)
 
 	return &bets, nil
 }
 
-func (repo JokerRepositoryDb) Update(bet *domain.Joker) (*domain.Joker, error) {
+func (repo JokerRepositoryDb) Update(bet *models.Joker) (*models.Joker, error) {
 	err := repo.Db.Save(&bet).Error
 
 	if err != nil {
@@ -57,7 +57,7 @@ func (repo JokerRepositoryDb) Update(bet *domain.Joker) (*domain.Joker, error) {
 	return bet, nil
 }
 
-func (repo JokerRepositoryDb) Delete(bet *domain.Joker) (*domain.Joker, error) {
+func (repo JokerRepositoryDb) Delete(bet *models.Joker) (*models.Joker, error) {
 	err := repo.Db.Delete(&bet).Error
 
 	if err != nil {

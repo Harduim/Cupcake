@@ -2,24 +2,25 @@ package repositories
 
 import (
 	"cupcake/app/database"
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"fmt"
 
 	uuid "github.com/satori/go.uuid"
+	"gorm.io/gorm/clause"
 )
 
 type MatchRepository interface {
-	Insert(match *domain.Match) (*domain.Match, error)
-	Find(id string) (*domain.Match, error)
-	FindAll() ([]*domain.Match, error)
-	Update(match *domain.Match) (*domain.Match, error)
+	Insert(match *models.Match) (*models.Match, error)
+	Find(id string) (*models.Match, error)
+	FindAll() ([]*models.Match, error)
+	Update(match *models.Match) (*models.Match, error)
 }
 
 type MatchRepositoryDb struct {
 	Db *database.Database
 }
 
-func (repo MatchRepositoryDb) Insert(match *domain.Match) (*domain.Match, error) {
+func (repo MatchRepositoryDb) Insert(match *models.Match) (*models.Match, error) {
 	if match.ID == "" {
 		match.ID = uuid.NewV4().String()
 	}
@@ -33,8 +34,8 @@ func (repo MatchRepositoryDb) Insert(match *domain.Match) (*domain.Match, error)
 	return match, nil
 }
 
-func (repo MatchRepositoryDb) Find(id string) (*domain.Match, error) {
-	var match domain.Match
+func (repo MatchRepositoryDb) Find(id string) (*models.Match, error) {
+	var match models.Match
 
 	repo.Db.First(&match, "id = ?", id)
 
@@ -45,10 +46,10 @@ func (repo MatchRepositoryDb) Find(id string) (*domain.Match, error) {
 	return &match, nil
 }
 
-func (repo MatchRepositoryDb) FindAll() (*[]domain.Match, error) {
-	var matches []domain.Match
+func (repo MatchRepositoryDb) FindAll() (*[]models.Match, error) {
+	var matches []models.Match
 
-	err := repo.Db.Model(&domain.Match{}).Preload("Bracket").Find(&matches).Error
+	err := repo.Db.Model(&models.Match{}).Preload(clause.Associations).Find(&matches).Error
 
 	if err != nil {
 		return nil, err
@@ -57,7 +58,7 @@ func (repo MatchRepositoryDb) FindAll() (*[]domain.Match, error) {
 	return &matches, nil
 }
 
-func (repo MatchRepositoryDb) Update(match *domain.Match) (*domain.Match, error) {
+func (repo MatchRepositoryDb) Update(match *models.Match) (*models.Match, error) {
 	err := repo.Db.Save(&match).Error
 
 	if err != nil {
@@ -67,7 +68,7 @@ func (repo MatchRepositoryDb) Update(match *domain.Match) (*domain.Match, error)
 	return match, nil
 }
 
-func (repo MatchRepositoryDb) Delete(match *domain.Match) (*domain.Match, error) {
+func (repo MatchRepositoryDb) Delete(match *models.Match) (*models.Match, error) {
 	err := repo.Db.Delete(&match).Error
 
 	if err != nil {
