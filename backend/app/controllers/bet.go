@@ -11,18 +11,12 @@ import (
 // GetAllBets Return all bets as JSON
 func GetAllBets(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		repo := repositories.BetRepositoryDb{Db: db}
-		brackets, err := repo.FindAll()
+		user_id := ctx.Locals("user_id").(string)
+		var bets []models.Bet
 
-		if err != nil {
-			panic("Error occurred while retrieving bets from the database: " + err.Error())
-		}
+		db.Find(&bets, "user_id = ?", user_id)
 
-		response := ctx.JSON(brackets)
-
-		if err != nil {
-			panic("Error occurred when returning JSON of bets: " + err.Error())
-		}
+		response := ctx.JSON(bets)
 
 		return response
 	}
