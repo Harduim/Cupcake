@@ -103,7 +103,7 @@ func nationalTeamsFixtures(db *database.Database) error {
 		{ID: config.NT_SENEGAL, Name: "Senegal"},
 		{ID: config.NT_SERVIA, Name: "Servia"},
 		{ID: config.NT_SUIÇA, Name: "Suíça"},
-		{ID: config.NT_TUNISIA, Name: "tunisia"},
+		{ID: config.NT_TUNISIA, Name: "Tunisia"},
 		{ID: config.NT_URUGUAI, Name: "Uruguai"},
 	}
 
