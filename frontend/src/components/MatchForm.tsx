@@ -8,9 +8,10 @@ interface IPropType {
   match: Match
   teams: NationalTeam[]
   onSubmit: (match: Match) => void
+  isAdminForm?: boolean
 }
 
-const MatchForm = ({ match, teams, onSubmit }: IPropType) => {
+const MatchForm = ({ match, teams, onSubmit, isAdminForm }: IPropType) => {
   const [_match, setMatch] = useState<Match>(match)
   const options = teams.map(t => {
     return { text: t.name, value: t.id }
@@ -95,10 +96,15 @@ const MatchForm = ({ match, teams, onSubmit }: IPropType) => {
         disabled={winnerOptions.length === 0}
       />
       <EuiSpacer size='m' />
-      <EuiButton color='primary' onClick={() => onSubmit(_match)} fill isDisabled={isSendDisabled}>
+      <EuiButton
+        color='primary'
+        onClick={() => onSubmit(_match)}
+        fill
+        isDisabled={isSendDisabled && !isAdminForm}
+      >
         Salvar
       </EuiButton>
-      {isSendDisabled && (
+      {isSendDisabled && !isAdminForm && (
         <>
           <EuiSpacer size='m' />
           <EuiCallOut

@@ -50,7 +50,7 @@ const Admin = () => {
                   {b.Matches.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)).map(m => (
                     <EuiFlexItem grow={false} key={m.id}>
                       <EuiPanel grow={false}>
-                        <MatchForm match={m} teams={teams} onSubmit={updateMatch} />
+                        <MatchForm isAdminForm match={m} teams={teams} onSubmit={updateMatch} />
                       </EuiPanel>
                     </EuiFlexItem>
                   ))}
