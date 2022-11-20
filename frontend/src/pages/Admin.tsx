@@ -40,8 +40,8 @@ const Admin = () => {
         .sort((a, b) => Date.parse(a.openDate) - Date.parse(b.openDate))
         .map(b => {
           return (
-            <>
-              <EuiPageSection key={b.id} color='subdued'>
+            <div key={b.id}>
+              <EuiPageSection color='subdued'>
                 <EuiTitle>
                   <h1>{b.name}</h1>
                 </EuiTitle>
@@ -57,7 +57,7 @@ const Admin = () => {
                 </EuiFlexGroup>
               </EuiPageSection>
               <EuiSpacer size='m' />
-            </>
+            </div>
           )
         })}
     </PageLayout>
