@@ -1,14 +1,11 @@
 import {
-  EuiCard,
   EuiFlexGrid,
-  EuiFlexItem,
-  EuiIcon,
   EuiPanel,
   EuiSpacer,
   EuiTitle,
 } from '@elastic/eui'
 import { useQuery } from '@tanstack/react-query'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { JokerMatch, Match } from '../../clients'
 import MatchForm from '../../components/MatchForm'
 import GlobalContext from '../../context/GlobalContext'
