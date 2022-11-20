@@ -3,7 +3,6 @@ package controllers
 import (
 	"cupcake/app/database"
 	"cupcake/app/models"
-	"cupcake/app/repositories"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -11,7 +10,7 @@ import (
 func GetGroups(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		user_id := ctx.Locals("user_id").(string)
-		var group models.Groups
+		var group models.Group
 
 		db.Find(&group, "user_id = ?", user_id)
 
@@ -20,7 +19,7 @@ func GetGroups(db *database.Database) fiber.Handler {
 			return response
 
 		}
-		newGroups := &models.Groups{UserID: user_id}
+		newGroups := &models.Group{UserID: user_id}
 		db.Create(&newGroups)
 
 		response := ctx.JSON(newGroups)
@@ -31,27 +30,22 @@ func GetGroups(db *database.Database) fiber.Handler {
 
 func UpdateGroup(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		joker := new(models.Joker)
 		user_id := ctx.Locals("user_id").(string)
-		err := ctx.BodyParser(joker)
+		groups := new(models.Groups)
+
+		err := ctx.BodyParser(groups)
 		if err != nil {
-			panic("Unable to parse body: " + err.Error())
+			return ctx.SendStatus(fiber.ErrUnprocessableEntity.Code)
 		}
-
-		repo := repositories.JokerRepositoryDb{Db: db}
-		joker.UserID = user_id
-		joker, err = repo.Update(joker)
-
-		if err != nil {
-			panic("Error occurred while updating joker from the database: " + err.Error())
+		for _, g := range groups.Groups {
+			if g.UserID != user_id {
+				return ctx.SendStatus(fiber.ErrUnauthorized.Code)
+			}
 		}
-
-		response := ctx.JSON(joker)
-
-		if err != nil {
-			panic("Error occurred when returning JSON of jokers: " + err.Error())
-		}
-
+		db.Delete(&models.Group{}, "user_id = ?", user_id)
+		db.Save(&groups.Groups)
+		response := ctx.JSON(groups)
 		return response
+
 	}
 }
