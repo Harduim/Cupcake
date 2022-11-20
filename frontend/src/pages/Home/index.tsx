@@ -70,9 +70,9 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
   const iconTeamB = <EuiIcon size='xxl' type={`${PUBLIC_URL}/flags/${nationalTeamB?.name}.svg`} />
 
   const getDisplay = (teamId?: string, winnerId?: string) => {
-    let display: 'success' | 'accent' | undefined
+    let display: 'success' | 'accent' | 'subdued'
     if (!winnerId || !teamId) {
-      display = undefined
+      display = 'subdued'
     } else if (_bet.winnerId === teamId) {
       display = 'success'
     } else {
@@ -168,12 +168,6 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
         Salvar
       </EuiButton>
       <EuiSpacer size='m' />
-      <EuiPanel color='success' paddingSize='s'>
-        <EuiText size='s'>Palpite Registrado</EuiText>
-      </EuiPanel>
-      <EuiPanel color='warning' paddingSize='s'>
-        <EuiText size='s'>Você só tem mais N dias</EuiText>
-      </EuiPanel>
     </EuiPanel>
   )
 }
