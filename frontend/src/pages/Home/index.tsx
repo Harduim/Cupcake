@@ -41,8 +41,8 @@ const Home = () => {
         .map(b => {
           const isClosed = Date.parse(b.openDate) - Date.parse(b.closeDate) > 0
           return (
-            <>
-              <EuiPageSection key={b.id} color='subdued'>
+            <div key={b.id}>
+              <EuiPageSection color='subdued'>
                 <EuiTitle>
                   <h1>{b.name}</h1>
                 </EuiTitle>
@@ -61,7 +61,7 @@ const Home = () => {
                 </EuiFlexGrid>
               </EuiPageSection>
               <EuiSpacer size='m' />
-            </>
+            </div>
           )
         })}
     </PageLayout>
