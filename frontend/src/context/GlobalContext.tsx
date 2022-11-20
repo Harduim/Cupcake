@@ -67,7 +67,7 @@ export const GlobalProvider = ({ children }: IContextProps) => {
     queryFn: async () => {
       const response = await api.get('bets')
       let data = new Map()
-      response.data.forEach((t: Bet) => data.set(t.id, t))
+      response.data.forEach((t: Bet) => data.set(t.matchId, t))
       return data as Map<string, Bet>
     },
     enabled: !!me,
