@@ -10,6 +10,7 @@ type User struct {
 	Name    string `json:"name" validate:"required" gorm:"type:varchar(255)"`
 	Email   string `json:"email" validate:"required,email" gorm:"type:varchar(255)"`
 	IsAdmin *bool  `json:"isAdmin" validate:"required" gorm:"type:bool;default:false"`
+	Points  *int   `gorm:"default:0"`
 }
 
 func NewUser(name string, email string, isAdmin *bool) (*User, error) {

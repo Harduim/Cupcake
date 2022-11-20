@@ -23,10 +23,6 @@ type Bracket struct {
 	Matches    []Match
 }
 
-func NewBracket() *Bracket {
-	return &Bracket{}
-}
-
 func (bracket *Bracket) Validate() error {
 	err := validate.Struct(bracket)
 

@@ -14,29 +14,7 @@ type Groups struct {
 	NationalTeams []*NationalTeam `gorm:"many2many:user_groups;"`
 }
 
-func NewGroups(
-	NationalTeams []*NationalTeam,
-	userID string,
-	bracketID string,
-) (*Groups, error) {
-
-	groups := &Groups{
-		UserID:        userID,
-		NationalTeams: NationalTeams,
-		BracketID:     bracketID,
-	}
-	groups.prepare()
-
-	err := groups.Validate()
-
-	if err != nil {
-		return nil, err
-	}
-
-	return groups, nil
-}
-
-func (groups *Groups) prepare() {
+func (groups *Groups) Prepare() {
 	now := time.Now().UTC()
 	groups.CreatedAt = now
 }

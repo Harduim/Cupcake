@@ -5,10 +5,6 @@ type NationalTeam struct {
 	Name string `json:"name" validate:"required" gorm:"type:varchar(255)"`
 }
 
-func NewNationalTeam() *NationalTeam {
-	return &NationalTeam{}
-}
-
 func (nationalTeam *NationalTeam) Validate() error {
 	err := validate.Struct(nationalTeam)
 

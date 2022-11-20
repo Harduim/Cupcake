@@ -17,10 +17,6 @@ type Match struct {
 	Winner          NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
-func NewMatch() *Match {
-	return &Match{}
-}
-
 func (match *Match) Validate() error {
 	err := validate.Struct(match)
 

@@ -40,11 +40,11 @@ func (repo GroupsRepositoryDb) Find(id string) (*models.Groups, error) {
 }
 
 func (repo GroupsRepositoryDb) FindAll() (*[]models.Groups, error) {
-	var bets []models.Groups
+	var groups []models.Groups
 
-	repo.Db.Find(&bets)
+	repo.Db.Find(&groups)
 
-	return &bets, nil
+	return &groups, nil
 }
 
 func (repo GroupsRepositoryDb) Update(bet *models.Groups) (*models.Groups, error) {

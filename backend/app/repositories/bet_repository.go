@@ -7,10 +7,10 @@ import (
 )
 
 type BetRepository interface {
-	Insert(match *models.Bet) (*models.Bet, error)
+	Insert(bet *models.Bet) (*models.Bet, error)
 	Find(id string) (*models.Bet, error)
 	FindAll() ([]*models.Bet, error)
-	Update(match *models.Bet) (*models.Bet, error)
+	Update(bet *models.Bet) (*models.Bet, error)
 }
 
 type BetRepositoryDb struct {
@@ -28,15 +28,15 @@ func (repo BetRepositoryDb) Insert(bet *models.Bet) (*models.Bet, error) {
 }
 
 func (repo BetRepositoryDb) Find(id string) (*models.Bet, error) {
-	var match models.Bet
+	var bet models.Bet
 
-	repo.Db.First(&match, "id = ?", id)
+	repo.Db.First(&bet, "id = ?", id)
 
-	if match.ID == "" {
+	if bet.ID == "" {
 		return nil, fmt.Errorf("match does not exist")
 	}
 
-	return &match, nil
+	return &bet, nil
 }
 
 func (repo BetRepositoryDb) FindAll() (*[]models.Bet, error) {

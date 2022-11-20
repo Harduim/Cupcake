@@ -2,7 +2,7 @@ package routes
 
 import (
 	"cupcake/app/config"
-	Controller "cupcake/app/controllers"
+	"cupcake/app/controllers"
 	"cupcake/app/database"
 	"cupcake/app/middlewares"
 	"cupcake/app/service"
@@ -22,7 +22,6 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 	registerBrackets(api, db, authorizationMiddleware)
 	registerMatches(api, db, authorizationMiddleware)
 	registerNationalTeam(api, db, authorizationMiddleware)
-	registerUserPoints(api, db, authorizationMiddleware)
 	registerBets(api, db, authorizationMiddleware)
 	registerJoker(api, db, authorizationMiddleware)
 	registerDocs(api, db)
@@ -31,63 +30,45 @@ func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOCli
 func registerUsers(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	users := api.Group("/users", authorization)
 
-	users.Get("/", Controller.GetAllUsers(db))
-	users.Get("/me", Controller.GetMe(db))
-	// users.Get("/:id", Controller.GetUser(db))
-	// users.Post("/", Controller.AddUser(db))
-	// users.Put("/:id", Controller.EditUser(db))
-	// users.Delete("/:id", Controller.DeleteUser(db))
+	users.Get("/", controllers.GetAllUsers(db))
+	users.Get("/me", controllers.GetMe(db))
 }
 
 func registerAuth(api fiber.Router, db *database.Database, sso *service.SSOClient, secretKey string) {
 	users := api.Group("/auth")
-	users.Get("/sso", Controller.AuthenticateSSO(sso))
-	users.Get("/token", Controller.Token(sso, db, secretKey))
+	users.Get("/sso", controllers.AuthenticateSSO(sso))
+	users.Get("/token", controllers.Token(sso, db, secretKey))
 }
 
 func registerBrackets(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	brackets := api.Group("/brackets", authorization)
-	brackets.Get("/", Controller.GetAllBrackets(db))
+	brackets.Get("/", controllers.GetAllBrackets(db))
 }
 
 func registerMatches(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	matches := api.Group("/matches", authorization)
-	//	@Summary      Get ALL Matches
-	//	@Description  Get Matches
-	//	@ID           get-all-matches
-	//	@Produce      json
-	//	@Success      200      {string}  string        "ok"
-	//	@Failure      400      {object}  web.APIError  "We need ID!!"
-	//	@Failure      404      {object}  web.APIError  "Can not find ID"
-	//	@Router       /api/matches [get]
-	matches.Get("/", Controller.GetAllMatches(db))
-	matches.Post("/", Controller.CreateMatch(db))
-	matches.Put("/", Controller.UpdateMatch(db))
+	matches.Get("/", controllers.GetAllMatches(db))
+	matches.Post("/", controllers.CreateMatch(db))
+	matches.Put("/", controllers.UpdateMatch(db))
 }
 
 func registerNationalTeam(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	nationalTeams := api.Group("/national-teams", authorization)
-	nationalTeams.Get("/", Controller.GetAllNationalTeams(db))
-}
-
-func registerUserPoints(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
-	userPoints := api.Group("/points", authorization)
-	userPoints.Get("/", Controller.GetAllUserPoints(db))
-	userPoints.Patch("/", Controller.UpdateUserPoints(db))
+	nationalTeams.Get("/", controllers.GetAllNationalTeams(db))
 }
 
 func registerBets(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	userPoints := api.Group("/bets", authorization)
-	userPoints.Get("/", Controller.GetAllBets(db))
-	userPoints.Post("/", Controller.CreateBet(db))
-	userPoints.Put("/", Controller.UpdateBet(db))
+	userPoints.Get("/", controllers.GetAllBets(db))
+	userPoints.Post("/", controllers.CreateBet(db))
+	userPoints.Put("/", controllers.UpdateBet(db))
 }
 
 func registerJoker(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	userPoints := api.Group("/joker", authorization)
-	userPoints.Get("/", Controller.GetAllJokers(db))
-	userPoints.Post("/", Controller.CreateJoker(db))
-	userPoints.Put("/", Controller.UpdateJoker(db))
+	userPoints.Get("/", controllers.GetAllJokers(db))
+	userPoints.Post("/", controllers.CreateJoker(db))
+	userPoints.Put("/", controllers.UpdateJoker(db))
 }
 
 func registerDocs(api fiber.Router, db *database.Database) {

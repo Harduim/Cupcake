@@ -23,35 +23,7 @@ type Joker struct {
 	Winner          *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
-func NewJoker(nationalTeamAID string,
-	nationalTeamBID string,
-	matchID string,
-	userID string,
-	golA *int,
-	golB *int,
-	winnerId string) (*Joker, error) {
-
-	joker := &Joker{
-		NationalTeamAID: nationalTeamAID,
-		NationalTeamBID: nationalTeamBID,
-		BracketID:       matchID,
-		UserID:          userID,
-		GolA:            golA,
-		GolB:            golB,
-		WinnerID:        winnerId,
-	}
-	joker.prepare()
-
-	err := joker.Validate()
-
-	if err != nil {
-		return nil, err
-	}
-
-	return joker, nil
-}
-
-func (joker *Joker) prepare() {
+func (joker *Joker) Prepare() {
 	now := time.Now().UTC()
 	joker.ID = uuid.NewV4().String()
 	joker.CreatedAt = now

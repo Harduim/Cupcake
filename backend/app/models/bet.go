@@ -20,32 +20,6 @@ type Bet struct {
 	Winner   *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
-func NewBet(nationalTeamAID string,
-	nationalTeamBID string,
-	matchID string,
-	userID string,
-	golA *int,
-	golB *int,
-	winnerId string) (*Bet, error) {
-
-	bet := &Bet{
-		MatchID:  matchID,
-		UserID:   userID,
-		GolA:     golA,
-		GolB:     golB,
-		WinnerID: winnerId,
-	}
-	bet.Prepare()
-
-	err := bet.Validate()
-
-	if err != nil {
-		return nil, err
-	}
-
-	return bet, nil
-}
-
 func (bet *Bet) Prepare() {
 	now := time.Now().UTC()
 	bet.ID = uuid.NewV4().String()
