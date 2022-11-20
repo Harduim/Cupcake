@@ -10,7 +10,7 @@ import {
   EuiTitle,
 } from '@elastic/eui'
 import { useQuery } from '@tanstack/react-query'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import GlobalContext from '../../context/GlobalContext'
 import api from '../../services/api'
 const { PUBLIC_URL } = process.env
@@ -47,8 +47,12 @@ const GroupStage = () => {
     ...queryOptions,
   })
 
-  const defaultSelect = isLoading || !selected ? [] : selected.map(s => s.national_team_id)
-  const [_selected, _setSelected] = useState<(string | null)[]>(defaultSelect)
+  const [_selected, _setSelected] = useState<(string | null)[]>([])
+
+  useEffect(() => {
+    if (isLoading || !selected) return
+    _setSelected(selected.map(s => s.national_team_id))
+  }, [selected, isLoading])
 
   const handleSelect = (newSelection: string) => {
     if (!_selected.includes(newSelection) && _selected.length < MAX_SELECTIONS) {
