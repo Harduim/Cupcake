@@ -1,6 +1,7 @@
 import {
   EuiAvatar,
   EuiButton,
+  EuiCallOut,
   EuiCard,
   EuiFieldNumber,
   EuiFlexGroup,
@@ -158,6 +159,16 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
       >
         Salvar
       </EuiButton>
+      {isSendDisabled && !isDisabled && (
+        <>
+          <EuiSpacer size='m' />
+          <EuiCallOut
+            title='Escolha o vencedor e defina o placar para habilitar salvamento'
+            color='warning'
+            iconType='help'
+          />
+        </>
+      )}
       <EuiSpacer size='m' />
     </EuiPanel>
   )
