@@ -4,6 +4,7 @@ import PageLayout from '../../components/PageLayout'
 import GlobalContext from '../../context/GlobalContext'
 import { timeStringToBrDateString } from '../../utils/datetime'
 import BetForm from './BetForm'
+import BonusStage from './BonusStage'
 import GroupStage from './GroupStage'
 
 const Home = () => {
@@ -17,7 +18,16 @@ const Home = () => {
     )
   }
   return (
+    // TODO: Explorar Accordion deixam fases em andamento abertas e fases concluídas fechadas
     <PageLayout title='Bolão Copa do Mundo 2022' isLoading={isLoading}>
+      <EuiPageSection color='subdued'>
+        <EuiTitle>
+          <h1 id='rodada-coringa'>Rodada Coringa</h1>
+        </EuiTitle>
+        <EuiSpacer size='m' />
+        <BonusStage />
+      </EuiPageSection>
+      <EuiSpacer size='m' />
       <EuiPageSection color='subdued'>
         <EuiTitle>
           <h1>Fase de Grupos</h1>
