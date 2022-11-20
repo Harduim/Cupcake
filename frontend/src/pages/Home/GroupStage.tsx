@@ -12,7 +12,7 @@ import GlobalContext from '../../context/GlobalContext'
 const { PUBLIC_URL } = process.env
 const MAX_SELECTIONS = 16
 
-const GroupFase = () => {
+const GroupStage = () => {
   const { teams, isLoading } = useContext(GlobalContext)
 
   const [selected, setSelected] = useState<string[]>([])
@@ -55,4 +55,4 @@ const GroupFase = () => {
   )
 }
 
-export default GroupFase
+export default GroupStage

@@ -4,7 +4,7 @@ import PageLayout from '../../components/PageLayout'
 import GlobalContext from '../../context/GlobalContext'
 import { timeStringToBrDateString } from '../../utils/datetime'
 import BetForm from './BetForm'
-import GroupFase from './GroupFase'
+import GroupStage from './GroupStage'
 
 const Home = () => {
   const { brackets, bets, teamMap, isLoading } = useContext(GlobalContext)
@@ -23,7 +23,7 @@ const Home = () => {
           <h1>Fase de Grupos</h1>
         </EuiTitle>
         <EuiSpacer size='m' />
-        <GroupFase />
+        <GroupStage />
       </EuiPageSection>
       <EuiSpacer size='m' />
       {brackets
