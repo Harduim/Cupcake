@@ -7,20 +7,16 @@ import (
 )
 
 type Bet struct {
-	ID              string        `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`
-	CreatedAt       time.Time     `json:"createdAt"`
-	GolA            *int          `json:"golA" validate:"required" gorm:"type:integer"`
-	GolB            *int          `json:"golB" validate:"required" gorm:"type:integer"`
-	UserID          string        `json:"userId" validate:"required,uuid" gorm:"type:varchar(255)"`
-	User            *User         `gorm:"foreignKey:UserID"`
-	MatchID         string        `json:"matchId" validate:"required,uuid" gorm:"type:varchar(255)"`
-	Match           *Match        `gorm:"foreignKey:MatchID"`
-	NationalTeamAID string        `json:"nationalTeamAId" validate:"required,uuid" gorm:"type:varchar(255)"`
-	NationalTeamBID string        `json:"nationalTeamBId" validate:"required,uuid" gorm:"type:varchar(255)"`
-	NationalTeamA   *NationalTeam `gorm:"foreignKey:NationalTeamAID"`
-	NationalTeamB   *NationalTeam `gorm:"foreignKey:NationalTeamBID"`
-	WinnerID        string        `json:"winnerId" validate:"required,uuid" gorm:"type:varchar(255)"`
-	Winner          *NationalTeam `gorm:"foreignKey:WinnerID"`
+	ID        string        `json:"id" validate:"required,uuid" gorm:"type:uuid;primary_key"`
+	CreatedAt time.Time     `json:"createdAt"`
+	GolA      *int          `json:"golA" validate:"required" gorm:"type:integer"`
+	GolB      *int          `json:"golB" validate:"required" gorm:"type:integer"`
+	UserID    string        `json:"userId" validate:"required,uuid" gorm:"type:varchar(255)"`
+	User      *User         `gorm:"foreignKey:UserID"`
+	MatchID   string        `json:"matchId" validate:"required,uuid" gorm:"type:varchar(255)"`
+	Match     *Match        `gorm:"foreignKey:MatchID"`
+	WinnerID  string        `json:"winnerId" validate:"required,uuid" gorm:"type:varchar(255)"`
+	Winner    *NationalTeam `gorm:"foreignKey:WinnerID"`
 }
 
 func NewBet(nationalTeamAID string,
@@ -32,15 +28,13 @@ func NewBet(nationalTeamAID string,
 	winnerId string) (*Bet, error) {
 
 	bet := &Bet{
-		NationalTeamAID: nationalTeamAID,
-		NationalTeamBID: nationalTeamBID,
-		MatchID:         matchID,
-		UserID:          userID,
-		GolA:            golA,
-		GolB:            golB,
-		WinnerID:        winnerId,
+		MatchID:  matchID,
+		UserID:   userID,
+		GolA:     golA,
+		GolB:     golB,
+		WinnerID: winnerId,
 	}
-	bet.prepare()
+	bet.Prepare()
 
 	err := bet.Validate()
 
@@ -51,7 +45,7 @@ func NewBet(nationalTeamAID string,
 	return bet, nil
 }
 
-func (bet *Bet) prepare() {
+func (bet *Bet) Prepare() {
 	now := time.Now().UTC()
 	bet.ID = uuid.NewV4().String()
 	bet.CreatedAt = now
