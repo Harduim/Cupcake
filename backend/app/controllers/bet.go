@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"cupcake/app/database"
-	domain "cupcake/app/models"
+	"cupcake/app/models"
 	"cupcake/app/repositories"
 
 	"github.com/gofiber/fiber/v2"
@@ -31,17 +31,28 @@ func GetAllBets(db *database.Database) fiber.Handler {
 // CreateBet Create bet
 func CreateBet(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		bet := new(domain.Bet)
+		bet := new(models.Bet)
+		bet.Prepare()
+		id := ctx.Locals("user_id").(string)
+		bet.UserID = id
 		err := ctx.BodyParser(bet)
+		if err != nil {
+			panic("Unable to parse body: " + err.Error())
+		}
+		err = bet.Validate()
+		if err != nil {
+			err_msg := "Unable to validate body: " + err.Error() + "\n"
+			return fiber.NewError(500, err_msg)
+		}
 
 		repo := repositories.BetRepositoryDb{Db: db}
-		brackets, err := repo.Insert(bet)
+		n_bet, err := repo.Insert(bet)
 
 		if err != nil {
 			panic("Error occurred while creating bet from the database: " + err.Error())
 		}
 
-		response := ctx.JSON(brackets)
+		response := ctx.JSON(n_bet)
 
 		if err != nil {
 			panic("Error occurred when returning JSON of bets: " + err.Error())
@@ -54,7 +65,7 @@ func CreateBet(db *database.Database) fiber.Handler {
 // UpdateBet Update bet
 func UpdateBet(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		bet := new(domain.Bet)
+		bet := new(models.Bet)
 		err := ctx.BodyParser(bet)
 
 		repo := repositories.BetRepositoryDb{Db: db}
@@ -77,7 +88,7 @@ func UpdateBet(db *database.Database) fiber.Handler {
 // DeleteBet Delete bet
 func DeleteBet(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		bet := new(domain.Bet)
+		bet := new(models.Bet)
 
 		err := ctx.BodyParser(bet)
 
