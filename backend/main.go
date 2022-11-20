@@ -6,12 +6,16 @@ import (
 	"cupcake/app/database/fixtures"
 	"cupcake/app/routes"
 	"cupcake/app/service"
+	"errors"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 type App struct {
@@ -78,11 +82,27 @@ func main() {
 	}
 
 	app := App{
-		App: fiber.New(),
-		DB:  db,
+		App: fiber.New(fiber.Config{ErrorHandler: func(ctx *fiber.Ctx, err error) error {
+			code := fiber.StatusInternalServerError
+			message := "Internal Server Error"
+
+			var e *fiber.Error
+			if errors.As(err, &e) {
+				code = e.Code
+				message = e.Message
+			}
+			fmt.Println(message)
+			ctx.Status(code).SendString(message)
+			return nil
+		}}),
+		DB: db,
 	}
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "http://localhost:5000, https://bolao.rioenergy.com.br",
+	}))
+	app.Use(recover.New())
+	app.Use(logger.New(logger.Config{
+		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
 	}))
 
 	api := app.Group("/api")
@@ -108,10 +128,7 @@ func main() {
 	}()
 
 	// Start listening on the specified address
-	err = app.Listen(config.GetString("APP_ADDR"))
-	if err != nil {
-		app.exit()
-	}
+	log.Fatal(app.Listen(config.GetString("APP_ADDR")))
 }
 
 func (app *App) exit() {
