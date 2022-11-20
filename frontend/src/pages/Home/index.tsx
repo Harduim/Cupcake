@@ -2,7 +2,6 @@ import {
   EuiAvatar,
   EuiButton,
   EuiCard,
-  EuiCheckableCard,
   EuiFieldNumber,
   EuiFlexGrid,
   EuiFlexGroup,
@@ -10,7 +9,6 @@ import {
   EuiIcon,
   EuiPageSection,
   EuiPanel,
-  EuiSelect,
   EuiSpacer,
   EuiText,
   EuiTitle,
@@ -86,6 +84,9 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
   const displayTeamA = getDisplay(match.nationalTeamAId, _bet?.winnerId)
   const displayTeamB = getDisplay(match.nationalTeamBId, _bet?.winnerId)
 
+  const isSendDisabled =
+    _bet.golA === undefined || _bet.golB === undefined || _bet.winnerId === undefined
+
   return (
     <EuiPanel>
       <EuiTitle size='xs'>
@@ -154,12 +155,11 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
           }}
         />
       </EuiFlexGroup>
-
       <EuiSpacer size='s' />
       <EuiSpacer size='m' />
       <EuiButton
         color='primary'
-        disabled={isDisabled}
+        disabled={isSendDisabled}
         onClick={() => {
           updateBet(_bet, _bet.id === bet?.id)
         }}
