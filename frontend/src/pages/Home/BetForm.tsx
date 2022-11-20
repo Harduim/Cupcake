@@ -101,7 +101,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
         <EuiFlexItem>
           <EuiCard
             icon={!nationalTeamA ? iconNotDefined : iconTeamA}
-            title={nationalTeamA?.name.replace('_', ' ') || 'Não Definido'}
+            title={nationalTeamA?.name.replaceAll('_', ' ') || 'Não Definido'}
             isDisabled={isDisabled}
             onClick={() => handleChange('winnerId', nationalTeamA?.id)}
             display={displayTeamA}
@@ -110,7 +110,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
         <EuiFlexItem>
           <EuiCard
             icon={!nationalTeamA ? iconNotDefined : iconTeamB}
-            title={nationalTeamB?.name.replace('_', ' ') || 'Não Definido'}
+            title={nationalTeamB?.name.replaceAll('_', ' ') || 'Não Definido'}
             isDisabled={isDisabled}
             onClick={() => handleChange('winnerId', nationalTeamB?.id)}
             display={displayTeamB}
