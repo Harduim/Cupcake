@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func Get(db *database.Database) fiber.Handler {
+func GetJoker(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		user_id := ctx.Locals("user_id").(string)
 		var joker models.Joker
