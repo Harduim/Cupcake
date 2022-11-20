@@ -4,7 +4,7 @@ import (
 	"cupcake/app/config"
 	"cupcake/app/controllers"
 	"cupcake/app/database"
-	"cupcake/app/middlewares"
+	"cupcake/app/middleware"
 	"cupcake/app/service"
 
 	_ "cupcake/docs"
@@ -15,7 +15,7 @@ import (
 
 func RegisterRoutes(api fiber.Router, db *database.Database, sso *service.SSOClient, config *config.Config) {
 	tokenSecret := config.GetString("TOKEN_SECRET")
-	authorizationMiddleware := middlewares.Authorization(tokenSecret)
+	authorizationMiddleware := middleware.Authorization(tokenSecret)
 
 	registerUsers(api, db, authorizationMiddleware)
 	registerAuth(api, db, sso, tokenSecret)
