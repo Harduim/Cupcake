@@ -1,17 +1,10 @@
-import {
-  EuiFlexGrid,
-  EuiFlexItem,
-  EuiPageSection,
-  EuiPanel,
-  EuiSelectable,
-  EuiSpacer,
-  EuiTitle,
-} from '@elastic/eui'
+import { EuiFlexGrid, EuiFlexItem, EuiPageSection, EuiSpacer, EuiTitle } from '@elastic/eui'
 import { useContext } from 'react'
 import PageLayout from '../../components/PageLayout'
 import GlobalContext from '../../context/GlobalContext'
 import { timeStringToBrDateString } from '../../utils/datetime'
 import BetForm from './BetForm'
+import GroupFase from './GroupFase'
 
 const Home = () => {
   const { brackets, bets, teamMap, isLoading } = useContext(GlobalContext)
@@ -30,24 +23,7 @@ const Home = () => {
           <h1>Fase de Grupos</h1>
         </EuiTitle>
         <EuiSpacer size='m' />
-        <EuiPanel>
-          <EuiSelectable
-            aria-label='Searchable example'
-            options={[{ label: 'Alpha' }, { label: 'B', searchableLabel: 'Beta' }]}
-            onChange={newOptions => {}}
-            searchable
-            searchProps={{
-              'data-test-subj': 'dataTestSubj',
-            }}
-          >
-            {(list, search) => (
-              <>
-                {search}
-                {list}
-              </>
-            )}
-          </EuiSelectable>
-        </EuiPanel>
+        <GroupFase />
       </EuiPageSection>
       <EuiSpacer size='m' />
       {brackets
