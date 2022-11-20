@@ -66,21 +66,9 @@ func bracketFixtures(db *database.Database) error {
 		OpenDate:   time.Date(2022, 11, 30, 12, 0, 0, 0, time.Local),
 		CloseDate:  time.Date(2022, 12, 6, 18, 0, 0, 0, time.Local),
 	}
-	coringa := models.Bracket{
-		ID:         config.BRKT_CORINGA,
-		Name:       "Rodada Coringa",
-		Multiplier: 9,
-		OpenDate:   time.Date(2022, 11, 10, 0, 0, 0, 0, time.Local),
-		CloseDate:  time.Date(2022, 12, 6, 0, 0, 0, 0, time.Local),
-	}
 
-	err := db.Create(&[]models.Bracket{final, terceiro, semi, quartas, oitavas, coringa}).Error
+	return db.Create(&[]models.Bracket{final, terceiro, semi, quartas, oitavas}).Error
 
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func nationalTeamsFixtures(db *database.Database) error {
@@ -119,24 +107,12 @@ func nationalTeamsFixtures(db *database.Database) error {
 		{ID: config.NT_URUGUAI, Name: "Uruguai"},
 	}
 
-	err := db.Create(&teams).Error
+	return db.Create(&teams).Error
 
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func matchFixtures(db *database.Database) error {
 	matches := []models.Match{
-		// Coringa
-		{
-			ID:        config.MATCH_CORINGA,
-			Name:      "Finais (Coringa)",
-			Date:      time.Date(2022, 12, 6, 0, 0, 0, 0, time.Local),
-			BracketID: config.BRKT_CORINGA,
-		},
 		// Oitavas
 		{
 			ID:        config.MATCH_OITAVAS_01,
@@ -240,11 +216,6 @@ func matchFixtures(db *database.Database) error {
 		},
 	}
 
-	err := db.Create(&matches).Error
+	return db.Create(&matches).Error
 
-	if err != nil {
-		return err
-	}
-
-	return nil
 }
