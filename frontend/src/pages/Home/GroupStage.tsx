@@ -9,35 +9,61 @@ import {
   EuiSpacer,
   EuiTitle,
 } from '@elastic/eui'
+import { useQuery } from '@tanstack/react-query'
 import { useContext, useState } from 'react'
 import GlobalContext from '../../context/GlobalContext'
 import api from '../../services/api'
 const { PUBLIC_URL } = process.env
 const MAX_SELECTIONS = 16
 
-const handleSubmit = async (teams: string[]) => {
-  await api.put('groups', teams)
+const handleSubmit = async (teams: (string | null)[], userId: string) => {
+  await api.put('groups', {
+    groups: teams.map(t => {
+      return { national_team_id: t, user_id: userId }
+    }),
+  })
+}
+
+interface IGroup {
+  user_id: string
+  national_team_id: string | null
+}
+
+const queryOptions = {
+  refetchOnWindowFocus: true,
+  retry: false,
+  staleTime: 1000 * 60 * 5,
 }
 
 const GroupStage = () => {
-  const { teams, isLoading } = useContext(GlobalContext)
+  const { teams, isLoading, me } = useContext(GlobalContext)
 
-  const [selected, setSelected] = useState<string[]>([])
+  const { isLoading: selectedIsLoading, data: selected } = useQuery({
+    queryKey: ['selectedForGroups'],
+    queryFn: async () => {
+      const response = await api.get('groups')
+      return response.data as IGroup[]
+    },
+    ...queryOptions,
+  })
+
+  const defaultSelect = isLoading || !selected ? [] : selected.map(s => s.national_team_id)
+  const [_selected, _setSelected] = useState<(string | null)[]>(defaultSelect)
 
   const handleSelect = (newSelection: string) => {
-    if (!selected.includes(newSelection) && selected.length < MAX_SELECTIONS) {
-      return setSelected([...selected, newSelection])
+    if (!_selected.includes(newSelection) && _selected.length < MAX_SELECTIONS) {
+      return _setSelected([..._selected, newSelection])
     }
-    setSelected(selected.filter(s => s !== newSelection))
+    _setSelected(_selected.filter(s => s !== newSelection))
   }
-  const isSendEnabled = selected.length === MAX_SELECTIONS
+  const isSendEnabled = _selected.length === MAX_SELECTIONS
 
-  if (isLoading) return null
+  if (isLoading || selectedIsLoading) return null
   return (
     <EuiPanel>
       <EuiTitle size='xs'>
         <h2>
-          Escolha as seleções que vão se classificar - {selected.length} de {MAX_SELECTIONS}{' '}
+          Escolha as seleções que vão se classificar - {_selected.length} de {MAX_SELECTIONS}{' '}
           escolhidas
         </h2>
       </EuiTitle>
@@ -50,19 +76,19 @@ const GroupStage = () => {
               title={t?.name.replaceAll('_', ' ') || 'Não Definido'}
               isDisabled={false}
               onClick={() => handleSelect(t.id)}
-              display={selected.includes(t.id) ? 'success' : 'subdued'}
+              display={_selected.includes(t.id) ? 'success' : 'subdued'}
             />
           </EuiFlexItem>
         ))}
       </EuiFlexGrid>
       <EuiSpacer size='m' />
       <p>
-        {selected.length} de {MAX_SELECTIONS} Seleções Escolhidas
+        {_selected.length} de {MAX_SELECTIONS} Seleções Escolhidas
       </p>
       <EuiSpacer size='m' />
       <EuiButton
         color='primary'
-        onClick={() => handleSubmit(selected)}
+        onClick={() => handleSubmit(_selected, me.id)}
         fill
         isDisabled={!isSendEnabled}
       >

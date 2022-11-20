@@ -10,19 +10,15 @@ import (
 func GetGroups(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		user_id := ctx.Locals("user_id").(string)
-		var group models.Group
+		var group []models.Group
 
-		db.Find(&group, "user_id = ?", user_id)
+		err := db.Model(&models.Group{}).Find(&group, "user_id = ?", user_id).Error
 
-		if group.UserID != "" {
-			response := ctx.JSON(group)
-			return response
-
+		if err != nil {
+			return ctx.SendStatus(fiber.ErrBadGateway.Code)
 		}
-		newGroups := &models.Group{UserID: user_id}
-		db.Create(&newGroups)
 
-		response := ctx.JSON(newGroups)
+		response := ctx.JSON(group)
 		return response
 
 	}
