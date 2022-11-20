@@ -7,7 +7,7 @@ import { dateToBrDateTimeString, timeStringToBrDateTimeString } from '../utils/d
 interface IPropType {
   match: Match
   teams: NationalTeam[]
-  onSubmit: (match: Match) => {}
+  onSubmit: (match: Match) => void
 }
 
 const MatchForm = ({ match, teams, onSubmit }: IPropType) => {
