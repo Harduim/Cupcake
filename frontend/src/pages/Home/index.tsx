@@ -16,6 +16,7 @@ import {
   EuiTitle,
 } from '@elastic/eui'
 import { useContext, useState } from 'react'
+import uuid from 'react-uuid'
 import { Bet, Match, NationalTeam } from '../../clients'
 import PageLayout from '../../components/PageLayout'
 import GlobalContext from '../../context/GlobalContext'
@@ -35,15 +36,17 @@ const updateBet = (bets: Bet) => {
 interface IBetProps {
   match: Match
   teamMap: Map<string, NationalTeam>
-  bets: Bet[]
+  bets?: Map<string, Bet>
 }
 
 const BetForm = ({ match, teamMap, bets }: IBetProps) => {
-  const [_bet, setBet] = useState<Bet>()
+  let defaultBet: Bet = bets?.get(match.id) || { id: uuid(), matchId: match.id }
+  const [_bet, setBet] = useState<Bet>(defaultBet)
 
-  const handleChange = (prop: string, value: string | number) => {
+  const handleChange = (prop: string, value: string | number | undefined) => {
+    if (!value) return
     const newBet = { ..._bet, [prop]: value }
-    // setBet(newBet)
+    setBet(newBet)
   }
   const matchClose = new Date(Date.parse(match.date) - HOURS_BEFORE_MATCH_IN_MILLISECONDS)
   const nationalTeamA = teamMap.get(match.nationalTeamAId)
@@ -54,6 +57,21 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
   const iconNotDefined = <EuiAvatar size='xl' name='N' />
   const iconTeamA = <EuiIcon size='xxl' type={`${PUBLIC_URL}/flags/${nationalTeamA?.name}.svg`} />
   const iconTeamB = <EuiIcon size='xxl' type={`${PUBLIC_URL}/flags/${nationalTeamB?.name}.svg`} />
+
+  const getDisplay = (teamId?: string, winnerId?: string) => {
+    let display: 'success' | 'accent' | undefined
+    if (!winnerId || !teamId) {
+      display = undefined
+    } else if (_bet.winnerId === teamId) {
+      display = 'success'
+    } else {
+      display = 'accent'
+    }
+    return display
+  }
+
+  const displayTeamA = getDisplay(match.nationalTeamAId, _bet?.winnerId)
+  const displayTeamB = getDisplay(match.nationalTeamBId, _bet?.winnerId)
 
   return (
     <EuiPanel>
@@ -80,8 +98,8 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
             icon={!nationalTeamA ? iconNotDefined : iconTeamA}
             title={nationalTeamA?.name.replace('_', ' ') || 'Não Definido'}
             isDisabled={isDisabled}
-            onClick={() => {}}
-            display={undefined}
+            onClick={() => handleChange('winnerId', nationalTeamA?.id)}
+            display={displayTeamA}
           />
         </EuiFlexItem>
         <EuiFlexItem>
@@ -89,8 +107,8 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
             icon={!nationalTeamA ? iconNotDefined : iconTeamB}
             title={nationalTeamB?.name.replace('_', ' ') || 'Não Definido'}
             isDisabled={isDisabled}
-            onClick={() => {}}
-            display={'success'}
+            onClick={() => handleChange('winnerId', nationalTeamB?.id)}
+            display={displayTeamB}
           />
         </EuiFlexItem>
       </EuiFlexGroup>
