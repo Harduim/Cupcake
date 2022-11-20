@@ -31,10 +31,10 @@ import {
 const { PUBLIC_URL } = process.env
 
 const updateBet = async (bet: Bet, update: boolean) => {
-  console.log(update ? 'create' : 'update', bet)
+  console.log(update ? 'update' : 'create', bet)
   try {
     if (update) {
-      await api.post('bets', bet)
+      await api.put('bets', bet)
     } else {
       await api.post('bets', bet)
     }
@@ -57,7 +57,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
   const [_bet, setBet] = useState<Bet>(defaultBet)
 
   const handleChange = (prop: string, value: string | number | undefined) => {
-    if (!value) return
+    if (value === undefined) return
     const newBet = { ..._bet, [prop]: value }
     setBet(newBet)
   }
@@ -135,18 +135,22 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
       <EuiFlexGroup>
         <EuiFieldNumber
           placeholder=' '
-          value={_bet.golA || ''}
+          value={_bet.golA === undefined ? '' : _bet.golA}
           disabled={isDisabled}
           onChange={(e: any) => {
-            handleChange('golA', parseInt(e.target.value))
+            const gols = parseInt(e.target.value)
+            if (gols < 0 || Number.isNaN(gols)) return
+            handleChange('golA', gols)
           }}
         />
         <EuiFieldNumber
           placeholder=' '
-          value={_bet.golB || ''}
+          value={_bet.golB === undefined ? '' : _bet.golB}
           disabled={isDisabled}
           onChange={(e: any) => {
-            handleChange('golB', parseInt(e.target.value))
+            const gols = parseInt(e.target.value)
+            if (gols < 0 || Number.isNaN(gols)) return
+            handleChange('golB', gols)
           }}
         />
       </EuiFlexGroup>
