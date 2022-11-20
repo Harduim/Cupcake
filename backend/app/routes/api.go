@@ -63,7 +63,6 @@ func registerMatches(api fiber.Router, db *database.Database, authorization func
 	matches.Get("/", Controller.GetAllMatches(db))
 	matches.Post("/", Controller.CreateMatch(db))
 	matches.Put("/", Controller.UpdateMatch(db))
-	matches.Put("/", Controller.DeleteMatch(db))
 }
 
 func registerNationalTeam(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
@@ -82,7 +81,6 @@ func registerBets(api fiber.Router, db *database.Database, authorization func(c 
 	userPoints.Get("/", Controller.GetAllBets(db))
 	userPoints.Post("/", Controller.CreateBet(db))
 	userPoints.Put("/", Controller.UpdateBet(db))
-	userPoints.Put("/", Controller.DeleteBet(db))
 }
 
 func registerJoker(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
@@ -90,7 +88,6 @@ func registerJoker(api fiber.Router, db *database.Database, authorization func(c
 	userPoints.Get("/", Controller.GetAllJokers(db))
 	userPoints.Post("/", Controller.CreateJoker(db))
 	userPoints.Put("/", Controller.UpdateJoker(db))
-	userPoints.Put("/", Controller.DeleteJoker(db))
 }
 
 func registerDocs(api fiber.Router, db *database.Database) {
