@@ -66,8 +66,7 @@ func registerBets(api fiber.Router, db *database.Database, authorization func(c 
 
 func registerJoker(api fiber.Router, db *database.Database, authorization func(c *fiber.Ctx) (err error)) {
 	userPoints := api.Group("/joker", authorization)
-	userPoints.Get("/", controllers.GetAllJokers(db))
-	userPoints.Post("/", controllers.CreateJoker(db))
+	userPoints.Get("/", controllers.Get(db))
 	userPoints.Put("/", controllers.UpdateJoker(db))
 }
 
