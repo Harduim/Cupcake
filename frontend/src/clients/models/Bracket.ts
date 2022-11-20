@@ -9,5 +9,5 @@ export type Bracket = {
   multiplier: number
   openDate: string
   closeDate: string
-  matches: Match[]
+  Matches: Match[]
 }

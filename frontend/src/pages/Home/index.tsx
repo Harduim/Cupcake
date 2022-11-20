@@ -173,7 +173,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
 }
 
 const Home = () => {
-  const { matches, brackets, bets, teamMap, isLoading } = useContext(GlobalContext)
+  const { brackets, bets, teamMap, isLoading } = useContext(GlobalContext)
 
   if (isLoading) {
     return (
@@ -188,28 +188,28 @@ const Home = () => {
         .sort((a, b) => Date.parse(a.openDate) - Date.parse(b.openDate))
         .map(b => {
           const isClosed = Date.parse(b.openDate) - Date.parse(b.closeDate) > 0
-          const bracketMatches = matches.filter(m => m.bracketId === b.id)
           return (
-            <EuiPageSection key={b.id} color='subdued'>
-              <EuiTitle>
-                <h1>{b.name}</h1>
-              </EuiTitle>
-              <p>
-                {isClosed
-                  ? 'Encerrou ' + timeStringToBrDateString(b.closeDate)
-                  : 'Inicia ' + timeStringToBrDateString(b.openDate)}
-              </p>
-              <EuiSpacer size='m' />
-              <EuiFlexGrid columns={bracketMatches.length > 3 ? 3 : 2} gutterSize='m'>
-                {bracketMatches
-                  .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-                  .map(m => (
+            <>
+              <EuiPageSection key={b.id} color='subdued'>
+                <EuiTitle>
+                  <h1>{b.name}</h1>
+                </EuiTitle>
+                <p>
+                  {isClosed
+                    ? 'Encerrou ' + timeStringToBrDateString(b.closeDate)
+                    : 'Inicia ' + timeStringToBrDateString(b.openDate)}
+                </p>
+                <EuiSpacer size='m' />
+                <EuiFlexGrid columns={b.Matches.length > 3 ? 3 : 2} gutterSize='m'>
+                  {b.Matches.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)).map(m => (
                     <EuiFlexItem key={m.id}>
                       <BetForm match={m} teamMap={teamMap} bets={bets} />
                     </EuiFlexItem>
                   ))}
-              </EuiFlexGrid>
-            </EuiPageSection>
+                </EuiFlexGrid>
+              </EuiPageSection>
+              <EuiSpacer size='m' />
+            </>
           )
         })}
     </PageLayout>

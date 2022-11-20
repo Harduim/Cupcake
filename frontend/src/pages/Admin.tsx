@@ -132,24 +132,24 @@ const Admin = () => {
         .sort((a, b) => Date.parse(a.openDate) - Date.parse(b.openDate))
         .map(b => {
           return (
-            <EuiPageSection key={b.id}>
-              <EuiTitle>
-                <h1>{b.name}</h1>
-              </EuiTitle>
-              <EuiSpacer size='s' />
-              <EuiFlexGroup gutterSize='m' wrap>
-                {matches
-                  .filter(m => m.bracketId === b.id)
-                  .sort((a, b) => Date.parse(a.date) - Date.parse(b.date))
-                  .map(m => (
+            <>
+              <EuiPageSection key={b.id} color='subdued'>
+                <EuiTitle>
+                  <h1>{b.name}</h1>
+                </EuiTitle>
+                <EuiSpacer size='s' />
+                <EuiFlexGroup gutterSize='m' wrap>
+                  {b.Matches.sort((a, b) => Date.parse(a.date) - Date.parse(b.date)).map(m => (
                     <EuiFlexItem grow={false} key={m.id}>
                       <EuiPanel grow={false}>
                         <MatchForm match={m} teams={teams} />
                       </EuiPanel>
                     </EuiFlexItem>
                   ))}
-              </EuiFlexGroup>
-            </EuiPageSection>
+                </EuiFlexGroup>
+              </EuiPageSection>
+              <EuiSpacer size='m' />
+            </>
           )
         })}
     </PageLayout>
