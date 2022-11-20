@@ -20,6 +20,7 @@ import uuid from 'react-uuid'
 import { Bet, Match, NationalTeam } from '../../clients'
 import PageLayout from '../../components/PageLayout'
 import GlobalContext from '../../context/GlobalContext'
+import api, { queryClient } from '../../services/api'
 import { HOURS_BEFORE_MATCH_IN_MILLISECONDS } from '../../utils/constants'
 import {
   dateToBrDateTimeString,
@@ -29,8 +30,19 @@ import {
 
 const { PUBLIC_URL } = process.env
 
-const updateBet = (bets: Bet) => {
-  console.log(bets)
+const updateBet = async (bet: Bet, update: boolean) => {
+  console.log(update ? 'create' : 'update', bet)
+  try {
+    if (update) {
+      await api.post('bets', bet)
+    } else {
+      await api.post('bets', bet)
+    }
+  } catch (error) {
+    console.error(error)
+    return
+  }
+  queryClient.invalidateQueries(['bets'])
 }
 
 interface IBetProps {
@@ -40,7 +52,8 @@ interface IBetProps {
 }
 
 const BetForm = ({ match, teamMap, bets }: IBetProps) => {
-  let defaultBet: Bet = bets?.get(match.id) || { id: uuid(), matchId: match.id }
+  const bet = bets?.get(match.id)
+  let defaultBet: Bet = bet || { id: uuid(), matchId: match.id }
   const [_bet, setBet] = useState<Bet>(defaultBet)
 
   const handleChange = (prop: string, value: string | number | undefined) => {
@@ -122,7 +135,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
       <EuiFlexGroup>
         <EuiFieldNumber
           placeholder=' '
-          value={match.golA || ''}
+          value={_bet.golA || ''}
           disabled={isDisabled}
           onChange={(e: any) => {
             handleChange('golA', parseInt(e.target.value))
@@ -130,7 +143,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
         />
         <EuiFieldNumber
           placeholder=' '
-          value={match.golB || ''}
+          value={_bet.golB || ''}
           disabled={isDisabled}
           onChange={(e: any) => {
             handleChange('golB', parseInt(e.target.value))
@@ -144,7 +157,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
         color='primary'
         disabled={isDisabled}
         onClick={() => {
-          // updateBet(_match)
+          updateBet(_bet, _bet.id === bet?.id)
         }}
         fill
       >
