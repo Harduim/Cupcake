@@ -56,15 +56,3 @@ func (repo UserRepositoryDb) FindAll() (*[]models.User, error) {
 
 	return &users, nil
 }
-
-func (repo UserRepositoryDb) FindByEmail(id string) (*models.User, error) {
-	var user models.User
-
-	repo.Db.First(&user, "email = ?", id)
-
-	if user.Email == "" {
-		return nil, fmt.Errorf("user does not exist")
-	}
-
-	return &user, nil
-}

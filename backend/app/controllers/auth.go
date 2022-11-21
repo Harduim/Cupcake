@@ -65,9 +65,9 @@ func getInfoFromSSOToken(token string) *MsalToken {
 	return &msalToken
 }
 
-func CreateAccount(db repositories.UserRepositoryDb, name string, email string) (*domain.User, error) {
+func CreateAccount(db repositories.UserRepositoryDb, name string, oid string) (*domain.User, error) {
 	isAdmin := false
-	newUser, err := domain.NewUser(name, email, &isAdmin)
+	newUser, err := domain.NewUser(name, oid, &isAdmin)
 
 	if err != nil {
 		return nil, err
@@ -115,13 +115,13 @@ func Token(sso *service.SSOClient, db *database.Database, secretKey string) fibe
 		}
 
 		msalToken := getInfoFromSSOToken(result.AccessToken)
-		userEmail := msalToken.Email
+		userOid := msalToken.Oid
 		userName := msalToken.Name
 
-		user, err := repo.FindByEmail(userEmail)
+		user, err := repo.Find(userOid)
 
 		if err != nil {
-			user, err = CreateAccount(repo, userName, userEmail)
+			user, err = CreateAccount(repo, userName, userOid)
 		}
 
 		if err != nil {
