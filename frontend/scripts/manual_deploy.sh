@@ -1,6 +1,5 @@
 set -e
 
-cd frontend
 yarn build
 zip -r build.zip build
 scp -P $DEPLOY_SSH_PORT build.zip $DEPLOY_USERNAME@$DEPLOY_HOSTNAME:~
