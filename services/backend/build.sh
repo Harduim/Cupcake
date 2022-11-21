@@ -6,7 +6,7 @@ IMG_VERSION="001"
 REGISTRY="harduim"
 
 echo "Building"
-docker build . -f $BUILD_CONTEXT_PATH/Dockerfile \
+docker build . -f $BUILD_CONTEXT_PATH/Dockerfile-ci \
     --compress \
     --tag="${REGISTRY}/${IMG_NAME}:${IMG_VERSION}" \
     --tag="${REGISTRY}/${IMG_NAME}:latest" \
