@@ -21,24 +21,8 @@ services:
       - REDIRECT=$REDIRECT
       - SCOPES=$SCOPES
 
-  cupcake_db:
-    image: postgres:12
-    container_name: cupcake_db
-    restart: "no"
-    healthcheck:
-      test: ["CMD","pg_isready","-p","${POSTGRES_PORT:-5432}","-U","postgres"]
-      interval: 20s
-      timeout: 5s
-      retries: 3
-    environment:
-      - POSTGRES_DB=$DB_DATABASE
-      - POSTGRES_USER=$DB_USERNAME
-      - POSTGRES_PASSWORD=$DB_PASSWORD
-      - POSTGRES_PORT=$DB_PORT
-    ports:
-      - "127.0.0.1:5432:5432"
-
   cupcake_cache:
+    restart: unless-stopped
     image: redis:6.2.3
     container_name: cupcake
     ports:
