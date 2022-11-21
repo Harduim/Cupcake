@@ -1,0 +1,27 @@
+<IfModule mod_headers.c>
+    <FilesMatch "\.(ico|gif|jpg|jpeg|png|svg)$">
+          Header set Cache-Control "max-age=31536000"
+    </FilesMatch>
+    <FilesMatch "\.(js|css)$">
+      Header set Cache-Control "max-age=3153600"
+    </FilesMatch>
+    <FilesMatch "\.(html)$">
+          Header set Cache-Control "max-age=400"
+    </FilesMatch>
+</IfModule>
+<IfModule mod_rewrite.c>
+      RewriteEngine On
+      RewriteBase /subdirectory
+      RewriteRule ^index\.html$ - [L]
+      RewriteCond %{REQUEST_FILENAME} !-f
+      RewriteCond %{REQUEST_FILENAME} !-d
+      RewriteCond %{REQUEST_FILENAME} !-l
+      RewriteRule . /index.html [L]
+</IfModule>
+<IfModule mod_deflate.c>
+      AddOutputFilterByType DEFLATE text/plain
+      AddOutputFilterByType DEFLATE text/html
+      AddOutputFilterByType DEFLATE text/css
+      AddOutputFilterByType DEFLATE application/javascript
+      AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>
