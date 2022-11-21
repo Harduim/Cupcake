@@ -2,8 +2,12 @@ version: "3.9"
 name: "cupcake"
 services:
   cupcake_backend:
-    container_name: harduim/cupcake:latest
+    container_name: cupcake
+    image: harduim/cupcake:latest
     restart: unless-stopped
+    network_mode: host
+    depends_on:
+            - cupcake_cache
     ports:
       - "127.0.0.1:3001:3001"
     environment:
@@ -24,6 +28,6 @@ services:
   cupcake_cache:
     restart: unless-stopped
     image: redis:6.2.3
-    container_name: cupcake
+    container_name: cupcake_cache
     ports:
       - "127.0.0.1:6379:6379"
