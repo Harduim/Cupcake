@@ -10,10 +10,10 @@ const Rules = () => {
         <ul>
           <li>Cada usuário escolhe 16 times que vão se classificar para as oitavas de final;</li>
           <li>
-            Os usuários tem até a data de inicio da <strong>Fase de Grupos</strong> para fazer a
+            Os usuários tem até a data de início da <strong>Fase de Grupos</strong> para fazer a
             aposta;
           </li>
-          <li>Cada acerto vale 3 pontos;</li>
+          <li>Cada acerto vale 3 pontos.</li>
         </ul>
         <h2>Rodada Coringa</h2>
         <ul>
@@ -39,7 +39,7 @@ const Rules = () => {
           </li>
           <li>
             Os usuários tem até a data de inicio das <strong>Oitavas de final</strong> para fazer a
-            aposta;
+            aposta.
           </li>
         </ul>
         <h2>Oitavas / Quartas / Semifinal / Disputa do 3° Lugar / Final</h2>
@@ -53,7 +53,7 @@ const Rules = () => {
               <li>
                 Gols time B (<strong>NÃO</strong> considerar pênaltis);
               </li>
-              <li>Vencedor;</li>
+              <li>Vencedor.</li>
             </ul>
           </li>
           <li>
@@ -69,11 +69,11 @@ const Rules = () => {
                 Gols time B: 1 ponto. (Pênaltis <strong>NÃO</strong> entram na conta);
               </li>
               <li>
-                Placar completo (Ambos Gols time A e B): 2 pontos. (Pênaltis <strong>NÃO</strong>
+                Placar completo (Ambos Gols time A e B): 2 pontos. (Pênaltis <strong>NÃO </strong>
                 entram na conta);
               </li>
               <li>Vencedor da partida: 2 pontos;</li>
-              <li>Placar completo + Vencedor: 3 pontos;</li>
+              <li>Placar completo + Vencedor: 3 pontos.</li>
             </ul>
           </li>
           <li>
@@ -82,7 +82,7 @@ const Rules = () => {
               <li>Oitavas: 1;</li>
               <li>Quartas: 2;</li>
               <li>Semifinal: 3;</li>
-              <li>Disputa do 3° Lugar;</li>
+              <li>Disputa do 3° Lugar: 3;</li>
               <li>Finais: 8.</li>
             </ul>
           </li>
@@ -91,13 +91,13 @@ const Rules = () => {
         <ul>
           <li>
             A apuração dos pontos, disponibilizada através da página "Resultados", será feita
-            diariamente ou a cada dois dias
+            diariamente ou a cada dois dias;
           </li>
           <li>
             Os resultados das partidas e a contabilização dos pontos <strong>NÃO</strong> será feia
-            em tempo real
+            em tempo real;
           </li>
-          <li>Um relatório de detalhado de apuração será disponibilizado no final do evento</li>
+          <li>Um relatório detalhado de apuração será disponibilizado no final do evento.</li>
         </ul>
       </EuiText>
     </PageLayout>
