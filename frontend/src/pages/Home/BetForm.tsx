@@ -47,7 +47,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
   const [_bet, setBet] = useState<Bet>(defaultBet)
 
   const handleChange = (prop: string, value: string | number | undefined) => {
-    if (value === undefined) return
+    if (value === undefined || isDisabled) return
     const newBet = { ..._bet, [prop]: value }
     setBet(newBet)
   }
@@ -103,7 +103,6 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
           <EuiCard
             icon={!nationalTeamA ? iconNotDefined : iconTeamA}
             title={nationalTeamA?.name.replaceAll('_', ' ') || 'Não Definido'}
-            isDisabled={isDisabled}
             onClick={() => handleChange('winnerId', nationalTeamA?.id)}
             display={displayTeamA}
           />
@@ -112,7 +111,6 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
           <EuiCard
             icon={!nationalTeamA ? iconNotDefined : iconTeamB}
             title={nationalTeamB?.name.replaceAll('_', ' ') || 'Não Definido'}
-            isDisabled={isDisabled}
             onClick={() => handleChange('winnerId', nationalTeamB?.id)}
             display={displayTeamB}
           />
@@ -151,7 +149,7 @@ const BetForm = ({ match, teamMap, bets }: IBetProps) => {
       <EuiSpacer size='m' />
       <EuiButton
         color='primary'
-        disabled={isSendDisabled}
+        disabled={isSendDisabled || isDisabled}
         onClick={() => {
           updateBet(_bet, _bet.id === bet?.id)
         }}
