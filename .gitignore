@@ -5,3 +5,4 @@
 backend/*bin*
 backend/tmp/*
 frontend/build/*
+frontend/build.zip
