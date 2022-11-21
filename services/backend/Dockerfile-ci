@@ -23,6 +23,6 @@ ENV TZ="America/Sao_Paulo"
 WORKDIR /usr/local/bin
 
 COPY --from=BUILDER /opt/cupcake/cupcake /usr/local/bin/cupcake
-EXPOSE 3001
+EXPOSE 3000
 
 ENTRYPOINT ["/usr/local/bin/cupcake"]
