@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/viper"
@@ -65,6 +66,9 @@ var NT_SERVIA string = "e58312cd-4698-4cc3-b642-a234df49b047"
 var NT_SUIÇA string = "604e3940-2ae2-463f-841a-11088078b345"
 var NT_TUNISIA string = "4ddcfd7e-4310-4a00-a8ac-f4de440dacd4"
 var NT_URUGUAI string = "2c269272-d3b9-4dfb-8683-9d68f05b22e3"
+
+var FASE_GRUPOS_CLOSE_DATE time.Time = time.Date(2022, 11, 26, 0, 0, 0, 0, time.Local)
+var FASE_JOKER_CLOSE_DATE time.Time = time.Date(2022, 12, 6, 0, 0, 0, 0, time.Local)
 
 type Config struct {
 	*viper.Viper

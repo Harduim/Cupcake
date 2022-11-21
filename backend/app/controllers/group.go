@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"cupcake/app/config"
 	"cupcake/app/database"
 	"cupcake/app/models"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -38,6 +40,13 @@ func UpdateGroup(db *database.Database) fiber.Handler {
 				return ctx.SendStatus(fiber.ErrUnauthorized.Code)
 			}
 		}
+
+		datetime_now := time.Now().UTC()
+
+		if datetime_now.After(config.FASE_GRUPOS_CLOSE_DATE) {
+			return ctx.SendStatus(fiber.ErrConflict.Code)
+		}
+
 		db.Delete(&models.Group{}, "user_id = ?", user_id)
 		db.Save(&groups.Groups)
 		response := ctx.JSON(groups)

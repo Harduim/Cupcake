@@ -1,9 +1,4 @@
-import {
-  EuiFlexGrid,
-  EuiPanel,
-  EuiSpacer,
-  EuiTitle,
-} from '@elastic/eui'
+import { EuiFlexGrid, EuiPanel, EuiSpacer, EuiTitle } from '@elastic/eui'
 import { useQuery } from '@tanstack/react-query'
 import { useContext } from 'react'
 import { JokerMatch, Match } from '../../clients'
@@ -51,7 +46,7 @@ const BonusStage = () => {
   const jokerMatch: Match = {
     id: joker.id,
     name: 'Finais (Coringa)',
-    date: '2022-12-03',
+    date: '2022-12-06',
     nationalTeamAId: joker.nationalTeamAId,
     nationalTeamBId: joker.nationalTeamBId,
     golA: joker.golA,

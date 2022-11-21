@@ -60,6 +60,7 @@ const GroupStage = () => {
     }
     _setSelected(_selected.filter(s => s !== newSelection))
   }
+  const isClosed = new Date().getTime() >= new Date('2022-11-26 12:00:00').getTime()
   const isSendEnabled = _selected.length === MAX_SELECTIONS
 
   if (isLoading || selectedIsLoading) return null
@@ -94,7 +95,7 @@ const GroupStage = () => {
         color='primary'
         onClick={() => handleSubmit(_selected, me.id)}
         fill
-        isDisabled={!isSendEnabled}
+        isDisabled={!isSendEnabled || isClosed}
       >
         Salvar
       </EuiButton>
@@ -106,6 +107,12 @@ const GroupStage = () => {
             color='warning'
             iconType='help'
           />
+        </>
+      )}
+      {isClosed && (
+        <>
+          <EuiSpacer size='m' />
+          <EuiCallOut title='Fase encerrada' color='warning' iconType='help' />
         </>
       )}
     </EuiPanel>

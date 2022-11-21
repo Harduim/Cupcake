@@ -4,6 +4,7 @@ import (
 	"cupcake/app/database"
 	"cupcake/app/models"
 	"cupcake/app/repositories"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -40,6 +41,16 @@ func CreateBet(db *database.Database) fiber.Handler {
 		}
 
 		repo := repositories.BetRepositoryDb{Db: db}
+
+		var match models.Match
+
+		db.First(&match, "match_id = ?", bet.MatchID)
+		matchClose := time.Now().UTC().Add(-time.Hour * 6)
+
+		if match.ID == "" || matchClose.After(match.Date) {
+			return ctx.SendStatus(fiber.ErrConflict.Code)
+		}
+
 		n_bet, err := repo.Insert(bet)
 
 		if err != nil {
@@ -59,17 +70,28 @@ func CreateBet(db *database.Database) fiber.Handler {
 // UpdateBet Update bet
 func UpdateBet(db *database.Database) fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
+		id := ctx.Locals("user_id").(string)
 		bet := new(models.Bet)
-		err := ctx.BodyParser(bet)
+		bet.Prepare()
+		bet.UserID = id
+		ctx.BodyParser(bet)
 
 		repo := repositories.BetRepositoryDb{Db: db}
-		brackets, err := repo.Update(bet)
+
+		var match models.Match
+		db.First(&match, "id = ?", bet.MatchID)
+		matchClose := time.Now().UTC().Add(-time.Hour * 6)
+
+		if match.ID == "" || matchClose.After(match.Date) {
+			return ctx.SendStatus(fiber.ErrConflict.Code)
+		}
+		updatedBet, err := repo.Update(bet)
 
 		if err != nil {
 			panic("Error occurred while updating bet from the database: " + err.Error())
 		}
 
-		response := ctx.JSON(brackets)
+		response := ctx.JSON(updatedBet)
 
 		if err != nil {
 			panic("Error occurred when returning JSON of bets: " + err.Error())

@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"cupcake/app/config"
 	"cupcake/app/database"
 	"cupcake/app/models"
 	"cupcake/app/repositories"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -37,6 +39,12 @@ func UpdateJoker(db *database.Database) fiber.Handler {
 		err := ctx.BodyParser(joker)
 		if err != nil {
 			panic("Unable to parse body: " + err.Error())
+		}
+
+		datetime_now := time.Now().UTC()
+
+		if datetime_now.After(config.FASE_JOKER_CLOSE_DATE) {
+			return ctx.SendStatus(fiber.ErrConflict.Code)
 		}
 
 		repo := repositories.JokerRepositoryDb{Db: db}
