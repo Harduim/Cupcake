@@ -37,8 +37,7 @@ const Rules = () => {
             </ul>
           </li>
           <li>
-            Os usuários tem até a data de inicio das <strong>Oitavas de final</strong> para fazer a
-            aposta.
+            Os usuários tem até a <strong>05/12/2022</strong> para fazer a aposta.
           </li>
         </ul>
         <h2>Oitavas / Quartas / Semifinal / Disputa do 3° Lugar / Final</h2>
