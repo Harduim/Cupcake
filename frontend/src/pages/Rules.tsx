@@ -10,8 +10,7 @@ const Rules = () => {
         <ul>
           <li>Cada usuário escolhe 16 times que vão se classificar para as oitavas de final;</li>
           <li>
-            Os usuários tem até a data de início da <strong>Fase de Grupos</strong> para fazer a
-            aposta;
+            Os usuários tem até a <strong>25/11/2022</strong> para fazer a aposta;
           </li>
           <li>Cada acerto vale 3 pontos.</li>
         </ul>

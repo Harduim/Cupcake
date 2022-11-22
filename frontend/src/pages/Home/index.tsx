@@ -32,6 +32,8 @@ const Home = () => {
         <EuiTitle>
           <h1>Fase de Grupos</h1>
         </EuiTitle>
+        <EuiSpacer size='s' />
+        <p>Encerra 25/11/2022</p>
         <EuiSpacer size='m' />
         <GroupStage />
       </EuiPageSection>
