@@ -44,7 +44,7 @@ func CreateBet(db *database.Database) fiber.Handler {
 
 		var match models.Match
 
-		db.First(&match, "match_id = ?", bet.MatchID)
+		db.First(&match, "id = ?", bet.MatchID)
 		matchClose := time.Now().UTC().Add(-time.Hour * 6)
 
 		if match.ID == "" || matchClose.After(match.Date) {
